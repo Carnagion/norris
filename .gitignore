@@ -1,5 +1,8 @@
 # Secrets
 .env
 
+# Virtual environment
+venv/
+
 # JetBrains
-.idea/*
+.idea/

@@ -5,8 +5,8 @@ from discord import Bot
 
 @dataclass()
 class Norris(Bot):
-    token: str
-    guild_id: int
+    _token: str
+    _guild_id: int
 
     def run(self) -> None:
-        super().run(self.token)
+        super().run(self._token)

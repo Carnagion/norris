@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 from enum import Enum
 
 
@@ -26,15 +28,8 @@ class MemberKind(Enum):
                 return "member of faculty"
 
 
+@dataclass()
 class VerifiedMember:
     name: str
     kind: MemberKind
     registered_user_id: int | None
-
-    def __init__(self,
-                 name: str,
-                 kind: MemberKind,
-                 registered_user_id: int | None = None) -> None:
-        self.name = name
-        self.kind = kind
-        self.registered_user_id = registered_user_id

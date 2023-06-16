@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 from enum import Enum
 
 from .member import MemberKind
@@ -25,6 +27,7 @@ class RegistrationStatus(Enum):
         return self == RegistrationStatus.FAILED
 
 
+@dataclass()
 class OngoingRegistration:
     user_id: int
     status: RegistrationStatus

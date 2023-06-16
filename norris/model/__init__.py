@@ -1,2 +1,2 @@
-from .member import VerifiedMember, MemberKind
+from .member import MemberKind, VerifiedMember
 from .registration import OngoingRegistration, RegistrationStatus

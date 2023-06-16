@@ -1,7 +1,5 @@
 from enum import Enum
 
-from typing import Optional
-
 
 class MemberKind(Enum):
     UNDERGRAD = 0
@@ -11,8 +9,9 @@ class MemberKind(Enum):
     HONORARY_MENTOR = 4
     FACULTY = 5
 
-    def __str__(self):
-        match self:  # mfw no expression-oriented syntax, so I have to do this
+    def __str__(self) -> str:
+        # mfw no expression-oriented syntax, so I have to do this
+        match self:
             case MemberKind.UNDERGRAD:
                 return "first-year undergraduate student"
             case MemberKind.POSTGRAD:
@@ -30,12 +29,12 @@ class MemberKind(Enum):
 class VerifiedMember:
     name: str
     kind: MemberKind
-    registered_user_id: Optional[int]
+    registered_user_id: int | None
 
     def __init__(self,
                  name: str,
                  kind: MemberKind,
-                 registered_user_id: Optional[int] = None):
+                 registered_user_id: int | None = None) -> None:
         self.name = name
         self.kind = kind
         self.registered_user_id = registered_user_id

@@ -57,7 +57,7 @@ class OngoingRegistration:
                 return self.provided_name is not None and self.expected_kind is not None
             # NOTE: we don't care what the name and kind are when registration fails
             # since failure can occur at any step
-            case _:
+            case RegistrationStatus.FAILED:
                 return True
 
 

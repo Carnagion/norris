@@ -1,0 +1,15 @@
+[package]
+name = "norris"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+dotenvy = "0.15.7"
+envy = "0.4.2"
+log = "0.4.19"
+poise = "0.5.5"
+serde = { version = "1.0.164", features = ["derive"] }
+simplelog = "0.12.1"
+sqlx = { version = "0.6.3", features = ["mysql", "json", "runtime-tokio-rustls"] }
+thiserror = "1.0.40"
+tokio = { version = "1.28.2", features = ["rt-multi-thread"] }

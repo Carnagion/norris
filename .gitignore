@@ -1,8 +1,11 @@
 # Secrets
 .env
 
+# Logs
+*.log
+
 # Cargo
 target/
 
-# Logs
-*.log
+# JetBrains
+.idea/

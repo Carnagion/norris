@@ -1,12 +1,25 @@
+import asyncio
 import os
+from asyncio import AbstractEventLoop
 
 import dotenv
-from discord import Bot
+import sqlalchemy
 
-dotenv.load_dotenv()
+from norris import Norris
 
-DISCORD_TOKEN: str = os.getenv("DISCORD_TOKEN")
-GUILD_ID: int = int(os.getenv("GUILD_ID"))
 
-norris = Bot()
-norris.run(DISCORD_TOKEN)
+async def main(loop: AbstractEventLoop) -> None:
+    dotenv.load_dotenv()
+
+    bot_token = os.getenv("BOT_TOKEN")
+    guild_id = int(os.getenv("GUILD_ID"))
+    database_url = os.getenv("DATABASE_URL")
+
+    await Norris.run(bot_token,
+                     guild_id,
+                     sqlalchemy.make_url(database_url),
+                     loop)
+
+
+main_loop = asyncio.get_event_loop()
+main_loop.run_until_complete(main(main_loop))

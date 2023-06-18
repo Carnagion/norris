@@ -118,7 +118,7 @@ async fn setup_bot(
 
     // Create a pool of connections to the database
     let database_pool = MySqlPoolOptions::new()
-        .max_connections(25)
+        .max_connections(25) // TODO: Find the right max number of connections through testing
         .connect(&database_url)
         .await?;
 

@@ -32,3 +32,12 @@ pub enum RegistrationFailure {
     WrongNameEntered,
     WrongKindFound,
 }
+
+impl RegistrationStatus {
+    pub fn is_registered(&self) -> bool {
+        matches!(
+            self,
+            Self::Registered | Self::PronounsPicked | Self::HousingPicked
+        )
+    }
+}

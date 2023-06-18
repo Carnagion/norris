@@ -1,8 +1,8 @@
 # Secrets
 .env
 
-# Virtual environment
-venv/
+# Cargo
+target/
 
-# JetBrains
-.idea/
+# Logs
+*.log

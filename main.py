@@ -21,5 +21,5 @@ async def main(loop: AbstractEventLoop) -> None:
                      loop)
 
 
-main_loop = asyncio.get_event_loop()
+main_loop = asyncio.get_event_loop()  # FIXME: figure out why the hell this causes a deprecation warning
 main_loop.run_until_complete(main(main_loop))

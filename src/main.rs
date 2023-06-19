@@ -19,7 +19,7 @@ use simplelog::{
     WriteLogger,
 };
 
-use sqlx::mysql::MySqlPoolOptions;
+use sqlx::{mysql::MySqlPoolOptions, Error as SqlError, MySqlPool};
 
 use thiserror::Error;
 
@@ -122,12 +122,18 @@ async fn setup_bot(
         .connect(&database_url)
         .await?;
 
-    sqlx::query_file!("queries/create-table-users.sql")
-        .execute(&database_pool)
-        .await?;
-    sqlx::query_file!("queries/create-table-registrations.sql")
-        .execute(&database_pool)
-        .await?;
+    // Setup tables
+    setup_database(&database_pool).await?;
 
     Ok(BotData { database_pool })
+}
+
+async fn setup_database(database_pool: &MySqlPool) -> Result<(), SqlError> {
+    sqlx::query_file!("queries/create-table-users.sql")
+        .execute(database_pool)
+        .await?;
+    sqlx::query_file!("queries/create-table-registrations.sql")
+        .execute(database_pool)
+        .await?;
+    Ok(())
 }

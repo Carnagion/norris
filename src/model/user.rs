@@ -1,38 +1,27 @@
-use std::fmt::{Display, Formatter, Result as FmtResult};
-
 use poise::serenity_prelude::UserId;
 
-use serde::{Deserialize, Serialize};
+use strum::{Display, EnumString};
 
-use sqlx::FromRow;
-
-#[derive(Clone, Debug, Deserialize, Eq, FromRow, Hash, PartialEq, Serialize)]
+#[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub struct VerifiedUser {
     pub name: String,
     pub kind: VerifiedUserKind,
     pub registered_user_id: Option<UserId>,
 }
 
-#[derive(Clone, Copy, Debug, Deserialize, Eq, Hash, PartialEq, Serialize)]
+#[derive(Clone, Copy, Debug, Display, EnumString, Eq, Hash, PartialEq)]
+#[strum(serialize_all = "snake_case")]
 pub enum VerifiedUserKind {
+    #[strum(to_string = "first-year undergraduate student")]
     Undergrad,
+    #[strum(to_string = "postgraduate student")]
     Postgrad,
+    #[strum(to_string = "mentor")]
     Mentor,
+    #[strum(to_string = "senior mentor")]
     SeniorMentor,
+    #[strum(to_string = "honorary mentor")]
     HonoraryMentor,
+    #[strum(to_string = "member of faculty")]
     Faculty,
-}
-
-impl Display for VerifiedUserKind {
-    fn fmt(&self, formatter: &mut Formatter) -> FmtResult {
-        let string = match self {
-            Self::Undergrad => "first-year undergraduate student",
-            Self::Postgrad => "postgraduate student",
-            Self::Mentor => "mentor",
-            Self::SeniorMentor => "senior mentor",
-            Self::HonoraryMentor => "honorary mentor",
-            Self::Faculty => "member of faculty",
-        };
-        write!(formatter, "{}", string)
-    }
 }

@@ -11,7 +11,6 @@ extend-select = [
     "ISC", # implicit string concatenation
     "BLE", "TRY", "RSE", # good exception raising practices
     "ASYNC", # good async practices
-    "A", # shadowing builtin names
     "S", # security
     "C4", # list and dict comprehensions
     "RET", # good return practices

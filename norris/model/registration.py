@@ -1,70 +1,97 @@
-from dataclasses import dataclass
 from enum import Enum
 
+from sqlalchemy import Enum as SqlEnum
+from sqlalchemy import String
+from sqlalchemy.orm import Mapped, mapped_column
+
+from .base import DataModel
 from .member import MemberKind
 
 
-# I would die for enums like Haskell's or Rust's, but unfortunately this is Python
 class RegistrationStatus(Enum):
     UNREGISTERED = 0
     STARTED = 1
     NAME_ENTERED = 2
     NAME_CONFIRMED = 3
     KIND_CONFIRMED = 4
-    PRONOUNS_PICKED = 5
-    HOUSING_PICKED = 6
+    REGISTERED = 5
+    PRONOUNS_PICKED = 6
+    HOUSING_PICKED = 7
     FAILED = -1
 
     @property
     def is_registered(self) -> bool:
-        # NOTE: a user is considered registered as long as their name and kind is
-        # verified, even if they haven't picked pronouns and housing
-        return self >= RegistrationStatus.KIND_CONFIRMED
-
-    @property
-    def is_failed(self) -> bool:
-        return self == RegistrationStatus.FAILED
+        return self >= RegistrationStatus.REGISTERED
 
 
-@dataclass()
-class OngoingRegistration:
-    user_id: int
-    status: RegistrationStatus
-    provided_name: str | None
-    expected_kind: MemberKind | None
+class Registration(DataModel):
+    __tablename__ = "registrations"
 
-    def __init__(self,
-                 user_id: int,
-                 status: RegistrationStatus,
-                 provided_name: str | None = None,
-                 expected_kind: MemberKind | None = None) -> None:
-        self.user_id = user_id
-        self.status = status
-        self.provided_name = provided_name
-        self.expected_kind = expected_kind
-        if not self.is_state_valid():
-            raise RegistrationStateError(status, provided_name, expected_kind)
+    user_id: Mapped[int] = mapped_column(primary_key=True)
+    status: Mapped[RegistrationStatus] = mapped_column(SqlEnum(RegistrationStatus),
+                                                       default=RegistrationStatus.UNREGISTERED)
 
-    def is_state_valid(self) -> bool:
-        match self.status:
-            case (RegistrationStatus.UNREGISTERED | RegistrationStatus.STARTED):
-                return self.provided_name is None and self.expected_kind is None
-            case (RegistrationStatus.NAME_ENTERED | RegistrationStatus.NAME_CONFIRMED):
-                return self.provided_name is not None and self.expected_kind is None
-            case (RegistrationStatus.KIND_CONFIRMED |
-                  RegistrationStatus.PRONOUNS_PICKED |
-                  RegistrationStatus.HOUSING_PICKED):
-                return self.provided_name is not None and self.expected_kind is not None
-            # NOTE: we don't care what the name and kind are when registration fails
-            # since failure can occur at any step
-            case RegistrationStatus.FAILED:
-                return True
+    __mapper_args__ = {
+        "polymorphic_on": status,
+    }
 
 
-class RegistrationStateError(Exception):
-    def __init__(self,
-                 status: RegistrationStatus,
-                 provided_name: str | None,
-                 expected_kind: str | None) -> None:
-        super().__init__(f"Name and kind provided are '{provided_name}' and "
-                         f"{expected_kind}, but registration status is {status}")
+class Unregistered(Registration):
+    __mapper_args__ = {
+        "polymorphic_identity": RegistrationStatus.UNREGISTERED,
+    }
+
+
+class Started(Registration):
+    __mapper_args__ = {
+        "polymorphic_identity": RegistrationStatus.STARTED,
+    }
+
+
+class NameEntered(Registration):
+    name: Mapped[str] = mapped_column(String(1024), use_existing_column=True)
+
+    __mapper_args__ = {
+        "polymorphic_identity": RegistrationStatus.NAME_ENTERED,
+    }
+
+
+class NameConfirmed(Registration):
+    name: Mapped[str] = mapped_column(String(1024), use_existing_column=True)
+
+    __mapper_args__ = {
+        "polymorphic_identity": RegistrationStatus.NAME_CONFIRMED,
+    }
+
+
+class KindConfirmed(Registration):
+    name: Mapped[str] = mapped_column(String(1024), use_existing_column=True)
+    kind: Mapped[MemberKind] = mapped_column(SqlEnum(MemberKind))
+
+    __mapper_args__ = {
+        "polymorphic_identity": RegistrationStatus.KIND_CONFIRMED,
+    }
+
+
+class Registered(Registration):
+    __mapper_args__ = {
+        "polymorphic_identity": RegistrationStatus.REGISTERED,
+    }
+
+
+class PronounsPicked(Registration):
+    __mapper_args__ = {
+        "polymorphic_identity": RegistrationStatus.PRONOUNS_PICKED,
+    }
+
+
+class HousingPicked(Registration):
+    __mapper_args__ = {
+        "polymorphic_identity": RegistrationStatus.HOUSING_PICKED,
+    }
+
+
+class Failed(Registration):
+    __mapper_args__ = {
+        "polymorphic_identity": RegistrationStatus.FAILED,
+    }

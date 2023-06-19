@@ -1,5 +1,10 @@
-from dataclasses import dataclass
 from enum import Enum
+
+from sqlalchemy import Enum as SqlEnum
+from sqlalchemy import String
+from sqlalchemy.orm import Mapped, mapped_column
+
+from .base import DataModel
 
 
 class MemberKind(Enum):
@@ -27,8 +32,10 @@ class MemberKind(Enum):
                 return "member of faculty"
 
 
-@dataclass()
-class VerifiedMember:
-    name: str
-    kind: MemberKind
-    registered_user_id: int | None
+class VerifiedMember(DataModel):
+    __tablename__ = "users"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String(1024))
+    kind: Mapped[MemberKind] = mapped_column(SqlEnum(MemberKind))
+    registered_user_id: Mapped[int | None]

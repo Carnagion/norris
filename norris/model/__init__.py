@@ -1,2 +1,3 @@
+from .base import DataModel
 from .member import MemberKind, VerifiedMember
-from .registration import OngoingRegistration, RegistrationStatus
+from .registration import Registration, RegistrationStatus

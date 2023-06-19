@@ -4,8 +4,6 @@ use serde::{Deserialize, Serialize};
 
 use sqlx::{types::Json, FromRow};
 
-use crate::model::VerifiedUserKind;
-
 #[derive(Clone, Debug, Deserialize, Eq, FromRow, Hash, PartialEq, Serialize)]
 pub struct OngoingRegistration {
     pub user_id: UserId,
@@ -19,7 +17,6 @@ pub enum RegistrationStatus {
     Started,
     NameEntered(String),
     NameConfirmed(String),
-    KindConfirmed(String, VerifiedUserKind),
     Registered,
     PronounsPicked,
     HousingPicked,
@@ -30,7 +27,7 @@ pub enum RegistrationStatus {
 pub enum RegistrationFailure {
     NameNotFound,
     WrongNameEntered,
-    WrongKindFound,
+    WrongKindDetected,
 }
 
 impl RegistrationStatus {

@@ -122,5 +122,12 @@ async fn setup_bot(
         .connect(&database_url)
         .await?;
 
+    sqlx::query_file!("queries/create-table-users.sql")
+        .execute(&database_pool)
+        .await?;
+    sqlx::query_file!("queries/create-table-registrations.sql")
+        .execute(&database_pool)
+        .await?;
+
     Ok(BotData { database_pool })
 }

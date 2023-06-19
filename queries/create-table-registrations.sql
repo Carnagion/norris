@@ -1,6 +1,6 @@
 create table if not exists registrations (
-    user_id bigint unsigned not null auto_increment primary key,
-    status_tag enum(
+    user_id bigint unsigned not null primary key,
+    status enum(
         "unregistered",
         "started",
         "name_entered",
@@ -10,10 +10,5 @@ create table if not exists registrations (
         "housing_picked",
         "failed"
     ) not null default "unregistered",
-    status_name varchar(1024) null,
-    status_failure enum(
-        "name_not_found",
-        "wrong_name_entered",
-        "wrong_kind_detected"
-    ) null
+    name varchar(1024) null
 );

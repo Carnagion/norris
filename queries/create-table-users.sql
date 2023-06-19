@@ -8,6 +8,6 @@ create table if not exists users (
         "senior_mentor",
         "honorary_mentor",
         "faculty"
-    ) not null default "undergrad",
+    ) not null,
     registered_user_id bigint unsigned null
 );

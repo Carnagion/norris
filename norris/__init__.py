@@ -5,7 +5,7 @@ from discord import Bot
 from sqlalchemy import URL
 from sqlalchemy.schema import CreateTable
 
-from .model import DataModel, Registration, VerifiedMember
+from .model import DataModel, Registration, VerifiedUser
 
 
 class Norris(Bot):
@@ -38,5 +38,5 @@ class Norris(Bot):
 
     async def _setup_db(self) -> None:
         async with self.database_engine.acquire() as connection:
-            for table in [VerifiedMember.__table__, Registration.__table__]:
+            for table in [VerifiedUser.__table__, Registration.__table__]:
                 await connection.execute(CreateTable(table, if_not_exists=True))

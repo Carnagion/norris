@@ -5,7 +5,7 @@ from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from .base import DataModel
-from .member import MemberKind
+from .verified_user import VerifiedUserKind
 
 
 class RegistrationStatus(Enum):
@@ -66,7 +66,7 @@ class NameConfirmed(Registration):
 
 class KindConfirmed(Registration):
     name: Mapped[str] = mapped_column(String(1024), use_existing_column=True)
-    kind: Mapped[MemberKind] = mapped_column(SqlEnum(MemberKind))
+    kind: Mapped[VerifiedUserKind] = mapped_column(SqlEnum(VerifiedUserKind))
 
     __mapper_args__ = {
         "polymorphic_identity": RegistrationStatus.KIND_CONFIRMED,

@@ -1,3 +1,3 @@
 from .base import DataModel
-from .member import MemberKind, VerifiedMember
-from .registration import Registration, RegistrationStatus
+from .verified_user import VerifiedUserKind, VerifiedUser
+from .registration_state import Registration, RegistrationStatus

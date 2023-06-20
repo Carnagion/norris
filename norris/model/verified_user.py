@@ -7,7 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column
 from .base import DataModel
 
 
-class MemberKind(Enum):
+class VerifiedUserKind(Enum):
     UNDERGRAD = 0
     POSTGRAD = 1
     MENTOR = 2
@@ -18,24 +18,24 @@ class MemberKind(Enum):
     def __str__(self) -> str:
         # mfw no expression-oriented syntax, so I have to do this
         match self:
-            case MemberKind.UNDERGRAD:
+            case VerifiedUserKind.UNDERGRAD:
                 return "first-year undergraduate student"
-            case MemberKind.POSTGRAD:
+            case VerifiedUserKind.POSTGRAD:
                 return "first-year postgraduate student"
-            case MemberKind.MENTOR:
+            case VerifiedUserKind.MENTOR:
                 return "mentor"
-            case MemberKind.SENIOR_MENTOR:
+            case VerifiedUserKind.SENIOR_MENTOR:
                 return "senior mentor"
-            case MemberKind.HONORARY_MENTOR:
+            case VerifiedUserKind.HONORARY_MENTOR:
                 return "honorary mentor"
-            case MemberKind.FACULTY:
+            case VerifiedUserKind.FACULTY:
                 return "member of faculty"
 
 
-class VerifiedMember(DataModel):
+class VerifiedUser(DataModel):
     __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(1024))
-    kind: Mapped[MemberKind] = mapped_column(SqlEnum(MemberKind))
+    kind: Mapped[VerifiedUserKind] = mapped_column(SqlEnum(VerifiedUserKind))
     registered_user_id: Mapped[int | None]

@@ -1,5 +1,5 @@
-mod user;
-pub use user::*;
+mod verified_user;
+pub use verified_user::*;
 
-mod registration;
-pub use registration::*;
+mod registration_state;
+pub use registration_state::*;

@@ -4,7 +4,7 @@ use poise::serenity_prelude::UserId;
 
 use sqlx::Error as SqlError;
 
-use strum::EnumString;
+use strum::{Display, EnumString};
 
 use thiserror::Error;
 
@@ -14,7 +14,7 @@ pub struct OngoingRegistration {
     pub status: RegistrationStatus,
 }
 
-#[derive(Clone, Debug, Default, EnumString, Eq, Hash, PartialEq)]
+#[derive(Clone, Debug, Default, Display, EnumString, Eq, Hash, PartialEq)]
 #[strum(serialize_all = "snake_case")]
 pub enum RegistrationStatus {
     #[default]

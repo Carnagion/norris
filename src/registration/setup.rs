@@ -29,28 +29,12 @@ pub async fn setup_registration(
         })
         .await;
     match instructions_sent {
-        Ok(_) => {
-            bot_data
-                .arrival_channel_id
-                .send_message(&context.http, |message| {
-                    message
-                        .embed(instructions_foyer_embed(member.user.id))
-                        .components(instructions_foyer_button())
-                })
-                .await
-        },
+        // Ask user to check DMs
+        Ok(_) => notify_instructions_sent(context, member, bot_data).await,
         // Notify user in foyer if instructions could not be sent
         Err(error) => {
             log::error!("{}", error);
-            bot_data
-                .arrival_channel_id
-                .send_message(&context.http, |message| {
-                    message.embed(instructions_error_embed(
-                        member.user.id,
-                        bot_data.support_channel_id,
-                    ))
-                })
-                .await
+            notify_instructions_error(context, member, bot_data).await
         },
     }?;
 
@@ -78,7 +62,24 @@ fn instructions_dm_button() -> impl FnOnce(&mut CreateComponents) -> &mut Create
     }
 }
 
-fn instructions_foyer_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+async fn notify_instructions_sent(
+    context: &Context,
+    member: &Member,
+    bot_data: &BotData,
+) -> Result<(), BotError> {
+    bot_data
+        .arrival_channel_id
+        .send_message(&context.http, |message| {
+            message
+                .embed(instructions_sent_embed(member.user.id))
+                .components(instructions_sent_button())
+        })
+        .await?;
+
+    Ok(())
+}
+
+fn instructions_sent_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
         embed
             .title("Registration")
@@ -91,7 +92,7 @@ fn instructions_foyer_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) ->
     }
 }
 
-fn instructions_foyer_button() -> impl FnOnce(&mut CreateComponents) -> &mut CreateComponents {
+fn instructions_sent_button() -> impl FnOnce(&mut CreateComponents) -> &mut CreateComponents {
     |comp| {
         comp.create_action_row(|row| {
             row.create_button(|button| {
@@ -102,6 +103,24 @@ fn instructions_foyer_button() -> impl FnOnce(&mut CreateComponents) -> &mut Cre
             })
         })
     }
+}
+
+async fn notify_instructions_error(
+    context: &Context,
+    member: &Member,
+    bot_data: &BotData,
+) -> Result<(), BotError> {
+    bot_data
+        .arrival_channel_id
+        .send_message(&context.http, |message| {
+            message.embed(instructions_error_embed(
+                member.user.id,
+                bot_data.support_channel_id,
+            ))
+        })
+        .await?;
+
+    Ok(())
 }
 
 fn instructions_error_embed(

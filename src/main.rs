@@ -129,11 +129,15 @@ async fn setup_bot(
 }
 
 async fn setup_database(database_pool: &MySqlPool) -> Result<(), SqlError> {
+    // Create user table if not already exists
     sqlx::query_file!("queries/create-table-users.sql")
         .execute(database_pool)
         .await?;
+
+    // Create registration table if not already exists
     sqlx::query_file!("queries/create-table-registrations.sql")
         .execute(database_pool)
         .await?;
+
     Ok(())
 }

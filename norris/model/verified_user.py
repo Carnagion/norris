@@ -35,7 +35,9 @@ class VerifiedUserKind(Enum):
 class VerifiedUser(DataModel):
     __tablename__ = "users"
 
-    id: Mapped[int] = mapped_column(BIGINT(unsigned=True), primary_key=True)
+    id: Mapped[int] = mapped_column(BIGINT(unsigned=True),
+                                    autoincrement=True,
+                                    primary_key=True)
     name: Mapped[str] = mapped_column(String(1024))
     kind: Mapped[VerifiedUserKind]
     registered_user_id: Mapped[int | None] = mapped_column(BIGINT(unsigned=True))

@@ -1,35 +1,41 @@
 from enum import Enum
 
-from sqlalchemy import Enum as SqlEnum
 from sqlalchemy import String
+from sqlalchemy.dialects.mysql import BIGINT
 from sqlalchemy.orm import Mapped, mapped_column
 
 from .base import DataModel
-from .verified_user import VerifiedUserKind
 
 
 class RegistrationStatus(Enum):
-    UNREGISTERED = 0
-    STARTED = 1
-    NAME_ENTERED = 2
-    NAME_CONFIRMED = 3
-    KIND_CONFIRMED = 4
-    REGISTERED = 5
-    PRONOUNS_PICKED = 6
-    HOUSING_PICKED = 7
-    FAILED = -1
+    UNREGISTERED = "unregistered"
+    STARTED = "started"
+    NAME_ENTERED = "name_entered"
+    NAME_CONFIRMED = "name_confirmed"
+    REGISTERED = "registered"
+    PRONOUNS_PICKED = "pronouns_picked"
+    HOUSING_PICKED = "housing_picked"
+    FAILED = "failed"
 
     @property
     def is_registered(self) -> bool:
-        return self >= RegistrationStatus.REGISTERED
+        match self:
+            case (RegistrationStatus.REGISTERED | RegistrationStatus.PRONOUNS_PICKED
+                  | RegistrationStatus.HOUSING_PICKED):
+                return True
+            case _:
+                return False
+
+    def __str__(self) -> str:
+        return self.value
 
 
 class Registration(DataModel):
     __tablename__ = "registrations"
 
-    user_id: Mapped[int] = mapped_column(primary_key=True)
-    status: Mapped[RegistrationStatus] = mapped_column(SqlEnum(RegistrationStatus),
-                                                       default=RegistrationStatus.UNREGISTERED)
+    user_id: Mapped[int] = mapped_column(BIGINT(unsigned=True), primary_key=True)
+    status: Mapped[
+        RegistrationStatus] = mapped_column(default=RegistrationStatus.UNREGISTERED)
 
     __mapper_args__ = {
         "polymorphic_on": status,
@@ -49,7 +55,10 @@ class Started(Registration):
 
 
 class NameEntered(Registration):
-    name: Mapped[str] = mapped_column(String(1024), use_existing_column=True)
+    name: Mapped[str] = mapped_column(String(1024),
+                                      # NOTE: will be null if the row is another variant
+                                      nullable=True,
+                                      use_existing_column=True)
 
     __mapper_args__ = {
         "polymorphic_identity": RegistrationStatus.NAME_ENTERED,
@@ -57,19 +66,13 @@ class NameEntered(Registration):
 
 
 class NameConfirmed(Registration):
-    name: Mapped[str] = mapped_column(String(1024), use_existing_column=True)
+    name: Mapped[str] = mapped_column(String(1024),
+                                      # NOTE: will be null if the row is another variant
+                                      nullable=True,
+                                      use_existing_column=True)
 
     __mapper_args__ = {
         "polymorphic_identity": RegistrationStatus.NAME_CONFIRMED,
-    }
-
-
-class KindConfirmed(Registration):
-    name: Mapped[str] = mapped_column(String(1024), use_existing_column=True)
-    kind: Mapped[VerifiedUserKind] = mapped_column(SqlEnum(VerifiedUserKind))
-
-    __mapper_args__ = {
-        "polymorphic_identity": RegistrationStatus.KIND_CONFIRMED,
     }
 
 

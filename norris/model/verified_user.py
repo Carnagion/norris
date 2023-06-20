@@ -1,21 +1,21 @@
 from enum import Enum
 
-from sqlalchemy import Enum as SqlEnum
 from sqlalchemy import String
+from sqlalchemy.dialects.mysql import BIGINT
 from sqlalchemy.orm import Mapped, mapped_column
 
 from .base import DataModel
 
 
 class VerifiedUserKind(Enum):
-    UNDERGRAD = 0
-    POSTGRAD = 1
-    MENTOR = 2
-    SENIOR_MENTOR = 3
-    HONORARY_MENTOR = 4
-    FACULTY = 5
+    UNDERGRAD = "undergrad"
+    POSTGRAD = "postgrad"
+    MENTOR = "mentor"
+    SENIOR_MENTOR = "senior_mentor"
+    HONORARY_MENTOR = "honorary_mentor"
+    FACULTY = "faculty"
 
-    def __str__(self) -> str:
+    def description(self) -> str:
         # mfw no expression-oriented syntax, so I have to do this
         match self:
             case VerifiedUserKind.UNDERGRAD:
@@ -35,7 +35,7 @@ class VerifiedUserKind(Enum):
 class VerifiedUser(DataModel):
     __tablename__ = "users"
 
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[int] = mapped_column(BIGINT(unsigned=True), primary_key=True)
     name: Mapped[str] = mapped_column(String(1024))
-    kind: Mapped[VerifiedUserKind] = mapped_column(SqlEnum(VerifiedUserKind))
-    registered_user_id: Mapped[int | None]
+    kind: Mapped[VerifiedUserKind]
+    registered_user_id: Mapped[int | None] = mapped_column(BIGINT(unsigned=True))

@@ -1,6 +1,5 @@
 import asyncio
 import os
-from asyncio import AbstractEventLoop
 
 import dotenv
 import sqlalchemy
@@ -8,19 +7,15 @@ import sqlalchemy
 from norris import Norris
 
 
-async def main(loop: AbstractEventLoop) -> None:
+async def main() -> None:
     dotenv.load_dotenv()
 
     bot_token = os.getenv("BOT_TOKEN")
     guild_id = int(os.getenv("GUILD_ID"))
-    database_url = os.getenv("DATABASE_URL")
+    database_url = sqlalchemy.make_url(os.getenv("DATABASE_URL")).set(
+        drivername="mysql+asyncmy")
 
-    await Norris.run(bot_token,
-                     guild_id,
-                     sqlalchemy.make_url(database_url),
-                     loop)
+    await Norris.run(bot_token, guild_id, database_url)
 
 
-# FIXME: figure out why the hell this causes a deprecation warning
-main_loop = asyncio.get_event_loop()
-main_loop.run_until_complete(main(main_loop))
+asyncio.run(main())

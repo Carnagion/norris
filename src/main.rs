@@ -37,6 +37,7 @@ async fn main() -> Result<(), StartupError> {
         database_url,
         arrival_channel_id,
         support_channel_id,
+        log_channel_id,
         log_path,
     } = envy::from_env::<Config>()?;
 
@@ -64,6 +65,7 @@ async fn main() -> Result<(), StartupError> {
                 database_url,
                 arrival_channel_id,
                 support_channel_id,
+                log_channel_id,
             ))
         })
         .build()
@@ -81,6 +83,7 @@ struct Config {
     database_url: String,
     arrival_channel_id: ChannelId,
     support_channel_id: ChannelId,
+    log_channel_id: ChannelId,
     log_path: PathBuf,
 }
 
@@ -124,6 +127,7 @@ async fn setup_bot(
     database_url: String,
     arrival_channel_id: ChannelId,
     support_channel_id: ChannelId,
+    log_channel_id: ChannelId,
 ) -> Result<BotData, BotError> {
     // Register slash commands in the guild
     let commands = builtins::create_application_commands(&framework.options().commands);
@@ -147,6 +151,7 @@ async fn setup_bot(
         database_pool,
         arrival_channel_id,
         support_channel_id,
+        log_channel_id,
     })
 }
 

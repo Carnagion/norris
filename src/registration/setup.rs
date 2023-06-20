@@ -10,11 +10,6 @@ pub async fn setup_registration(
     member: &Member,
     bot_data: &BotData,
 ) -> Result<(), BotError> {
-    // Ignore bots
-    if member.user.bot {
-        return Ok(());
-    }
-
     // Add the member as unregistered to the table of registration info
     sqlx::query!(
         "insert into registrations value (?, ?, null)",

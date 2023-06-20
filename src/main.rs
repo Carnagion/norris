@@ -8,7 +8,7 @@ use log::SetLoggerError;
 
 use poise::{
     builtins,
-    serenity_prelude::{Context, GatewayIntents, GuildId, SerenityError},
+    serenity_prelude::{ChannelId, Context, GatewayIntents, GuildId, SerenityError},
     FrameworkOptions,
 };
 
@@ -35,6 +35,8 @@ async fn main() -> Result<(), StartupError> {
         bot_token,
         guild_id,
         database_url,
+        arrival_channel_id,
+        support_channel_id,
         log_path,
     } = envy::from_env::<Config>()?;
 
@@ -47,10 +49,22 @@ async fn main() -> Result<(), StartupError> {
         .intents(GatewayIntents::non_privileged())
         .options(FrameworkOptions {
             commands: vec![],
-            ..FrameworkOptions::default()
+            ..FrameworkOptions {
+                event_handler: |context, event, _, bot_data| {
+                    Box::pin(norris::event_handler(context, event, bot_data))
+                },
+                ..Default::default()
+            }
         })
         .setup(move |context, _, framework| {
-            Box::pin(setup_bot(context, framework, guild_id, database_url))
+            Box::pin(setup_bot(
+                context,
+                framework,
+                guild_id,
+                database_url,
+                arrival_channel_id,
+                support_channel_id,
+            ))
         })
         .build()
         .await?
@@ -65,6 +79,8 @@ struct Config {
     bot_token: String,
     guild_id: GuildId,
     database_url: String,
+    arrival_channel_id: ChannelId,
+    support_channel_id: ChannelId,
     log_path: PathBuf,
 }
 
@@ -106,6 +122,8 @@ async fn setup_bot(
     framework: &BotFramework,
     guild_id: GuildId,
     database_url: String,
+    arrival_channel_id: ChannelId,
+    support_channel_id: ChannelId,
 ) -> Result<BotData, BotError> {
     // Register slash commands in the guild
     let commands = builtins::create_application_commands(&framework.options().commands);
@@ -125,7 +143,11 @@ async fn setup_bot(
     // Setup tables
     setup_database(&database_pool).await?;
 
-    Ok(BotData { database_pool })
+    Ok(BotData {
+        database_pool,
+        arrival_channel_id,
+        support_channel_id,
+    })
 }
 
 async fn setup_database(database_pool: &MySqlPool) -> Result<(), SqlError> {

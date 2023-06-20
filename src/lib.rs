@@ -8,6 +8,11 @@ pub use error::*;
 
 pub mod model;
 
+pub mod registration;
+
+mod event_handler;
+pub use event_handler::*;
+
 pub type BotCommand = Command<BotData, BotError>;
 
 pub type BotContext<'a> = Context<'a, BotData, BotError>;

@@ -2,6 +2,8 @@ use std::str::FromStr;
 
 use poise::serenity_prelude::UserId;
 
+use sqlx::Error as SqlError;
+
 use strum::EnumString;
 
 use thiserror::Error;
@@ -34,29 +36,33 @@ impl RegistrationStatus {
         )
     }
 
-    pub(crate) fn from_parts(
-        tag: &str,
-        name: Option<String>,
-    ) -> Result<Self, RegistrationFromPartsError> {
-        let this = Self::from_str(tag).map_err(|_| RegistrationFromPartsError::UnknownStatus)?;
+    pub fn from_row(tag: String, name: Option<String>) -> Result<Self, SqlError> {
+        Self::from_parts(&tag, name).map_err(|error| SqlError::ColumnDecode {
+            index: "status".to_owned(),
+            source: Box::new(error),
+        })
+    }
+
+    fn from_parts(tag: &str, name: Option<String>) -> Result<Self, DecodeRegistrationError> {
+        let this = Self::from_str(tag).map_err(|_| DecodeRegistrationError::UnknownStatus)?;
         match (this, name) {
             (Self::NameEntered(_), Some(name)) => Ok(Self::NameEntered(name)),
             (Self::NameConfirmed(_), Some(name)) => Ok(Self::NameConfirmed(name)),
             (Self::NameEntered(_) | Self::NameConfirmed(_), None) => {
-                Err(RegistrationFromPartsError::MissingData)
+                Err(DecodeRegistrationError::MissingData)
             },
             (this, None) => Ok(this),
-            (_, Some(_)) => Err(RegistrationFromPartsError::InvalidDataCombination),
+            (_, Some(_)) => Err(DecodeRegistrationError::InvalidDataCombination),
         }
     }
 }
 
 #[derive(Clone, Copy, Debug, Eq, Error, Hash, PartialEq)]
-pub enum RegistrationFromPartsError {
-    #[error("missing data associated with tag")]
+pub enum DecodeRegistrationError {
+    #[error("missing data associated with status")]
     MissingData,
-    #[error("invalid combination of tag and data")]
+    #[error("invalid combination of status and data")]
     InvalidDataCombination,
-    #[error("unknown tag")]
+    #[error("unknown status")]
     UnknownStatus,
 }

@@ -4,6 +4,7 @@ from discord import Bot
 from sqlalchemy import URL
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 
+from .events import Events
 from .model import DataModel, Registration, VerifiedUser
 
 
@@ -21,6 +22,9 @@ class Norris(Bot):
         norris._token = token
         norris.guild_id = guild_id
         norris.database_engine = create_async_engine(database_url, echo=True)
+
+        # Add commands and event handlers
+        norris.add_cog(Events(norris))
 
         # Set up database and tables
         async with norris.database_engine.connect() as connection:

@@ -10,9 +10,9 @@ from .model import DataModel
 class Norris(Bot):
     guild_id: int
     database_engine: AsyncEngine
-    arrival_channel_id: str
-    support_channel_id: str
-    log_channel_id: str
+    arrival_channel_id: int
+    support_channel_id: int
+    log_channel_id: int
 
     @staticmethod
     async def create(guild_id: int,

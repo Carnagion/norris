@@ -2,7 +2,7 @@ from discord import Member, RawMemberRemoveEvent
 from discord.ext.commands import Cog
 from sqlalchemy import delete, update
 
-from . import Norris
+from .bot import Norris
 from .model import Registration, VerifiedUser
 
 

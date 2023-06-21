@@ -15,8 +15,8 @@ async def main() -> None:
     database_url = sqlalchemy.make_url(os.getenv("DATABASE_URL")).set(
         drivername="mysql+asyncmy")  # NOTE: the default mysql driver is not supported
 
-    norris = await Norris.create(bot_token, guild_id, database_url)
-    await norris.run()
+    norris = await Norris.create(guild_id, database_url)
+    await norris.run(bot_token)
 
 
 asyncio.run(main())

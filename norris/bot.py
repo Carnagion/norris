@@ -8,17 +8,13 @@ from .model import DataModel
 
 
 class Norris(Bot):
-    _token: str
     guild_id: int
     database_engine: AsyncEngine
 
     @staticmethod
-    async def create(token: str,
-                     guild_id: int,
-                     database_url: URL) -> Self:
+    async def create(guild_id: int, database_url: URL) -> Self:
         # Create bot and connect to database
         norris = Norris()
-        norris._token = token
         norris.guild_id = guild_id
         norris.database_engine = create_async_engine(database_url, echo=True)
 
@@ -33,9 +29,9 @@ class Norris(Bot):
 
         return norris
 
-    async def run(self) -> None:
+    async def run(self, token: str) -> None:
         # Start bot
-        await super().start(self._token)
+        await super().start(token)
 
         # Dispose of engine once stopped
         await self.database_engine.dispose()

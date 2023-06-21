@@ -10,17 +10,28 @@ from .model import DataModel
 class Norris(Bot):
     guild_id: int
     database_engine: AsyncEngine
+    arrival_channel_id: str
+    support_channel_id: str
+    log_channel_id: str
 
     @staticmethod
-    async def create(guild_id: int, database_url: URL) -> Self:
+    async def create(guild_id: int,
+                     database_url: URL,
+                     arrival_channel_id: int,
+                     support_channel_id: int,
+                     log_channel_id: int) -> Self:
         # Create bot and connect to database
         norris = Norris()
         norris.guild_id = guild_id
         norris.database_engine = create_async_engine(database_url, echo=True)
+        norris.arrival_channel_id = arrival_channel_id
+        norris.support_channel_id = support_channel_id
+        norris.log_channel_id = log_channel_id
 
-        # Add commands and event handlers
         # NOTE: import done here because fuck Python and fuck its circular imports
         from .events import Events
+
+        # Add commands and event handlers
         norris.add_cog(Events(norris))
 
         # Set up database and tables

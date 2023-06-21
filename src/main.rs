@@ -54,6 +54,8 @@ async fn main() -> Result<(), StartupError> {
                 event_handler: |context, event, _, bot_data| {
                     Box::pin(norris::event_handler(context, event, bot_data))
                 },
+                // TODO: Change to a dedicated error handling function
+                on_error: |error| Box::pin(async move { log::error!("{}", error) }),
                 ..Default::default()
             }
         })

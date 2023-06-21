@@ -1,15 +1,15 @@
 from discord import Member, RawMemberRemoveEvent
 from discord.ext.commands import Cog
-from sqlalchemy import insert, select, delete, update
+from sqlalchemy import delete, update
 
 from . import Norris
-from .model import Registration, VerifiedUser, VerifiedUserKind, RegistrationStatus
+from .model import Registration, VerifiedUser
 
 
 class Events(Cog):
     _norris: Norris
 
-    def __init__(self, norris: Norris):
+    def __init__(self, norris: Norris) -> None:
         self._norris = norris
 
     @Cog.listener()
@@ -24,11 +24,11 @@ class Events(Cog):
         async with self._norris.database_engine.begin() as connection:
             await connection.execute(
                 delete(Registration)
-                .where(Registration.user_id == member_removed.user.id)
+                .where(Registration.user_id == member_removed.user.id),
             )
 
             await connection.execute(
                 update(VerifiedUser)
                 .where(VerifiedUser.registered_user_id == member_removed.user.id)
-                .values(registered_user_id=None)
+                .values(registered_user_id=None),
             )

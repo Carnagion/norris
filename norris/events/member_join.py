@@ -1,5 +1,5 @@
-from discord import Colour, Embed, Member, ButtonStyle, HTTPException, Forbidden
-from discord.ui import View, Button
+from discord import ButtonStyle, Colour, Embed, Forbidden, HTTPException, Member
+from discord.ui import Button, View
 from sqlalchemy import insert
 
 from ..bot import Norris
@@ -19,6 +19,32 @@ async def on_member_join(norris: Norris, member: Member) -> None:
         )
 
         try:
+            # Try sending instructions in DMs
+            await member.dm_channel.send(
+                embed=Embed(
+                    title="Registration",
+                    description=f"Welcome to the **University of Nottingham Computer "
+                                f"Science** server, <@{member.id}>! We'll need a "
+                                f"couple of details from you in order to get you set "
+                                f"up.",
+                    colour=Colour.blurple(),
+                ),
+            )
+        except (Forbidden, HTTPException):
+            # Inform user if they could not be DMed
+            await norris.get_channel(norris.arrival_channel_id).send(
+                embed=Embed(
+                    title="Registration",
+                    description=f"Welcome to the **University of Nottingham Computer "
+                                f"Science** server, <@{member.id}>! Unfortunately, "
+                                f"there was an error in sending you instructions. "
+                                f"Please seek assistance in <#"
+                                f"{norris.support_channel_id}>.",
+                    colour=Colour.red(),
+                ),
+            )
+        else:
+            # Inform the user of instructions sent to them privately
             await norris.get_channel(norris.arrival_channel_id).send(
                 embed=Embed(
                     title="Registration",
@@ -29,8 +55,6 @@ async def on_member_join(norris: Norris, member: Member) -> None:
                 ),
                 view=OpenDirectMessagesView(),
             )
-        except (Forbidden, HTTPException):
-            pass
 
 
 class OpenDirectMessagesView(View):

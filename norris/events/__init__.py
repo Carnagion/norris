@@ -1,4 +1,4 @@
-from discord import Member, RawMemberRemoveEvent, Embed, Colour
+from discord import Colour, Embed, Member, RawMemberRemoveEvent
 from discord.ext.commands import Cog
 from sqlalchemy import delete, insert, update
 

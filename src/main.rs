@@ -47,7 +47,7 @@ async fn main() -> Result<(), StartupError> {
     // Build and start bot
     BotFramework::builder()
         .token(bot_token)
-        .intents(GatewayIntents::non_privileged())
+        .intents(GatewayIntents::non_privileged() | GatewayIntents::GUILD_MEMBERS)
         .options(FrameworkOptions {
             commands: vec![],
             ..FrameworkOptions {

@@ -5,6 +5,8 @@ use poise::serenity_prelude::{
 
 use crate::{model::RegistrationStatus, BotData, BotError};
 
+pub const INSTRUCTIONS_CONTINUE: &str = "instructions_continue";
+
 pub async fn setup_registration(
     context: &Context,
     member: &Member,
@@ -57,7 +59,12 @@ fn instructions_dm_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &m
 fn instructions_dm_button() -> impl FnOnce(&mut CreateComponents) -> &mut CreateComponents {
     |comp| {
         comp.create_action_row(|row| {
-            row.create_button(|button| button.label("Continue").style(ButtonStyle::Primary))
+            row.create_button(|button| {
+                button
+                    .label("Continue")
+                    .custom_id(INSTRUCTIONS_CONTINUE)
+                    .style(ButtonStyle::Primary)
+            })
         })
     }
 }

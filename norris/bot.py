@@ -4,7 +4,6 @@ from discord import Bot
 from sqlalchemy import URL
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 
-from .events import Events
 from .model import DataModel
 
 
@@ -24,6 +23,8 @@ class Norris(Bot):
         norris.database_engine = create_async_engine(database_url, echo=True)
 
         # Add commands and event handlers
+        # NOTE: import done here because fuck Python and fuck its circular imports
+        from .events import Events
         norris.add_cog(Events(norris))
 
         # Set up database and tables

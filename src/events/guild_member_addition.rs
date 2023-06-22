@@ -1,8 +1,8 @@
 use poise::serenity_prelude as serenity;
 
-use serenity::{colours::branding::BLURPLE, *};
+use serenity::*;
 
-use crate::{events::INSTRUCTIONS_CONTINUE, prelude::*};
+use crate::{prelude::*, responses};
 
 pub async fn guild_member_added(
     context: &Context,
@@ -50,37 +50,11 @@ async fn send_registration_instructions(context: &Context, member: &Member) -> B
         .user
         .direct_message(&context.http, |message| {
             message
-                .embed(instructions_dm_embed(member.user.id))
-                .components(instructions_dm_button())
+                .embed(responses::instructions_embed(member.user.id))
+                .components(responses::instructions_continue_button())
         })
         .await?;
     Ok(())
-}
-
-fn instructions_dm_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
-    move |embed| {
-        embed
-            .title("Registration")
-            .colour(BLURPLE)
-            .description(format!(
-                "Welcome to the **University of Nottingham Computer Science** server, <@{}>! \
-                We'll need a couple of details from you in order to get you set up.",
-                user_id,
-            ))
-    }
-}
-
-fn instructions_dm_button() -> impl FnOnce(&mut CreateComponents) -> &mut CreateComponents {
-    |comp| {
-        comp.create_action_row(|row| {
-            row.create_button(|button| {
-                button
-                    .label("Continue")
-                    .custom_id(INSTRUCTIONS_CONTINUE)
-                    .style(ButtonStyle::Primary)
-            })
-        })
-    }
 }
 
 async fn notify_instructions_sent(
@@ -92,38 +66,12 @@ async fn notify_instructions_sent(
         .arrival_channel_id
         .send_message(&context.http, |message| {
             message
-                .embed(instructions_sent_embed(member.user.id))
-                .components(instructions_sent_button())
+                .embed(responses::instructions_sent_embed(member.user.id))
+                .components(responses::instructions_sent_button())
         })
         .await?;
 
     Ok(())
-}
-
-fn instructions_sent_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
-    move |embed| {
-        embed
-            .title("Registration")
-            .colour(BLURPLE)
-            .description(format!(
-                "Welcome to the **University of Nottingham Computer Science** server, <@{}>! \
-                Please check your direct messages for instructions on how to continue.",
-                user_id,
-            ))
-    }
-}
-
-fn instructions_sent_button() -> impl FnOnce(&mut CreateComponents) -> &mut CreateComponents {
-    |comp| {
-        comp.create_action_row(|row| {
-            row.create_button(|button| {
-                button
-                    .label("Open direct messages")
-                    .url("https://discordapp.com/channels/@me")
-                    .style(ButtonStyle::Link)
-            })
-        })
-    }
 }
 
 async fn notify_instructions_error(
@@ -134,7 +82,7 @@ async fn notify_instructions_error(
     bot_data
         .arrival_channel_id
         .send_message(&context.http, |message| {
-            message.embed(instructions_error_embed(
+            message.embed(responses::instructions_error_embed(
                 member.user.id,
                 bot_data.support_channel_id,
             ))
@@ -142,21 +90,4 @@ async fn notify_instructions_error(
         .await?;
 
     Ok(())
-}
-
-fn instructions_error_embed(
-    user_id: UserId,
-    support_channel_id: ChannelId,
-) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
-    move |embed| {
-        embed
-            .title("Registration")
-            .colour(BLURPLE)
-            .description(format!(
-                "Welcome to the **University of Nottingham Computer Science** server, <@{}>! \
-                Unfortunately, there was an error in sending you instructions. \
-                Please seek assistance in <#{}>.",
-                user_id, support_channel_id,
-            ))
-    }
 }

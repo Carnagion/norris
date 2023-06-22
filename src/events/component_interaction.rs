@@ -1,10 +1,8 @@
 use poise::serenity_prelude as serenity;
 
-use serenity::{colours::branding::BLURPLE, *};
+use serenity::*;
 
-use crate::prelude::*;
-
-pub const INSTRUCTIONS_CONTINUE: &str = "instructions_continue";
+use crate::{prelude::*, responses};
 
 pub async fn message_component_interacted(
     context: &Context,
@@ -12,7 +10,7 @@ pub async fn message_component_interacted(
     bot_data: &BotData,
 ) -> BotResult<()> {
     match component_interaction.data.custom_id.as_str() {
-        INSTRUCTIONS_CONTINUE => {
+        responses::INSTRUCTIONS_CONTINUE => {
             instructions_continue_clicked(context, &component_interaction.user, bot_data).await
         },
         _ => Ok(()),
@@ -35,16 +33,10 @@ async fn instructions_continue_clicked(
     .await?;
 
     // Ask the user to enter their name
-    user.direct_message(&context.http, |message| message.embed(request_name_embed()))
-        .await?;
+    user.direct_message(&context.http, |message| {
+        message.embed(responses::request_name_embed())
+    })
+    .await?;
 
     Ok(())
-}
-
-fn request_name_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
-    |embed| {
-        embed.title("Registration").colour(BLURPLE).description(
-            "Please enter your **name** exactly as when you applied to the University.",
-        )
-    }
 }

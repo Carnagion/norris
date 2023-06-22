@@ -2,7 +2,7 @@ use poise::serenity_prelude as serenity;
 
 use serenity::{colours::branding::BLURPLE, *};
 
-use crate::{events::INSTRUCTIONS_CONTINUE, prelude::*};
+use crate::prelude::*;
 
 pub async fn messaged(context: &Context, message: &Message, bot_data: &BotData) -> BotResult<()> {
     // Try to get the user's registration status

@@ -19,6 +19,8 @@ pub mod model;
 
 pub mod events;
 
+mod responses;
+
 #[derive(Clone)]
 pub struct Norris(Arc<BotFramework>);
 

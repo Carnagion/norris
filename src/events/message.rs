@@ -1,8 +1,8 @@
 use poise::serenity_prelude as serenity;
 
-use serenity::{colours::branding::BLURPLE, *};
+use serenity::*;
 
-use crate::prelude::*;
+use crate::{prelude::*, responses};
 
 pub async fn messaged(context: &Context, message: &Message, bot_data: &BotData) -> BotResult<()> {
     // Try to get the user's registration status
@@ -45,18 +45,9 @@ async fn request_confirm_name(
     name_message
         .channel_id
         .send_message(&context.http, |message| {
-            message.embed(confirm_name_embed(&name_message.content))
+            message.embed(responses::confirm_name_embed(&name_message.content))
         })
         .await?;
 
     Ok(())
-}
-
-fn confirm_name_embed(name: &str) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed + '_ {
-    move |embed| {
-        embed
-            .title("Registration")
-            .colour(BLURPLE)
-            .description(format!("You entered the name `{}`. Is that correct?", name))
-    }
 }

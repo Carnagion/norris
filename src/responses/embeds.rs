@@ -54,3 +54,12 @@ pub fn request_name_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed
         )
     }
 }
+
+pub fn confirm_name_embed(name: &str) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed + '_ {
+    move |embed| {
+        embed
+            .title("Registration")
+            .colour(BLURPLE)
+            .description(format!("You entered the name `{}`. Is that correct?", name))
+    }
+}

@@ -18,43 +18,43 @@ async def on_member_join(norris: Norris, member: Member) -> None:
             .values(user_id=member.id, status=RegistrationStatus.UNREGISTERED),
         )
 
-        try:
-            # Try sending instructions in DMs
-            await member.dm_channel.send(
-                embed=Embed(
-                    title="Registration",
-                    description=f"Welcome to the **University of Nottingham Computer "
-                                f"Science** server, <@{member.id}>! We'll need a "
-                                f"couple of details from you in order to get you set "
-                                f"up.",
-                    colour=Colour.blurple(),
-                ),
-            )
-        except (Forbidden, HTTPException):
-            # Inform user if they could not be DMed
-            await norris.get_channel(norris.arrival_channel_id).send(
-                embed=Embed(
-                    title="Registration",
-                    description=f"Welcome to the **University of Nottingham Computer "
-                                f"Science** server, <@{member.id}>! Unfortunately, "
-                                f"there was an error in sending you instructions. "
-                                f"Please seek assistance in <#"
-                                f"{norris.support_channel_id}>.",
-                    colour=Colour.red(),
-                ),
-            )
-        else:
-            # Inform the user of instructions sent to them privately
-            await norris.get_channel(norris.arrival_channel_id).send(
-                embed=Embed(
-                    title="Registration",
-                    description=f"Welcome to the **University of Nottingham Computer "
-                                f"Science** server, <@{member.id}>! Please check your "
-                                f"direct messages for instructions on how to continue.",
-                    colour=Colour.blurple(),
-                ),
-                view=OpenDirectMessagesView(),
-            )
+    try:
+        # Try sending instructions in DMs
+        await member.dm_channel.send(
+            embed=Embed(
+                title="Registration",
+                description=f"Welcome to the **University of Nottingham Computer "
+                            f"Science** server, <@{member.id}>! We'll need a "
+                            f"couple of details from you in order to get you set "
+                            f"up.",
+                colour=Colour.blurple(),
+            ),
+        )
+    except (Forbidden, HTTPException):
+        # Inform user if they could not be DMed
+        await norris.get_channel(norris.arrival_channel_id).send(
+            embed=Embed(
+                title="Registration",
+                description=f"Welcome to the **University of Nottingham Computer "
+                            f"Science** server, <@{member.id}>! Unfortunately, "
+                            f"there was an error in sending you instructions. "
+                            f"Please seek assistance in <#"
+                            f"{norris.support_channel_id}>.",
+                colour=Colour.red(),
+            ),
+        )
+    else:
+        # Inform the user of instructions sent to them privately
+        await norris.get_channel(norris.arrival_channel_id).send(
+            embed=Embed(
+                title="Registration",
+                description=f"Welcome to the **University of Nottingham Computer "
+                            f"Science** server, <@{member.id}>! Please check your "
+                            f"direct messages for instructions on how to continue.",
+                colour=Colour.blurple(),
+            ),
+            view=OpenDirectMessagesView(),
+        )
 
 
 class OpenDirectMessagesView(View):

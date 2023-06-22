@@ -23,10 +23,9 @@ async fn instructions_continue_clicked(
     bot_data: &BotData,
 ) -> BotResult<()> {
     // Update the user's registration state to started
-    sqlx::query_file!(
-        "queries/update-registration-state.sql",
+    sqlx::query!(
+        "update registrations set status = ? where user_id = ?",
         RegistrationStatus::Started.to_string(),
-        None::<String>,
         user.id.0,
     )
     .execute(&bot_data.database_pool)

@@ -10,8 +10,8 @@ pub async fn guild_member_added(
     bot_data: &BotData,
 ) -> BotResult<()> {
     // Add the member as unregistered to the table of registration info
-    sqlx::query_file!(
-        "queries/insert-new-registration.sql",
+    sqlx::query!(
+        "insert into registrations value (?, ?, null)",
         member.user.id.0,
         RegistrationStatus::Unregistered.to_string(),
     )
@@ -28,10 +28,9 @@ pub async fn guild_member_added(
             log::error!("{}", error);
 
             // Update their registration status to be failed
-            sqlx::query_file!(
-                "queries/update-registration-state.sql",
+            sqlx::query!(
+                "update registrations set status = ?, name = null where user_id = ?",
                 RegistrationStatus::Failed.to_string(),
-                None::<String>,
                 member.user.id.0,
             )
             .execute(&bot_data.database_pool)

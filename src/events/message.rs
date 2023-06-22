@@ -6,8 +6,8 @@ use crate::{prelude::*, responses};
 
 pub async fn messaged(context: &Context, message: &Message, bot_data: &BotData) -> BotResult<()> {
     // Try to get the user's registration status
-    let registration_status = sqlx::query_file!(
-        "queries/select-registration-status.sql",
+    let registration_status = sqlx::query!(
+        "select status, name from registrations where user_id = ?",
         message.author.id.0,
     )
     .try_map(|row| RegistrationStatus::from_columns(row.status, row.name))
@@ -32,8 +32,8 @@ async fn request_confirm_name(
     bot_data: &BotData,
 ) -> BotResult<()> {
     // Update the user's registration status to name entered
-    sqlx::query_file!(
-        "queries/update-registration-state.sql",
+    sqlx::query!(
+        "update registrations set status = ?, name = ? where user_id = ?",
         RegistrationStatus::NameEntered("".to_owned()).to_string(),
         name_message.content,
         name_message.author.id.0,

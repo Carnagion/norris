@@ -1,6 +1,6 @@
 from typing import Self
 
-from discord import Bot
+from discord import Bot, Intents
 from sqlalchemy import URL
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 
@@ -14,33 +14,32 @@ class Norris(Bot):
     support_channel_id: int
     log_channel_id: int
 
-    @staticmethod
-    async def create(guild_id: int,
-                     database_url: URL,
-                     arrival_channel_id: int,
-                     support_channel_id: int,
-                     log_channel_id: int) -> Self:
+    def __init__(self,
+                 guild_id: int,
+                 database_url: URL,
+                 arrival_channel_id: int,
+                 support_channel_id: int,
+                 log_channel_id: int) -> None:
         # Create bot and connect to database
-        norris = Norris()
-        norris.guild_id = guild_id
-        norris.database_engine = create_async_engine(database_url, echo=True)
-        norris.arrival_channel_id = arrival_channel_id
-        norris.support_channel_id = support_channel_id
-        norris.log_channel_id = log_channel_id
+        super().__init__(intents=Intents.default() | Intents.members)
+
+        self.guild_id = guild_id
+        self.database_engine = create_async_engine(database_url, echo=True)
+        self.arrival_channel_id = arrival_channel_id
+        self.support_channel_id = support_channel_id
+        self.log_channel_id = log_channel_id
 
         # NOTE: import done here because fuck Python and fuck its circular imports
         from .events import Events
 
         # Add commands and event handlers
-        norris.add_cog(Events(norris))
-
-        # Set up database and tables
-        async with norris.database_engine.connect() as connection:
-            await connection.run_sync(DataModel.metadata.create_all)
-
-        return norris
+        self.add_cog(Events(self))
 
     async def run(self, token: str) -> None:
+        # Set up database and tables
+        async with self.database_engine.connect() as connection:
+            await connection.run_sync(DataModel.metadata.create_all)
+
         # Start bot
         await super().start(token)
 

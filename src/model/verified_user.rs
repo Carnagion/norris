@@ -16,7 +16,7 @@ pub struct VerifiedUser {
 }
 
 impl VerifiedUser {
-    fn from_columns(
+    pub fn from_columns(
         name: String,
         kind: String,
         registered_user_id: Option<u64>,

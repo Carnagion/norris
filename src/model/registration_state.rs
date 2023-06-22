@@ -38,7 +38,7 @@ impl RegistrationStatus {
         )
     }
 
-    fn from_columns(status: String, name: Option<String>) -> Result<Self, SqlError> {
+    pub fn from_columns(status: String, name: Option<String>) -> Result<Self, SqlError> {
         Self::from_parts(&status, name).map_err(|error| SqlError::ColumnDecode {
             index: "status".to_owned(),
             source: Box::new(error),

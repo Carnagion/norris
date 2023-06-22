@@ -2,7 +2,9 @@ use poise::serenity_prelude as serenity;
 
 use serenity::{colours::branding::BLURPLE, *};
 
-use crate::{events::INSTRUCTIONS_CONTINUE, prelude::*};
+use crate::prelude::*;
+
+pub const INSTRUCTIONS_CONTINUE: &str = "instructions_continue";
 
 pub async fn message_component_interacted(
     context: &Context,

@@ -28,6 +28,7 @@ async fn instructions_continue_clicked(
     sqlx::query_file!(
         "queries/update-registration-state.sql",
         RegistrationStatus::Started.to_string(),
+        None::<String>,
         user.id.0,
     )
     .execute(&bot_data.database_pool)
@@ -43,7 +44,7 @@ async fn instructions_continue_clicked(
 fn request_name_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     |embed| {
         embed.title("Registration").colour(BLURPLE).description(
-            "Please type out your **name** exactly as when you applied to the University.",
+            "Please enter your **name** exactly as when you applied to the University.",
         )
     }
 }

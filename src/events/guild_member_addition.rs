@@ -23,9 +23,21 @@ pub async fn guild_member_added(
     match instructions_sent {
         // Ask user to check DMs
         Ok(_) => notify_instructions_sent(context, member, bot_data).await,
-        // Notify user in foyer if instructions could not be sent
+        // Handle failure
         Err(error) => {
             log::error!("{}", error);
+
+            // Update their registration status to be failed
+            sqlx::query_file!(
+                "queries/update-registration-state.sql",
+                RegistrationStatus::Failed.to_string(),
+                None::<String>,
+                member.user.id.0,
+            )
+            .execute(&bot_data.database_pool)
+            .await?;
+
+            // Notify user of error
             notify_instructions_error(context, member, bot_data).await
         },
     }?;

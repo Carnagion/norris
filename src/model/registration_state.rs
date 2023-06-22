@@ -16,6 +16,20 @@ pub struct Registration {
     pub status: RegistrationStatus,
 }
 
+impl Registration {
+    pub fn from_columns(
+        user_id: u64,
+        status: String,
+        name: Option<String>,
+    ) -> Result<Self, SqlError> {
+        let status = RegistrationStatus::from_columns(status, name)?;
+        Ok(Self {
+            user_id: UserId(user_id),
+            status,
+        })
+    }
+}
+
 #[derive(Clone, Debug, Default, Display, EnumString, Eq, Hash, PartialEq)]
 #[strum(serialize_all = "snake_case")]
 pub enum RegistrationStatus {
@@ -59,9 +73,13 @@ impl RegistrationStatus {
     }
 }
 
-impl FromRow<'_, MySqlRow> for RegistrationStatus {
+impl FromRow<'_, MySqlRow> for Registration {
     fn from_row(row: &MySqlRow) -> Result<Self, SqlError> {
-        Self::from_columns(row.try_get("status")?, row.try_get("name")?)
+        Self::from_columns(
+            row.try_get("user_id")?,
+            row.try_get("status")?,
+            row.try_get("name")?,
+        )
     }
 }
 

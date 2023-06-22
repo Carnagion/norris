@@ -1,3 +1,3 @@
 update registrations
-set status = ?
+set status = ?, name = ?
 where user_id = ?;

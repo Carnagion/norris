@@ -20,7 +20,7 @@ async def on_member_join(norris: Norris, member: Member) -> None:
 
     try:
         # Try sending instructions in DMs
-        await member.dm_channel.send(
+        await member.send(
             embed=Embed(
                 title="Registration",
                 description=f"Welcome to the **University of Nottingham Computer "

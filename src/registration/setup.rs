@@ -1,9 +1,8 @@
-use poise::serenity_prelude::{
-    colours::branding::BLURPLE, ButtonStyle, ChannelId, Context, CreateComponents, CreateEmbed,
-    Member, UserId,
-};
+use poise::serenity_prelude as serenity;
 
-use crate::{model::RegistrationStatus, BotData, BotError};
+use serenity::{colours::branding::BLURPLE, *};
+
+use crate::prelude::*;
 
 pub const INSTRUCTIONS_CONTINUE: &str = "instructions_continue";
 
@@ -11,10 +10,10 @@ pub async fn setup_registration(
     context: &Context,
     member: &Member,
     bot_data: &BotData,
-) -> Result<(), BotError> {
+) -> BotResult<()> {
     // Add the member as unregistered to the table of registration info
-    sqlx::query!(
-        "insert into registrations value (?, ?, null)",
+    sqlx::query_file!(
+        "queries/insert-new-registration.sql",
         member.user.id.0,
         RegistrationStatus::Unregistered.to_string(),
     )
@@ -36,10 +35,7 @@ pub async fn setup_registration(
     Ok(())
 }
 
-async fn send_registration_instructions(
-    context: &Context,
-    member: &Member,
-) -> Result<(), BotError> {
+async fn send_registration_instructions(context: &Context, member: &Member) -> BotResult<()> {
     member
         .user
         .direct_message(&context.http, |message| {
@@ -81,7 +77,7 @@ async fn notify_instructions_sent(
     context: &Context,
     member: &Member,
     bot_data: &BotData,
-) -> Result<(), BotError> {
+) -> BotResult<()> {
     bot_data
         .arrival_channel_id
         .send_message(&context.http, |message| {
@@ -124,7 +120,7 @@ async fn notify_instructions_error(
     context: &Context,
     member: &Member,
     bot_data: &BotData,
-) -> Result<(), BotError> {
+) -> BotResult<()> {
     bot_data
         .arrival_channel_id
         .send_message(&context.http, |message| {

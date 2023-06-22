@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+anyhow = "1.0.71"
 dotenvy = "0.15.7"
 envy = "0.4.2"
 log = "0.4.19"

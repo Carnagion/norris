@@ -1,37 +1,30 @@
-use std::{fs::File, io::Error as IoError, path::PathBuf};
-
-use dotenvy::Error as DotEnvError;
-
-use envy::Error as EnvError;
-
-use log::SetLoggerError;
-
-use poise::{
-    builtins,
-    serenity_prelude::{ChannelId, Context, GatewayIntents, GuildId, SerenityError},
-    FrameworkOptions,
+use std::{
+    fs::File,
+    path::{Path, PathBuf},
 };
 
+use anyhow::Result as AnyResult;
+
+use poise::serenity_prelude as serenity;
+
 use serde::Deserialize;
+
+use serenity::*;
 
 use simplelog::{
     ColorChoice, CombinedLogger, Config as LoggerConfig, LevelFilter, TermLogger, TerminalMode,
     WriteLogger,
 };
 
-use sqlx::{mysql::MySqlPoolOptions, Error as SqlError, MySqlPool};
-
-use thiserror::Error;
-
-use norris::{BotData, BotError, BotFramework};
+use norris::Norris;
 
 #[tokio::main]
-async fn main() -> Result<(), StartupError> {
-    // Load .env file
+async fn main() -> AnyResult<()> {
+    // Load .env files
     dotenvy::dotenv()?;
 
-    // Parse configuration values from the environment
-    let Config {
+    // Parse environment variables
+    let BotArgs {
         bot_token,
         guild_id,
         database_url,
@@ -39,71 +32,38 @@ async fn main() -> Result<(), StartupError> {
         support_channel_id,
         log_channel_id,
         log_path,
-    } = envy::from_env::<Config>()?;
+    } = envy::from_env()?;
 
-    // Setup logger
-    setup_logger(log_path)?; // NOTE: This should only be called once, and before starting the bot
+    // Setup logging before continuing anything else
+    setup_logger(&log_path).await?;
 
-    // Build and start bot
-    BotFramework::builder()
-        .token(bot_token)
-        .intents(GatewayIntents::non_privileged() | GatewayIntents::GUILD_MEMBERS)
-        .options(FrameworkOptions {
-            commands: vec![],
-            ..FrameworkOptions {
-                event_handler: |context, event, _, bot_data| {
-                    Box::pin(norris::event_handler(context, event, bot_data))
-                },
-                // TODO: Change to a dedicated error handling function
-                on_error: |error| Box::pin(async move { log::error!("{}", error) }),
-                ..Default::default()
-            }
-        })
-        .setup(move |context, _, framework| {
-            Box::pin(setup_bot(
-                context,
-                framework,
-                guild_id,
-                database_url,
-                arrival_channel_id,
-                support_channel_id,
-                log_channel_id,
-            ))
-        })
-        .build()
-        .await?
-        .start()
-        .await?;
+    Norris::new(
+        bot_token,
+        guild_id,
+        database_url,
+        arrival_channel_id,
+        support_channel_id,
+        log_channel_id,
+    )
+    .await?
+    .start()
+    .await?;
 
     Ok(())
 }
 
 #[derive(Debug, Deserialize)]
-struct Config {
+struct BotArgs {
     bot_token: String,
     guild_id: GuildId,
-    database_url: String,
+    database_url: String, // NOTE: This is also used by sqlx to check queries at compile time
     arrival_channel_id: ChannelId,
     support_channel_id: ChannelId,
     log_channel_id: ChannelId,
     log_path: PathBuf,
 }
 
-#[derive(Debug, Error)]
-enum StartupError {
-    #[error("{}", .0)]
-    Io(#[from] IoError),
-    #[error("{}", .0)]
-    Discord(#[from] SerenityError),
-    #[error("{}", .0)]
-    DotEnv(#[from] DotEnvError),
-    #[error("{}", .0)]
-    Env(#[from] EnvError),
-    #[error("{}", .0)]
-    Logger(#[from] SetLoggerError),
-}
-
-fn setup_logger(log_path: PathBuf) -> Result<(), StartupError> {
+async fn setup_logger(log_path: impl AsRef<Path>) -> AnyResult<()> {
     CombinedLogger::init(vec![
         // Log most events to stdout
         TermLogger::new(
@@ -119,54 +79,6 @@ fn setup_logger(log_path: PathBuf) -> Result<(), StartupError> {
             File::create(log_path)?,
         ),
     ])?;
-    Ok(())
-}
-
-async fn setup_bot(
-    context: &Context,
-    framework: &BotFramework,
-    guild_id: GuildId,
-    database_url: String,
-    arrival_channel_id: ChannelId,
-    support_channel_id: ChannelId,
-    log_channel_id: ChannelId,
-) -> Result<BotData, BotError> {
-    // Register slash commands in the guild
-    let commands = builtins::create_application_commands(&framework.options().commands);
-    guild_id
-        .set_application_commands(&context.http, |guild_commands| {
-            *guild_commands = commands;
-            guild_commands
-        })
-        .await?;
-
-    // Create a pool of connections to the database
-    let database_pool = MySqlPoolOptions::new()
-        .max_connections(25) // TODO: Find the right max number of connections through testing
-        .connect(&database_url)
-        .await?;
-
-    // Setup tables
-    setup_database(&database_pool).await?;
-
-    Ok(BotData {
-        database_pool,
-        arrival_channel_id,
-        support_channel_id,
-        log_channel_id,
-    })
-}
-
-async fn setup_database(database_pool: &MySqlPool) -> Result<(), SqlError> {
-    // Create user table if not already exists
-    sqlx::query_file!("queries/create-table-users.sql")
-        .execute(database_pool)
-        .await?;
-
-    // Create registration table if not already exists
-    sqlx::query_file!("queries/create-table-registrations.sql")
-        .execute(database_pool)
-        .await?;
 
     Ok(())
 }

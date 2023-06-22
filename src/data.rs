@@ -1,4 +1,6 @@
-use poise::serenity_prelude::ChannelId;
+use poise::serenity_prelude as serenity;
+
+use serenity::*;
 
 use sqlx::MySqlPool;
 

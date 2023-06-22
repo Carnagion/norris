@@ -1,8 +1,10 @@
 use std::str::FromStr;
 
-use poise::serenity_prelude::UserId;
+use poise::serenity_prelude as serenity;
 
-use sqlx::Error as SqlError;
+use serenity::UserId;
+
+use sqlx::{mysql::MySqlRow, prelude::*, Error as SqlError};
 
 use strum::{Display, EnumString};
 
@@ -14,7 +16,7 @@ pub struct VerifiedUser {
 }
 
 impl VerifiedUser {
-    pub fn from_row(
+    fn from_columns(
         name: String,
         kind: String,
         registered_user_id: Option<u64>,
@@ -28,6 +30,16 @@ impl VerifiedUser {
             registered_user_id: registered_user_id.map(UserId),
         };
         Ok(user)
+    }
+}
+
+impl FromRow<'_, MySqlRow> for VerifiedUser {
+    fn from_row(row: &MySqlRow) -> Result<Self, SqlError> {
+        Self::from_columns(
+            row.try_get("name")?,
+            row.try_get("kind")?,
+            row.try_get("registered_user_id")?,
+        )
     }
 }
 

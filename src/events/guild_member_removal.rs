@@ -5,7 +5,7 @@ use serenity::*;
 use crate::prelude::*;
 
 pub async fn guild_member_removed(
-    context: &Context,
+    _context: &Context, // TODO: Will be used when registration logging is implemented
     user: &User,
     bot_data: &BotData,
 ) -> BotResult<()> {

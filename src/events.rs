@@ -10,6 +10,9 @@ pub use guild_member_addition::*;
 mod guild_member_removal;
 pub use guild_member_removal::*;
 
+mod component_interaction;
+pub use component_interaction::*;
+
 pub async fn event_handler(
     context: &Context,
     event: &Event<'_>,
@@ -22,11 +25,12 @@ pub async fn event_handler(
         Event::GuildMemberRemoval { user, .. } if !user.bot => {
             guild_member_removed(context, user, bot_data).await
         },
-        // Event::InteractionCreate {
-        //     interaction: Interaction::MessageComponent(component_interaction),
-        // } => {
-        //     todo!()
-        // },
+        Event::InteractionCreate {
+            interaction: Interaction::MessageComponent(component_interaction),
+        } => message_component_interacted(context, component_interaction, bot_data).await,
+        Event::Message { new_message } => {
+            todo!()
+        },
         _ => Ok(()),
     }
 }

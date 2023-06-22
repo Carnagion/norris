@@ -53,3 +53,26 @@ pub fn confirm_name_buttons() -> impl FnOnce(&mut CreateComponents) -> &mut Crea
         })
     }
 }
+
+pub const KIND_CONFIRM_YES: &str = "kind-confirm-yes";
+
+pub const KIND_CONFIRM_NO: &str = "kind-confirm-no";
+
+pub fn confirm_kind_buttons() -> impl FnOnce(&mut CreateComponents) -> &mut CreateComponents {
+    |comp| {
+        comp.create_action_row(|row| {
+            row.create_button(|button| {
+                button
+                    .label("Yes")
+                    .custom_id(KIND_CONFIRM_YES)
+                    .style(ButtonStyle::Success)
+            })
+            .create_button(|button| {
+                button
+                    .label("No")
+                    .custom_id(KIND_CONFIRM_NO)
+                    .style(ButtonStyle::Danger)
+            })
+        })
+    }
+}

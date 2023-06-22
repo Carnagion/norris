@@ -1,6 +1,8 @@
-use poise::serenity_prelude as serenity;
+use poise::serenity_prelude::{self as serenity, colours::css::DANGER};
 
 use serenity::{colours::branding::BLURPLE, *};
+
+use crate::prelude::*;
 
 pub fn instructions_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
@@ -37,7 +39,7 @@ pub fn instructions_error_embed(
     move |embed| {
         embed
             .title("Registration")
-            .colour(BLURPLE)
+            .colour(DANGER)
             .description(format!(
                 "Welcome to the **University of Nottingham Computer Science** server, <@{}>! \
                 Unfortunately, there was an error in sending you instructions. \
@@ -60,6 +62,39 @@ pub fn confirm_name_embed(name: &str) -> impl FnOnce(&mut CreateEmbed) -> &mut C
         embed
             .title("Registration")
             .colour(BLURPLE)
-            .description(format!("You entered the name `{}`. Is that correct?", name))
+            .description(format!(
+                "You entered the name `{}`. \
+                Is that correct?",
+                name
+            ))
+    }
+}
+
+pub fn confirm_kind_embed(
+    kind: VerifiedUserKind,
+) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+    move |embed| {
+        embed
+            .title("Registration")
+            .color(BLURPLE)
+            .description(format!(
+                "We've detected that you are a **{}**. \
+                Is that correct?",
+                kind.description(),
+            ))
+    }
+}
+
+pub fn kind_error_embed(
+    support_channel_id: ChannelId,
+) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+    move |embed| {
+        embed
+            .title("Registration")
+            .colour(DANGER)
+            .description(format!(
+                "Please seek assistance in <#{}>.",
+                support_channel_id,
+            ))
     }
 }

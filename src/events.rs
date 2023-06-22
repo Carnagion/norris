@@ -32,8 +32,7 @@ pub async fn event_handler(
             interaction: Interaction::MessageComponent(component_interaction),
         } => message_component_interacted(context, component_interaction, bot_data).await,
         Event::Message { new_message } if new_message.is_private() => {
-            // TODO: Add logic for handling name entering
-            todo!()
+            messaged(context, new_message, bot_data).await
         },
         _ => Ok(()),
     }

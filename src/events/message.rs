@@ -34,7 +34,7 @@ async fn request_confirm_name(
     // Update the user's registration status to name entered
     sqlx::query!(
         "update registrations set status = ?, name = ? where user_id = ?",
-        RegistrationStatus::NameEntered("".to_owned()).to_string(),
+        RegistrationStatus::NameEntered("".into()).to_string(),
         name_message.content,
         name_message.author.id.0,
     )

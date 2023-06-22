@@ -22,14 +22,7 @@ pub async fn setup_registration(
     .await?;
 
     // Send instructions for registration to the user's DMs
-    let instructions_sent = member
-        .user
-        .direct_message(&context.http, |message| {
-            message
-                .embed(instructions_dm_embed(member.user.id))
-                .components(instructions_dm_button())
-        })
-        .await;
+    let instructions_sent = send_registration_instructions(context, member).await;
     match instructions_sent {
         // Ask user to check DMs
         Ok(_) => notify_instructions_sent(context, member, bot_data).await,
@@ -40,6 +33,21 @@ pub async fn setup_registration(
         },
     }?;
 
+    Ok(())
+}
+
+async fn send_registration_instructions(
+    context: &Context,
+    member: &Member,
+) -> Result<(), BotError> {
+    member
+        .user
+        .direct_message(&context.http, |message| {
+            message
+                .embed(instructions_dm_embed(member.user.id))
+                .components(instructions_dm_button())
+        })
+        .await?;
     Ok(())
 }
 

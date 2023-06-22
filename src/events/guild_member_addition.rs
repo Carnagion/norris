@@ -6,7 +6,7 @@ use crate::prelude::*;
 
 pub const INSTRUCTIONS_CONTINUE: &str = "instructions_continue";
 
-pub async fn setup_registration(
+pub async fn guild_member_added(
     context: &Context,
     member: &Member,
     bot_data: &BotData,

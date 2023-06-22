@@ -17,9 +17,7 @@ pub use error::*;
 
 pub mod model;
 
-mod event_handler;
-
-pub mod registration;
+pub mod events;
 
 #[derive(Clone)]
 pub struct Norris(Arc<BotFramework>);
@@ -39,7 +37,7 @@ impl Norris {
             .options(FrameworkOptions {
                 commands: vec![], // TODO: Add commands once we actually have them
                 event_handler: |context, event, _, bot_data| {
-                    Box::pin(event_handler::event_handler(context, event, bot_data))
+                    Box::pin(events::event_handler(context, event, bot_data))
                 },
                 on_error: |err| Box::pin(async move { log::error!("{}", err) }), // TODO: Use a dedicated error handler
                 ..FrameworkOptions::default()

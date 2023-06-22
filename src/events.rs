@@ -4,6 +4,12 @@ use serenity::*;
 
 use crate::prelude::*;
 
+mod guild_member_addition;
+pub use guild_member_addition::*;
+
+mod guild_member_removal;
+pub use guild_member_removal::*;
+
 pub async fn event_handler(
     context: &Context,
     event: &Event<'_>,
@@ -11,7 +17,7 @@ pub async fn event_handler(
 ) -> BotResult<()> {
     match event {
         Event::GuildMemberAddition { new_member } if !new_member.user.bot => {
-            registration::setup_registration(context, new_member, bot_data).await
+            guild_member_added(context, new_member, bot_data).await
         },
         // Event::GuildMemberRemoval { user, .. } if !user.bot => {
         //     // registration::clear_registration(context, user, bot_data).await

@@ -1,6 +1,6 @@
 use poise::{Command, Context, Framework};
 
-pub use crate::{data::*, error::*, model::*, registration, Norris};
+pub use crate::{data::*, error::*, model::*, Norris};
 
 pub type BotResult<T> = Result<T, BotError>;
 

@@ -45,7 +45,9 @@ async fn request_confirm_name(
     name_message
         .channel_id
         .send_message(&context.http, |message| {
-            message.embed(responses::confirm_name_embed(&name_message.content))
+            message
+                .embed(responses::confirm_name_embed(&name_message.content))
+                .components(responses::confirm_name_buttons())
         })
         .await?;
 

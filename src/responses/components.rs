@@ -30,3 +30,26 @@ pub fn instructions_sent_button() -> impl FnOnce(&mut CreateComponents) -> &mut 
         })
     }
 }
+
+pub const NAME_CONFIRM_YES: &str = "name-confirm-yes";
+
+pub const NAME_CONFIRM_NO: &str = "name-confirm-no";
+
+pub fn confirm_name_buttons() -> impl FnOnce(&mut CreateComponents) -> &mut CreateComponents {
+    |comp| {
+        comp.create_action_row(|row| {
+            row.create_button(|button| {
+                button
+                    .label("Yes")
+                    .custom_id(NAME_CONFIRM_YES)
+                    .style(ButtonStyle::Success)
+            })
+            .create_button(|button| {
+                button
+                    .label("No")
+                    .custom_id(NAME_CONFIRM_NO)
+                    .style(ButtonStyle::Danger)
+            })
+        })
+    }
+}

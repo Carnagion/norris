@@ -28,7 +28,8 @@ pub async fn event_handler(
         Event::InteractionCreate {
             interaction: Interaction::MessageComponent(component_interaction),
         } => message_component_interacted(context, component_interaction, bot_data).await,
-        Event::Message { new_message } => {
+        Event::Message { new_message: _ } => {
+            // TODO: Add logic for handling name entering
             todo!()
         },
         _ => Ok(()),

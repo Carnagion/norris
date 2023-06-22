@@ -19,9 +19,9 @@ pub async fn event_handler(
         Event::GuildMemberAddition { new_member } if !new_member.user.bot => {
             guild_member_added(context, new_member, bot_data).await
         },
-        // Event::GuildMemberRemoval { user, .. } if !user.bot => {
-        //     // registration::clear_registration(context, user, bot_data).await
-        // },
+        Event::GuildMemberRemoval { user, .. } if !user.bot => {
+            guild_member_removed(context, user, bot_data).await
+        },
         // Event::InteractionCreate {
         //     interaction: Interaction::MessageComponent(component_interaction),
         // } => {

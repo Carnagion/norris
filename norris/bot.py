@@ -1,5 +1,3 @@
-from typing import Self
-
 from discord import Bot, Intents
 from sqlalchemy import URL
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine

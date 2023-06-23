@@ -5,17 +5,18 @@ from sqlalchemy.dialects.mysql import BIGINT
 from sqlalchemy.orm import Mapped, mapped_column
 
 from .base import DataModel
+from .verified_user import VerifiedUserKind
 
 
 class RegistrationStatus(Enum):
-    UNREGISTERED = "unregistered"
-    STARTED = "started"
-    NAME_ENTERED = "name_entered"
-    NAME_CONFIRMED = "name_confirmed"
-    REGISTERED = "registered"
-    PRONOUNS_PICKED = "pronouns_picked"
-    HOUSING_PICKED = "housing_picked"
-    FAILED = "failed"
+    UNREGISTERED = "UNREGISTERED"
+    STARTED = "STARTED"
+    NAME_ENTERED = "NAME_ENTERED"
+    KIND_FOUND = "KIND_FOUND"
+    REGISTERED = "REGISTERED"
+    PRONOUNS_PICKED = "PRONOUNS_PICKED"
+    HOUSING_PICKED = "HOUSING_PICKED"
+    FAILED = "FAILED"
 
     @property
     def is_registered(self) -> bool:
@@ -65,14 +66,15 @@ class NameEntered(Registration):
     }
 
 
-class NameConfirmed(Registration):
+class KindFound(Registration):
     name: Mapped[str] = mapped_column(String(1024),
                                       # NOTE: will be null if the row is another variant
                                       nullable=True,
                                       use_existing_column=True)
+    kind: Mapped[VerifiedUserKind]
 
     __mapper_args__ = {
-        "polymorphic_identity": RegistrationStatus.NAME_CONFIRMED,
+        "polymorphic_identity": RegistrationStatus.KIND_FOUND,
     }
 
 

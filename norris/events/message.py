@@ -25,7 +25,7 @@ async def on_message(message: Message, norris: Norris) -> None:
 
         # Update the status to name entered if they have started registration and
         # entered a name
-        if message.content and registration.status == RegistrationStatus.STARTED:
+        if message.content and Registration.status == RegistrationStatus.STARTED:
             await connection.execute(
                 update(Registration)
                 .where(Registration.user_id == message.author.id)

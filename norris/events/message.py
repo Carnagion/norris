@@ -7,8 +7,8 @@ from ..responses import NameConfirmView, confirm_name_embed
 
 
 async def on_message(message: Message, norris: Norris) -> None:
-    # Ignore bots
-    if message.author.bot:
+    # Ignore bots and non-DMs
+    if message.author.bot or not message.channel.is_private():
         return
 
     async with norris.database_engine.begin() as connection:

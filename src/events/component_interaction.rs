@@ -9,54 +9,60 @@ pub async fn message_component_interacted(
     component_interaction: &MessageComponentInteraction,
     bot_data: &BotData,
 ) -> BotResult<()> {
+    // Defer the response to allow time for database queries
+    component_interaction.defer(&context.http).await?;
+
     match component_interaction.data.custom_id.as_str() {
         // User has started registration
         responses::INSTRUCTIONS_CONTINUE => {
-            instructions_continue_clicked(context, &component_interaction.user, bot_data).await
+            instructions_continue_clicked(context, component_interaction, bot_data).await
         },
         responses::NAME_CONFIRM_YES => {
-            name_confirmed(context, &component_interaction.user, bot_data).await
+            name_confirmed(context, component_interaction, bot_data).await
         },
         // User wants to enter a different name
-        responses::NAME_CONFIRM_NO => {
-            name_denied(context, &component_interaction.user, bot_data).await
-        },
+        responses::NAME_CONFIRM_NO => name_denied(context, component_interaction, bot_data).await,
         // User has confirmed their kind
         responses::KIND_CONFIRM_YES => {
-            kind_confirmed(context, &component_interaction.user, bot_data).await
+            kind_confirmed(context, component_interaction, bot_data).await
         },
         // User has been incorrectly detected as the wrong kind
-        responses::KIND_CONFIRM_NO => {
-            kind_denied(context, &component_interaction.user, bot_data).await
-        },
+        responses::KIND_CONFIRM_NO => kind_denied(context, component_interaction, bot_data).await,
         _ => Ok(()),
     }
 }
 
 async fn instructions_continue_clicked(
     context: &Context,
-    user: &User,
+    component_interaction: &MessageComponentInteraction,
     bot_data: &BotData,
 ) -> BotResult<()> {
     // Update the user's registration state to started
     sqlx::query!(
         "update registrations set status = ? where user_id = ?",
         RegistrationStatus::Started.to_string(),
-        user.id.0,
+        component_interaction.user.id.0,
     )
     .execute(&bot_data.database_pool)
     .await?;
 
     // Ask the user to enter their name
-    user.direct_message(&context.http, |message| {
-        message.embed(responses::request_name_embed())
-    })
-    .await?;
+    component_interaction
+        .create_interaction_response(&context.http, |response| {
+            response.interaction_response_data(|data| data.embed(responses::request_name_embed()))
+        })
+        .await?;
 
     Ok(())
 }
 
-async fn name_confirmed(context: &Context, user: &User, bot_data: &BotData) -> BotResult<()> {
+async fn name_confirmed(
+    context: &Context,
+    component_interaction: &MessageComponentInteraction,
+    bot_data: &BotData,
+) -> BotResult<()> {
+    let user = &component_interaction.user;
+
     // Update the user's registration state to name confirmed
     sqlx::query!(
         "update registrations set status = ? where user_id = ?", // NOTE: Name should have been set when name entered
@@ -88,12 +94,14 @@ async fn name_confirmed(context: &Context, user: &User, bot_data: &BotData) -> B
     match verified_user {
         // Ask the user to confirm their kind
         Some(verified_user) => {
-            user.direct_message(&context.http, |message| {
-                message
-                    .embed(responses::confirm_kind_embed(verified_user.kind))
-                    .components(responses::confirm_kind_buttons())
-            })
-            .await?;
+            component_interaction
+                .create_interaction_response(&context.http, |response| {
+                    response.interaction_response_data(|data| {
+                        data.embed(responses::confirm_kind_embed(verified_user.kind))
+                            .components(responses::confirm_kind_buttons())
+                    })
+                })
+                .await?;
         },
         // No matching name was found
         None => {},
@@ -102,7 +110,13 @@ async fn name_confirmed(context: &Context, user: &User, bot_data: &BotData) -> B
     Ok(())
 }
 
-async fn name_denied(context: &Context, user: &User, bot_data: &BotData) -> BotResult<()> {
+async fn name_denied(
+    context: &Context,
+    component_interaction: &MessageComponentInteraction,
+    bot_data: &BotData,
+) -> BotResult<()> {
+    let user = &component_interaction.user;
+
     // Update the user's registration state to started again
     sqlx::query!(
         "update registrations set status = ?, name = null where user_id = ?",
@@ -113,19 +127,31 @@ async fn name_denied(context: &Context, user: &User, bot_data: &BotData) -> BotR
     .await?;
 
     // Ask the user to enter their name
-    user.direct_message(&context.http, |message| {
-        message.embed(responses::request_name_embed())
-    })
-    .await?;
+    component_interaction
+        .create_interaction_response(&context.http, |response| {
+            response.interaction_response_data(|data| data.embed(responses::request_name_embed()))
+        })
+        .await?;
 
     Ok(())
 }
 
-async fn kind_confirmed(context: &Context, user: &User, bot_data: &BotData) -> BotResult<()> {
+async fn kind_confirmed(
+    context: &Context,
+    component_interaction: &MessageComponentInteraction,
+    bot_data: &BotData,
+) -> BotResult<()> {
     Ok(())
 }
 
-async fn kind_denied(context: &Context, user: &User, bot_data: &BotData) -> BotResult<()> {
+async fn kind_denied(
+    context: &Context,
+    component_interaction: &MessageComponentInteraction,
+    bot_data: &BotData,
+) -> BotResult<()> {
+    let user = &component_interaction.user;
+
+    // Set the user's registration state to failed
     sqlx::query!(
         "update registrations set status = ?, name = null where user_id = ?",
         RegistrationStatus::Failed.to_string(),
@@ -133,6 +159,15 @@ async fn kind_denied(context: &Context, user: &User, bot_data: &BotData) -> BotR
     )
     .execute(&bot_data.database_pool)
     .await?;
+
+    // Ask the user to seek assistance
+    component_interaction
+        .create_interaction_response(&context.http, |response| {
+            response.interaction_response_data(|data| {
+                data.embed(responses::kind_error_embed(bot_data.support_channel_id))
+            })
+        })
+        .await?;
 
     Ok(())
 }

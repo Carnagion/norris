@@ -36,22 +36,7 @@ pub const NAME_CONFIRM_YES: &str = "name-confirm-yes";
 pub const NAME_CONFIRM_NO: &str = "name-confirm-no";
 
 pub fn confirm_name_buttons() -> impl FnOnce(&mut CreateComponents) -> &mut CreateComponents {
-    |comp| {
-        comp.create_action_row(|row| {
-            row.create_button(|button| {
-                button
-                    .label("Yes")
-                    .custom_id(NAME_CONFIRM_YES)
-                    .style(ButtonStyle::Success)
-            })
-            .create_button(|button| {
-                button
-                    .label("No")
-                    .custom_id(NAME_CONFIRM_NO)
-                    .style(ButtonStyle::Danger)
-            })
-        })
-    }
+    buttons_yes_no(NAME_CONFIRM_YES, NAME_CONFIRM_NO)
 }
 
 pub const KIND_CONFIRM_YES: &str = "kind-confirm-yes";
@@ -59,20 +44,22 @@ pub const KIND_CONFIRM_YES: &str = "kind-confirm-yes";
 pub const KIND_CONFIRM_NO: &str = "kind-confirm-no";
 
 pub fn confirm_kind_buttons() -> impl FnOnce(&mut CreateComponents) -> &mut CreateComponents {
-    |comp| {
+    buttons_yes_no(KIND_CONFIRM_YES, KIND_CONFIRM_NO)
+}
+
+fn buttons_yes_no(
+    yes: &'static str,
+    no: &'static str,
+) -> impl FnOnce(&mut CreateComponents) -> &mut CreateComponents {
+    move |comp| {
         comp.create_action_row(|row| {
             row.create_button(|button| {
                 button
                     .label("Yes")
-                    .custom_id(KIND_CONFIRM_YES)
+                    .custom_id(yes)
                     .style(ButtonStyle::Success)
             })
-            .create_button(|button| {
-                button
-                    .label("No")
-                    .custom_id(KIND_CONFIRM_NO)
-                    .style(ButtonStyle::Danger)
-            })
+            .create_button(|button| button.label("No").custom_id(no).style(ButtonStyle::Danger))
         })
     }
 }

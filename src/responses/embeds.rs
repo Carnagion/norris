@@ -93,7 +93,8 @@ pub fn kind_error_embed(
             .title("Registration")
             .colour(DANGER)
             .description(format!(
-                "Please seek assistance in <#{}>.",
+                "Unfortunately, our system might have assigned you incorrectly. \
+                Please seek assistance in <#{}>.",
                 support_channel_id,
             ))
     }

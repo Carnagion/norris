@@ -17,7 +17,7 @@ async def on_message(message: Message, norris: Norris) -> None:
             select(Registration)
             .where(Registration.user_id == message.author.id),
         )
-        registration = result.scalars().one_or_none()
+        registration = result.one_or_none()
 
         # Ignore if the user has not registered
         if registration is None:

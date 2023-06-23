@@ -17,6 +17,7 @@ pub async fn message_component_interacted(
         responses::INSTRUCTIONS_CONTINUE => {
             instructions_continue_clicked(context, component_interaction, bot_data).await
         },
+        // User has confirmed their name
         responses::NAME_CONFIRM_YES => {
             name_confirmed(context, component_interaction, bot_data).await
         },
@@ -48,8 +49,8 @@ async fn instructions_continue_clicked(
 
     // Ask the user to enter their name
     component_interaction
-        .create_interaction_response(&context.http, |response| {
-            response.interaction_response_data(|data| data.embed(responses::request_name_embed()))
+        .create_followup_message(&context.http, |message| {
+            message.embed(responses::request_name_embed())
         })
         .await?;
 
@@ -95,11 +96,10 @@ async fn name_confirmed(
         // Ask the user to confirm their kind
         Some(verified_user) => {
             component_interaction
-                .create_interaction_response(&context.http, |response| {
-                    response.interaction_response_data(|data| {
-                        data.embed(responses::confirm_kind_embed(verified_user.kind))
-                            .components(responses::confirm_kind_buttons())
-                    })
+                .create_followup_message(&context.http, |message| {
+                    message
+                        .embed(responses::confirm_kind_embed(verified_user.kind))
+                        .components(responses::confirm_kind_buttons())
                 })
                 .await?;
         },
@@ -128,8 +128,8 @@ async fn name_denied(
 
     // Ask the user to enter their name
     component_interaction
-        .create_interaction_response(&context.http, |response| {
-            response.interaction_response_data(|data| data.embed(responses::request_name_embed()))
+        .create_followup_message(&context.http, |message| {
+            message.embed(responses::request_name_embed())
         })
         .await?;
 
@@ -162,10 +162,8 @@ async fn kind_denied(
 
     // Ask the user to seek assistance
     component_interaction
-        .create_interaction_response(&context.http, |response| {
-            response.interaction_response_data(|data| {
-                data.embed(responses::kind_error_embed(bot_data.support_channel_id))
-            })
+        .create_followup_message(&context.http, |message| {
+            message.embed(responses::kind_error_embed(bot_data.support_channel_id))
         })
         .await?;
 

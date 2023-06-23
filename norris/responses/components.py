@@ -16,8 +16,8 @@ class InstructionsContinueView(View):
     async def instructions_continue_clicked(self,
                                             _: Button,
                                             interaction: Interaction) -> None:
-        await component_interaction.instructions_continue_clicked(interaction,
-                                                                  self._norris)
+        await component_interaction.on_instructions_continue_clicked(interaction,
+                                                                     self._norris)
 
 
 class OpenDirectMessagesView(View):

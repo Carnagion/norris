@@ -6,8 +6,8 @@ from ..model import Registration, RegistrationStatus
 from ..responses import request_name_embed
 
 
-async def instructions_continue_clicked(interaction: Interaction,
-                                        norris: Norris) -> None:
+async def on_instructions_continue_clicked(interaction: Interaction,
+                                           norris: Norris) -> None:
     # Defer response to give time for database queries
     await interaction.response.defer()
 

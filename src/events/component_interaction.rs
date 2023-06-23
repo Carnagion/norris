@@ -12,29 +12,40 @@ pub async fn message_component_interacted(
     // Defer the response to allow time for database queries
     component_interaction.defer(&context.http).await?;
 
-    match component_interaction.data.custom_id.as_str() {
+    // Try to get the user's registration status
+    let registration_status = sqlx::query!(
+        "select status, name, kind from registrations where user_id = ?",
+        component_interaction.user.id.0,
+    )
+    .try_map(|row| RegistrationStatus::from_columns(row.status, row.name, row.kind))
+    .fetch_optional(&bot_data.database_pool)
+    .await?;
+
+    let component_id = component_interaction.data.custom_id.as_str();
+
+    match (component_id, registration_status) {
         // User has started registration
-        responses::INSTRUCTIONS_CONTINUE => {
+        (responses::INSTRUCTIONS_CONTINUE, Some(RegistrationStatus::Unregistered)) => {
             instructions_continue_clicked(context, component_interaction, bot_data).await
         },
         // User has confirmed their name
-        responses::NAME_CONFIRM_YES => {
+        (responses::NAME_CONFIRM_YES, Some(RegistrationStatus::NameEntered(_))) => {
             name_confirm_yes_clicked(context, component_interaction, bot_data).await
         },
         // User wants to enter a different name
-        responses::NAME_CONFIRM_NO => {
+        (responses::NAME_CONFIRM_NO, Some(RegistrationStatus::NameEntered(_))) => {
             name_confirm_no_clicked(context, component_interaction, bot_data).await
         },
         // User has confirmed their kind
-        responses::KIND_CONFIRM_YES => {
+        (responses::KIND_CONFIRM_YES, Some(RegistrationStatus::KindFound(_, _))) => {
             kind_confirm_yes_clicked(context, component_interaction, bot_data).await
         },
         // User has been incorrectly detected as the wrong kind
-        responses::KIND_CONFIRM_NO => {
+        (responses::KIND_CONFIRM_NO, Some(RegistrationStatus::KindFound(_, _))) => {
             kind_confirm_no_clicked(context, component_interaction, bot_data).await
         },
         // User has been registered and is continuing on to pronouns and housing
-        responses::OPTIONAL_CONTINUE => {
+        (responses::OPTIONAL_CONTINUE, Some(RegistrationStatus::Registered)) => {
             optional_continue_clicked(context, component_interaction).await
         },
         _ => Ok(()),
@@ -198,28 +209,16 @@ async fn kind_confirm_no_clicked(
     Ok(())
 }
 
-async fn request_kind_confirm(
+async fn optional_continue_clicked(
     context: &Context,
     component_interaction: &MessageComponentInteraction,
-    bot_data: &BotData,
-    verified_user: VerifiedUser,
 ) -> BotResult<()> {
-    // Update the user's registration state to name confirmed
-    sqlx::query!(
-        "update registrations set status = ?, kind = ? where user_id = ?", // NOTE: Name should have been set when name entered
-        RegistrationStatus::KindFound(verified_user.name, verified_user.kind).to_string(),
-        verified_user.kind.to_string(),
-        component_interaction.user.id.0,
-    )
-    .execute(&bot_data.database_pool)
-    .await?;
-
-    // Ask the user to confirm their kind
+    // Ask the user their pronouns
     component_interaction
         .create_followup_message(&context.http, |message| {
             message
-                .embed(responses::confirm_kind_embed(verified_user.kind))
-                .components(responses::confirm_kind_buttons())
+                .embed(responses::pronouns_embed())
+                .components(responses::pronouns_buttons())
         })
         .await?;
 
@@ -250,16 +249,28 @@ async fn name_confirm_error(
     Ok(())
 }
 
-async fn optional_continue_clicked(
+async fn request_kind_confirm(
     context: &Context,
     component_interaction: &MessageComponentInteraction,
+    bot_data: &BotData,
+    verified_user: VerifiedUser,
 ) -> BotResult<()> {
-    // Ask the user their pronouns
+    // Update the user's registration state to name confirmed
+    sqlx::query!(
+        "update registrations set status = ?, kind = ? where user_id = ?", // NOTE: Name should have been set when name entered
+        RegistrationStatus::KindFound(verified_user.name, verified_user.kind).to_string(),
+        verified_user.kind.to_string(),
+        component_interaction.user.id.0,
+    )
+    .execute(&bot_data.database_pool)
+    .await?;
+
+    // Ask the user to confirm their kind
     component_interaction
         .create_followup_message(&context.http, |message| {
             message
-                .embed(responses::pronouns_embed())
-                .components(responses::pronouns_buttons())
+                .embed(responses::confirm_kind_embed(verified_user.kind))
+                .components(responses::confirm_kind_buttons())
         })
         .await?;
 

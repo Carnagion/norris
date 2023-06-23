@@ -12,7 +12,7 @@ from ..responses import (
 )
 
 
-async def on_member_join(norris: Norris, member: Member) -> None:
+async def on_member_join(member: Member, norris: Norris) -> None:
     # Ignore bots
     if member.bot:
         return

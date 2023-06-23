@@ -5,8 +5,8 @@ from ..bot import Norris
 from ..model import Registration, VerifiedUser
 
 
-async def on_raw_member_remove(norris: Norris,
-                               member_removed: RawMemberRemoveEvent) -> None:
+async def on_raw_member_remove(member_removed: RawMemberRemoveEvent,
+                               norris: Norris) -> None:
     # Ignore bots
     if member_removed.user.bot:
         return

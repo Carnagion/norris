@@ -39,3 +39,11 @@ def request_name_embed() -> Embed:
         description="Please enter your **name** exactly as when you applied to the "
                     "University.",
     )
+
+
+def confirm_name_embed(name: str) -> Embed:
+    return Embed(
+        title="Registration",
+        colour=Colour.blurple(),
+        description=f"You entered the name **{name}**. Is that correct?",
+    )

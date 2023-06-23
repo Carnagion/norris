@@ -32,3 +32,24 @@ def open_dm_button() -> Button:
     return Button(label="Open direct messages",
                   style=ButtonStyle.link,
                   url="https://discord.com/channels/@me")
+
+
+class NameConfirmView(View):
+    _norris: Norris
+
+    def __init__(self, norris: Norris) -> None:
+        super().__init__()
+        self._norris = norris
+
+    @button(label="Yes", style=ButtonStyle.green)
+    async def name_confirmed(self,
+                             _: Button,
+                             interaction: Interaction) -> None:
+        # TODO: add logic for handling name confirmation
+        pass
+
+    async def name_denied(self,
+                          _: Button,
+                          interaction: Interaction) -> None:
+        # TODO: add logic for handling name denied
+        pass

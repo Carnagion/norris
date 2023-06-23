@@ -1,13 +1,23 @@
 from discord import ButtonStyle, Interaction
 from discord.ui import Button, View, button
 
+from ..bot import Norris
+from ..events import component_interaction
+
 
 class InstructionsContinueView(View):
+    _norris: Norris
+
+    def __init__(self, norris: Norris) -> None:
+        super().__init__()
+        self._norris = norris
+
     @button(label="Continue", style=ButtonStyle.primary)
     async def instructions_continue_clicked(self,
                                             _: Button,
                                             interaction: Interaction) -> None:
-        pass
+        await component_interaction.instructions_continue_clicked(interaction,
+                                                                  self._norris)
 
 
 class OpenDirectMessagesView(View):

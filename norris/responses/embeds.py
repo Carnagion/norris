@@ -30,3 +30,12 @@ def instructions_error_embed(user_id: int, support_channel_id: int) -> Embed:
                     f"sending you instructions. Please seek assistance in <#"
                     f"{support_channel_id}>.",
     )
+
+
+def request_name_embed() -> Embed:
+    return Embed(
+        title="Registration",
+        colour=Colour.blurple(),
+        description="Please enter your **name** exactly as when you applied to the "
+                    "University.",
+    )

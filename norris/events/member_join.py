@@ -31,7 +31,7 @@ async def on_member_join(norris: Norris, member: Member) -> None:
         # Try sending instructions in DMs
         await member.send(
             embed=instructions_embed(member.id),
-            view=InstructionsContinueView(),
+            view=InstructionsContinueView(norris),
         )
     except (Forbidden, HTTPException):
         # Inform user if they could not be DMed

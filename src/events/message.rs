@@ -48,6 +48,7 @@ async fn request_confirm_name(
             message
                 .embed(responses::confirm_name_embed(&name_message.content))
                 .components(responses::confirm_name_buttons())
+                .reference_message(name_message)
         })
         .await?;
 

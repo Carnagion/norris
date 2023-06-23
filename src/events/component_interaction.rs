@@ -29,6 +29,8 @@ pub async fn message_component_interacted(
         },
         // User has been incorrectly detected as the wrong kind
         responses::KIND_CONFIRM_NO => kind_denied(context, component_interaction, bot_data).await,
+        // User has been registered and is continuing on to pronouns and housing
+        responses::OPTIONAL_CONTINUE => ask_pronouns(context, component_interaction).await,
         _ => Ok(()),
     }
 }
@@ -236,6 +238,22 @@ async fn kind_denied(
     component_interaction
         .create_followup_message(&context.http, |message| {
             message.embed(responses::kind_error_embed(bot_data.support_channel_id))
+        })
+        .await?;
+
+    Ok(())
+}
+
+async fn ask_pronouns(
+    context: &Context,
+    component_interaction: &MessageComponentInteraction,
+) -> BotResult<()> {
+    // Ask the user their pronouns
+    component_interaction
+        .create_followup_message(&context.http, |message| {
+            message
+                .embed(responses::pronouns_embed())
+                .components(responses::pronouns_buttons())
         })
         .await?;
 

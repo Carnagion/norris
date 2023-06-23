@@ -44,6 +44,72 @@ pub fn registered_continue_button() -> impl FnOnce(&mut CreateComponents) -> &mu
     button_continue(OPTIONAL_CONTINUE)
 }
 
+pub const PRONOUNS_HE_HIM: &str = "pronouns-he-him";
+
+pub const PRONOUNS_SHE_HER: &str = "pronouns-she-her";
+
+pub const PRONOUNS_THEY_THEM: &str = "pronouns-they-them";
+
+pub const PRONOUNS_XE_XEM: &str = "pronouns-xe-xem";
+
+pub const PRONOUNS_ANY: &str = "pronouns-any";
+
+pub const PRONOUNS_ASK: &str = "pronouns-ask";
+
+pub const PRONONS_SKIP: &str = "pronouns-skip";
+
+pub fn pronouns_buttons() -> impl FnOnce(&mut CreateComponents) -> &mut CreateComponents {
+    |comp| {
+        comp.create_action_row(|row| {
+            row.create_button(|button| {
+                button
+                    .label("He / Him")
+                    .custom_id(PRONOUNS_HE_HIM)
+                    .style(ButtonStyle::Primary)
+            })
+            .create_button(|button| {
+                button
+                    .label("She / Her")
+                    .custom_id(PRONOUNS_SHE_HER)
+                    .style(ButtonStyle::Primary)
+            })
+            .create_button(|button| {
+                button
+                    .label("They / Them")
+                    .custom_id(PRONOUNS_THEY_THEM)
+                    .style(ButtonStyle::Primary)
+            })
+            .create_button(|button| {
+                button
+                    .label("Xe / Xem")
+                    .custom_id(PRONOUNS_XE_XEM)
+                    .style(ButtonStyle::Primary)
+            })
+            .create_button(|button| {
+                button
+                    .label("Any")
+                    .custom_id(PRONOUNS_ANY)
+                    .style(ButtonStyle::Primary)
+            })
+        })
+        // NOTE: An action row can only hold up to five buttons
+        .create_action_row(|row| {
+            row.create_button(|button| {
+                button
+                    .label("Ask me")
+                    .custom_id(PRONOUNS_ASK)
+                    .style(ButtonStyle::Secondary)
+            })
+            .create_button(|button| {
+                button
+                    .label("Skip")
+                    .custom_id(PRONONS_SKIP)
+                    .style(ButtonStyle::Danger)
+            })
+        })
+    }
+}
+
 fn button_continue(
     id: &'static str,
 ) -> impl FnOnce(&mut CreateComponents) -> &mut CreateComponents {

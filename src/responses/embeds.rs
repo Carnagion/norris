@@ -138,3 +138,13 @@ pub fn registered_continue_embed(
             ))
     }
 }
+
+pub fn pronouns_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+    |embed| {
+        embed.title("Pronouns").colour(BLURPLE).description(
+            "What are your pronouns? \
+            Please note that this helps others understand how best to address you, \
+            and will only be displayed via a role on your server profile.",
+        )
+    }
+}

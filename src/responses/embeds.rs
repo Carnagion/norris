@@ -129,7 +129,7 @@ pub fn registered_continue_embed(
             .title("Registration")
             .colour(POSITIVE)
             .description(format!(
-                "Thank you for your patiance! \
+                "Thank you for your patience! \
                 Your registration is now **complete**. \
                 You can head over to <#{}> to chat with your new course peers and mentors. \
                 However, before you go, we still have a few questions for you regarding your pronouns and accommodation. \

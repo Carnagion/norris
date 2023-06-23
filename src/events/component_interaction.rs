@@ -85,7 +85,7 @@ async fn name_confirmed(
 
     // Try to find a matching name
     let verified_user = sqlx::query!(
-        "select * from users where name = ? and registered_user_id = null order by kind limit 1",
+        "select * from users where name = ? and registered_user_id is null order by kind limit 1",
         user_name,
     )
     .try_map(|row| VerifiedUser::from_columns(row.name, row.kind, row.registered_user_id))

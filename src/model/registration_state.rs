@@ -31,7 +31,7 @@ impl Registration {
 }
 
 #[derive(Clone, Debug, Default, Display, EnumString, Eq, Hash, PartialEq)]
-#[strum(serialize_all = "snake_case")]
+#[strum(serialize_all = "SCREAMING_SNAKE_CASE")]
 pub enum RegistrationStatus {
     #[default]
     Unregistered,

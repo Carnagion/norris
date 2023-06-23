@@ -63,7 +63,7 @@ pub fn confirm_name_embed(name: &str) -> impl FnOnce(&mut CreateEmbed) -> &mut C
             .title("Registration")
             .colour(BLURPLE)
             .description(format!(
-                "You entered the name `{}`. \
+                "You entered the name **{}**. \
                 Is that correct?",
                 name
             ))

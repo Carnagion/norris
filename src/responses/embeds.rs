@@ -65,7 +65,22 @@ pub fn confirm_name_embed(name: &str) -> impl FnOnce(&mut CreateEmbed) -> &mut C
             .description(format!(
                 "You entered the name **{}**. \
                 Is that correct?",
-                name
+                name,
+            ))
+    }
+}
+
+pub fn no_name_error_embed(
+    support_channel_id: ChannelId,
+) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+    move |embed| {
+        embed
+            .title("Registration")
+            .colour(DANGER)
+            .description(format!(
+                "Unfortunately, we don't have that name in our system. \
+                Please seek assistance in <#{}>.",
+                support_channel_id,
             ))
     }
 }
@@ -76,7 +91,7 @@ pub fn confirm_kind_embed(
     move |embed| {
         embed
             .title("Registration")
-            .color(BLURPLE)
+            .colour(BLURPLE)
             .description(format!(
                 "We've detected that you are a **{}**. \
                 Is that correct?",

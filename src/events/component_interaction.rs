@@ -62,21 +62,10 @@ async fn name_confirmed(
     component_interaction: &MessageComponentInteraction,
     bot_data: &BotData,
 ) -> BotResult<()> {
-    let user = &component_interaction.user;
-
-    // Update the user's registration state to name confirmed
-    sqlx::query!(
-        "update registrations set status = ? where user_id = ?", // NOTE: Name should have been set when name entered
-        RegistrationStatus::NameConfirmed("".into()).to_string(),
-        user.id.0,
-    )
-    .execute(&bot_data.database_pool)
-    .await?;
-
     // Retrieve the user's name
     let user_name = sqlx::query!(
         "select name from registrations where user_id = ?",
-        user.id.0,
+        component_interaction.user.id.0,
     )
     .fetch_one(&bot_data.database_pool)
     .await?
@@ -93,19 +82,62 @@ async fn name_confirmed(
     .await?;
 
     match verified_user {
-        // Ask the user to confirm their kind
-        Some(verified_user) => {
-            component_interaction
-                .create_followup_message(&context.http, |message| {
-                    message
-                        .embed(responses::confirm_kind_embed(verified_user.kind))
-                        .components(responses::confirm_kind_buttons())
-                })
-                .await?;
-        },
         // No matching name was found
-        None => {},
+        None => no_name_error(context, component_interaction, bot_data).await,
+        // Confirm the user's kind
+        Some(verified_user) => {
+            request_confirm_name(context, component_interaction, bot_data, verified_user).await
+        },
     }
+}
+
+async fn request_confirm_name(
+    context: &Context,
+    component_interaction: &MessageComponentInteraction,
+    bot_data: &BotData,
+    verified_user: VerifiedUser,
+) -> BotResult<()> {
+    // Update the user's registration state to name confirmed
+    sqlx::query!(
+        "update registrations set status = ? where user_id = ?", // NOTE: Name should have been set when name entered
+        RegistrationStatus::NameConfirmed("".into()).to_string(),
+        component_interaction.user.id.0,
+    )
+    .execute(&bot_data.database_pool)
+    .await?;
+
+    // Ask the user to confirm their kind
+    component_interaction
+        .create_followup_message(&context.http, |message| {
+            message
+                .embed(responses::confirm_kind_embed(verified_user.kind))
+                .components(responses::confirm_kind_buttons())
+        })
+        .await?;
+
+    Ok(())
+}
+
+async fn no_name_error(
+    context: &Context,
+    component_interaction: &MessageComponentInteraction,
+    bot_data: &BotData,
+) -> BotResult<()> {
+    // Update the user's registration state to failed
+    sqlx::query!(
+        "update registrations set status = ? where user_id = ?", // NOTE: Name should have been set when name entered
+        RegistrationStatus::Failed.to_string(),
+        component_interaction.user.id.0,
+    )
+    .execute(&bot_data.database_pool)
+    .await?;
+
+    // Ask the user to seek assistance
+    component_interaction
+        .create_followup_message(&context.http, |message| {
+            message.embed(responses::no_name_error_embed(bot_data.support_channel_id))
+        })
+        .await?;
 
     Ok(())
 }
@@ -141,6 +173,17 @@ async fn kind_confirmed(
     component_interaction: &MessageComponentInteraction,
     bot_data: &BotData,
 ) -> BotResult<()> {
+    let user = &component_interaction.user;
+
+    // Confirm the user as registered
+    sqlx::query!(
+        "update registrations set status = ?, name = null where user_id = ?",
+        RegistrationStatus::Registered.to_string(),
+        user.id.0,
+    )
+    .execute(&bot_data.database_pool)
+    .await?;
+
     Ok(())
 }
 

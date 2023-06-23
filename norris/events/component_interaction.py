@@ -3,7 +3,6 @@ from sqlalchemy import update
 
 from ..bot import Norris
 from ..model import Registration, RegistrationStatus
-from ..responses import request_name_embed
 
 
 async def instructions_continue_clicked(interaction: Interaction,
@@ -19,5 +18,6 @@ async def instructions_continue_clicked(interaction: Interaction,
             .values(status=RegistrationStatus.STARTED),
         )
 
+    from ..responses import request_name_embed
     # Ask the user to enter their name
     await interaction.followup.send(embed=request_name_embed())

@@ -184,6 +184,17 @@ async fn kind_confirmed(
     .execute(&bot_data.database_pool)
     .await?;
 
+    // Inform the user of completion and extra optional questions
+    component_interaction
+        .create_followup_message(&context.http, |message| {
+            message
+                .embed(responses::registered_continue_embed(
+                    bot_data.arrival_channel_id,
+                ))
+                .components(responses::registered_continue_button())
+        })
+        .await?;
+
     Ok(())
 }
 

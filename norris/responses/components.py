@@ -42,15 +42,9 @@ class NameConfirmView(View):
         self._norris = norris
 
     @button(label="Yes", style=ButtonStyle.green)
-    async def name_confirmed(self,
-                             _: Button,
-                             interaction: Interaction) -> None:
-        # TODO: add logic for handling name confirmation
-        pass
+    async def name_confirmed(self, _: Button, interaction: Interaction) -> None:
+        await component_interaction.name_confirmed(interaction, self._norris)
 
     @button(label="No", style=ButtonStyle.red)
-    async def name_denied(self,
-                          _: Button,
-                          interaction: Interaction) -> None:
-        await component_interaction.name_denied(interaction,
-                                                self._norris)
+    async def name_denied(self, _: Button, interaction: Interaction) -> None:
+        await component_interaction.name_denied(interaction, self._norris)

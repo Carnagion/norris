@@ -47,3 +47,12 @@ def confirm_name_embed(name: str) -> Embed:
         colour=Colour.blurple(),
         description=f"You entered the name **{name}**. Is that correct?",
     )
+
+
+def no_name_error_embed(support_channel_id: int) -> Embed:
+    return Embed(
+        title="Registration",
+        colour=Colour.red(),
+        description=f"Unfortunately, we don't have that name in our system. Please "
+                    f"seek assistance in <#{support_channel_id}>.",
+    )

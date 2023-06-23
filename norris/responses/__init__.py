@@ -1,3 +1,6 @@
-from .components import OpenDirectMessagesView, InstructionsContinueView
-from .embeds import instructions_embed, instructions_sent_embed, \
-    instructions_error_embed
+from .components import InstructionsContinueView, OpenDirectMessagesView
+from .embeds import (
+    instructions_embed,
+    instructions_error_embed,
+    instructions_sent_embed,
+)

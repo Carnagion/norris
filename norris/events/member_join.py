@@ -3,8 +3,13 @@ from sqlalchemy import insert
 
 from ..bot import Norris
 from ..model import Registration, RegistrationStatus
-from ..responses import instructions_embed, instructions_sent_embed, \
-    instructions_error_embed, OpenDirectMessagesView, InstructionsContinueView
+from ..responses import (
+    InstructionsContinueView,
+    OpenDirectMessagesView,
+    instructions_embed,
+    instructions_error_embed,
+    instructions_sent_embed,
+)
 
 
 async def on_member_join(norris: Norris, member: Member) -> None:

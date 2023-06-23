@@ -71,7 +71,9 @@ class KindFound(Registration):
                                       # NOTE: will be null if the row is another variant
                                       nullable=True,
                                       use_existing_column=True)
-    kind: Mapped[VerifiedUserKind]
+    kind: Mapped[VerifiedUserKind] = mapped_column(
+        # NOTE: will be null if the row is another variant
+        nullable=True)
 
     __mapper_args__ = {
         "polymorphic_identity": RegistrationStatus.KIND_FOUND,

@@ -52,5 +52,5 @@ class NameConfirmView(View):
     async def name_denied(self,
                           _: Button,
                           interaction: Interaction) -> None:
-        # TODO: add logic for handling name denied
-        pass
+        await component_interaction.name_denied(interaction,
+                                                self._norris)

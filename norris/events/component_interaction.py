@@ -36,6 +36,7 @@ async def name_confirmed(interaction: Interaction, norris: Norris) -> None:
             .where(Registration.user_id == interaction.user.id)
             .limit(1),
         )
+        # FIXME: I have no clue
         user_name = result.one().name  # NOTE: this should be a NameEntered
 
         # Try to find a matching user who is not registered

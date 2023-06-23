@@ -31,7 +31,7 @@ impl Registration {
 }
 
 #[derive(Clone, Debug, Default, Display, EnumString, Eq, Hash, PartialEq)]
-#[strum(serialize_all = "SCREAMING_SNAKE_CASE")]
+#[strum(serialize_all = "SCREAMING_SNAKE_CASE")] // NOTE: MySQL converts enums to SCREAMING_SNAKE automatically for some reason
 pub enum RegistrationStatus {
     #[default]
     Unregistered,

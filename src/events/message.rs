@@ -17,7 +17,7 @@ pub async fn messaged(context: &Context, message: &Message, bot_data: &BotData) 
     match registration_status {
         // User has entered their name and it needs to be confirmed
         Some(RegistrationStatus::Started) if !message.content.is_empty() => {
-            request_confirm_name(context, message, bot_data).await
+            request_name_confirm(context, message, bot_data).await
         },
         // Ignore everything else
         _ => Ok(()),
@@ -26,7 +26,7 @@ pub async fn messaged(context: &Context, message: &Message, bot_data: &BotData) 
     Ok(())
 }
 
-async fn request_confirm_name(
+async fn request_name_confirm(
     context: &Context,
     name_message: &Message,
     bot_data: &BotData,

@@ -41,7 +41,7 @@ impl Norris {
                 event_handler: |context, event, _, bot_data| {
                     Box::pin(events::event_handler(context, event, bot_data))
                 },
-                on_error: |err| Box::pin(async move { log::error!("{}", err) }), // TODO: Use a dedicated error handler
+                on_error: |err| Box::pin(async move { log::error!("{:?}", err) }), // TODO: Use a dedicated error handler
                 ..FrameworkOptions::default()
             })
             .setup(move |context, _, framework| {

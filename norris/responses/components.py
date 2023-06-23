@@ -48,6 +48,7 @@ class NameConfirmView(View):
         # TODO: add logic for handling name confirmation
         pass
 
+    @button(label="No", style=ButtonStyle.red)
     async def name_denied(self,
                           _: Button,
                           interaction: Interaction) -> None:

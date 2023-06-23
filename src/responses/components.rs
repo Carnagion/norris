@@ -38,10 +38,10 @@ pub fn confirm_kind_buttons() -> impl FnOnce(&mut CreateComponents) -> &mut Crea
     buttons_yes_no(KIND_CONFIRM_YES, KIND_CONFIRM_NO)
 }
 
-pub const OPTIONAL_CONTINUE: &str = "optional-continue";
+pub const REGISTERED_CONTINUE: &str = "registered-continue";
 
 pub fn registered_continue_button() -> impl FnOnce(&mut CreateComponents) -> &mut CreateComponents {
-    button_continue(OPTIONAL_CONTINUE)
+    button_continue(REGISTERED_CONTINUE)
 }
 
 pub const PRONOUNS_HE_HIM: &str = "pronouns-he-him";

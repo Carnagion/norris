@@ -43,9 +43,10 @@ impl FromRow<'_, MySqlRow> for VerifiedUser {
     }
 }
 
-#[derive(Clone, Copy, Debug, Display, EnumString, Eq, Hash, PartialEq)]
-#[strum(serialize_all = "SCREAMING_SNAKE_CASE")] // NOTE: MySQL converts enums to SCREAMING_SNAKE automatically for some reason
+#[derive(Clone, Copy, Debug, Default, Display, EnumString, Eq, Hash, PartialEq)]
+#[strum(serialize_all = "SCREAMING_SNAKE_CASE")]
 pub enum VerifiedUserKind {
+    #[default]
     Undergrad,
     Postgrad,
     Mentor,

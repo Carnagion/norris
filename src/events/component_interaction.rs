@@ -64,7 +64,7 @@ async fn name_confirmed(
 ) -> BotResult<()> {
     // Retrieve the user's name
     let user_name = sqlx::query!(
-        "select name from registrations where user_id = ?",
+        "select name from registrations where user_id = ? limit 1",
         component_interaction.user.id.0,
     )
     .fetch_one(&bot_data.database_pool)
@@ -72,7 +72,7 @@ async fn name_confirmed(
     .name
     .unwrap(); // PANICS: This should have been set in the previous state and will always exist
 
-    // Try to find a matching name
+    // Try to find a matching user
     let verified_user = sqlx::query!(
         "select * from users where name = ? and registered_user_id is null order by kind limit 1",
         user_name,
@@ -86,12 +86,12 @@ async fn name_confirmed(
         None => no_name_error(context, component_interaction, bot_data).await,
         // Confirm the user's kind
         Some(verified_user) => {
-            request_confirm_name(context, component_interaction, bot_data, verified_user).await
+            request_confirm_kind(context, component_interaction, bot_data, verified_user).await
         },
     }
 }
 
-async fn request_confirm_name(
+async fn request_confirm_kind(
     context: &Context,
     component_interaction: &MessageComponentInteraction,
     bot_data: &BotData,
@@ -99,8 +99,9 @@ async fn request_confirm_name(
 ) -> BotResult<()> {
     // Update the user's registration state to name confirmed
     sqlx::query!(
-        "update registrations set status = ? where user_id = ?", // NOTE: Name should have been set when name entered
-        RegistrationStatus::NameConfirmed("".into()).to_string(),
+        "update registrations set status = ?, kind = ? where user_id = ?", // NOTE: Name should have been set when name entered
+        RegistrationStatus::KindFound(verified_user.name, verified_user.kind).to_string(),
+        verified_user.kind.to_string(),
         component_interaction.user.id.0,
     )
     .execute(&bot_data.database_pool)
@@ -125,7 +126,7 @@ async fn no_name_error(
 ) -> BotResult<()> {
     // Update the user's registration state to failed
     sqlx::query!(
-        "update registrations set status = ? where user_id = ?", // NOTE: Name should have been set when name entered
+        "update registrations set status = ?, name = null where user_id = ?",
         RegistrationStatus::Failed.to_string(),
         component_interaction.user.id.0,
     )
@@ -175,11 +176,28 @@ async fn kind_confirmed(
 ) -> BotResult<()> {
     let user = &component_interaction.user;
 
+    let registration = sqlx::query!(
+        "select name, kind from registrations where user_id = ? limit 1",
+        user.id.0,
+    )
+    .fetch_one(&bot_data.database_pool)
+    .await?;
+
     // Confirm the user as registered
     sqlx::query!(
-        "update registrations set status = ?, name = null where user_id = ?",
+        "update registrations set status = ?, name = null, kind = null where user_id = ?",
         RegistrationStatus::Registered.to_string(),
         user.id.0,
+    )
+    .execute(&bot_data.database_pool)
+    .await?;
+
+    // Link the user's account to the verified user
+    sqlx::query!(
+        "update users set registered_user_id = ? where name = ? and kind = ? limit 1", // NOTE: Only one user should be registered
+        user.id.0,
+        registration.name,
+        registration.kind,
     )
     .execute(&bot_data.database_pool)
     .await?;

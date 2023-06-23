@@ -1,14 +1,22 @@
 create table if not exists registrations (
     user_id bigint unsigned not null primary key,
     status enum(
-        "unregistered",
-        "started",
-        "name_entered",
-        "name_confirmed",
-        "registered",
-        "pronouns_picked",
-        "housing_picked",
-        "failed"
+        "UNREGISTERED",
+        "STARTED",
+        "NAME_ENTERED",
+        "KIND_FOUND",
+        "REGISTERED",
+        "PRONOUNS_PICKED",
+        "HOUSING_PICKED",
+        "FAILED"
     ) not null default "unregistered",
-    name varchar(1024) null
+    name varchar(1024) null,
+    kind enum(
+        "UNDERGRAD",
+        "POSTGRAD",
+        "MENTOR",
+        "SENIOR_MENTOR",
+        "HONORARY_MENTOR",
+        "FACULTY"
+    ) null
 );

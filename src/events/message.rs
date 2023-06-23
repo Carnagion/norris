@@ -7,10 +7,10 @@ use crate::{prelude::*, responses};
 pub async fn messaged(context: &Context, message: &Message, bot_data: &BotData) -> BotResult<()> {
     // Try to get the user's registration status
     let registration_status = sqlx::query!(
-        "select status, name from registrations where user_id = ?",
+        "select status, name, kind from registrations where user_id = ?",
         message.author.id.0,
     )
-    .try_map(|row| RegistrationStatus::from_columns(row.status, row.name))
+    .try_map(|row| RegistrationStatus::from_columns(row.status, row.name, row.kind))
     .fetch_optional(&bot_data.database_pool)
     .await?;
 

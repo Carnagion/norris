@@ -11,7 +11,7 @@ pub async fn guild_member_added(
 ) -> BotResult<()> {
     // Add the member as unregistered to the table of registration info
     sqlx::query!(
-        "insert into registrations value (?, ?, null)",
+        "insert into registrations value (?, ?, null, null)",
         member.user.id.0,
         RegistrationStatus::Unregistered.to_string(),
     )

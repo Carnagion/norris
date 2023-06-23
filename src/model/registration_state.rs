@@ -10,6 +10,8 @@ use strum::{Display, EnumString};
 
 use thiserror::Error;
 
+use crate::prelude::*;
+
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub struct Registration {
     pub user_id: UserId,
@@ -21,8 +23,9 @@ impl Registration {
         user_id: u64,
         status: String,
         name: Option<String>,
+        kind: Option<String>,
     ) -> Result<Self, SqlError> {
-        let status = RegistrationStatus::from_columns(status, name)?;
+        let status = RegistrationStatus::from_columns(status, name, kind)?;
         Ok(Self {
             user_id: UserId(user_id),
             status,
@@ -30,14 +33,14 @@ impl Registration {
     }
 }
 
-#[derive(Clone, Debug, Default, Display, EnumString, Eq, Hash, PartialEq)]
-#[strum(serialize_all = "SCREAMING_SNAKE_CASE")] // NOTE: MySQL converts enums to SCREAMING_SNAKE automatically for some reason
+#[derive(Clone, Debug, Display, Default, EnumString, Eq, Hash, PartialEq)]
+#[strum(serialize_all = "SCREAMING_SNAKE_CASE")]
 pub enum RegistrationStatus {
     #[default]
     Unregistered,
     Started,
     NameEntered(String),
-    NameConfirmed(String),
+    KindFound(String, VerifiedUserKind),
     Registered,
     PronounsPicked,
     HousingPicked,
@@ -52,23 +55,32 @@ impl RegistrationStatus {
         )
     }
 
-    pub fn from_columns(status: String, name: Option<String>) -> Result<Self, SqlError> {
-        Self::from_parts(&status, name).map_err(|error| SqlError::ColumnDecode {
+    pub fn from_columns(
+        status: String,
+        name: Option<String>,
+        kind: Option<String>,
+    ) -> Result<Self, SqlError> {
+        Self::from_parts(&status, name, kind).map_err(|error| SqlError::ColumnDecode {
             index: "status".to_owned(),
             source: Box::new(error),
         })
     }
 
-    fn from_parts(status: &str, name: Option<String>) -> Result<Self, DecodeRegistrationError> {
+    fn from_parts(
+        status: &str,
+        name: Option<String>,
+        kind: Option<String>,
+    ) -> Result<Self, DecodeRegistrationError> {
         let this = Self::from_str(status).map_err(|_| DecodeRegistrationError::UnknownStatus)?;
-        match (this, name) {
-            (Self::NameEntered(_), Some(name)) => Ok(Self::NameEntered(name)),
-            (Self::NameConfirmed(_), Some(name)) => Ok(Self::NameConfirmed(name)),
-            (Self::NameEntered(_) | Self::NameConfirmed(_), None) => {
-                Err(DecodeRegistrationError::MissingData)
-            },
-            (this, None) => Ok(this),
-            (_, Some(_)) => Err(DecodeRegistrationError::InvalidDataCombination),
+        match (this, name, kind) {
+            (Self::NameEntered(_), Some(name), None) => Ok(Self::NameEntered(name)),
+            (Self::KindFound(_, _), Some(name), Some(kind)) => Ok(Self::KindFound(
+                name,
+                VerifiedUserKind::from_str(&kind)
+                    .map_err(|_| DecodeRegistrationError::UnknownKind)?,
+            )),
+            (this, None, None) => Ok(this),
+            (_, _, _) => Err(DecodeRegistrationError::InvalidDataCombination),
         }
     }
 }
@@ -79,16 +91,17 @@ impl FromRow<'_, MySqlRow> for Registration {
             row.try_get("user_id")?,
             row.try_get("status")?,
             row.try_get("name")?,
+            row.try_get("kind")?,
         )
     }
 }
 
 #[derive(Clone, Copy, Debug, Eq, Error, Hash, PartialEq)]
 enum DecodeRegistrationError {
-    #[error("missing data associated with status")]
-    MissingData,
     #[error("invalid combination of status and data")]
     InvalidDataCombination,
     #[error("unknown status")]
     UnknownStatus,
+    #[error("unknown user kind")]
+    UnknownKind,
 }

@@ -11,7 +11,6 @@ async def on_raw_member_remove(member_removed: RawMemberRemoveEvent,
     if member_removed.user.bot:
         return
 
-    # FIXME: none of these (or any other queries made here) execute
     async with norris.database_engine.begin() as connection:
         # Set their registered user ID to null if they were registered
         await connection.execute(

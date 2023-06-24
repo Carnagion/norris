@@ -51,7 +51,9 @@ pub async fn pronouns_skip_clicked(
     // Ask the user to pick housing
     component_interaction
         .create_followup_message(&context.http, |message| {
-            message.embed(responses::housing_embed())
+            message
+                .embed(responses::housing_embed())
+                .components(responses::housing_buttons())
         })
         .await?;
 

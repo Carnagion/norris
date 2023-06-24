@@ -110,6 +110,63 @@ pub fn pronouns_buttons() -> impl FnOnce(&mut CreateComponents) -> &mut CreateCo
     }
 }
 
+pub const HOUSING_JC_CATERED: &str = "housing-jc-catered";
+
+pub const HOUSING_JC_SELF_CATERED: &str = "housing-jc-self-catered";
+
+pub const HOUSING_UP_CATERED: &str = "housing-up-catered";
+
+pub const HOUSING_UP_SELF_CATERED: &str = "housing-up-self-catered";
+
+pub const HOUSING_PRIVATE: &str = "housing-private";
+
+pub const HOUSING_SKIP: &str = "housing-skip";
+
+pub fn housing_buttons() -> impl FnOnce(&mut CreateComponents) -> &mut CreateComponents {
+    |comp| {
+        comp.create_action_row(|row| {
+            row.create_button(|button| {
+                button
+                    .label("Catered halls (Jubilee)")
+                    .custom_id(HOUSING_JC_CATERED)
+                    .style(ButtonStyle::Primary)
+            })
+            .create_button(|button| {
+                button
+                    .label("Catered halls (University Park)")
+                    .custom_id(HOUSING_UP_CATERED)
+                    .style(ButtonStyle::Primary)
+            })
+            .create_button(|button| {
+                button
+                    .label("Self-catered halls (Jubilee area)")
+                    .custom_id(HOUSING_JC_SELF_CATERED)
+                    .style(ButtonStyle::Primary)
+            })
+            .create_button(|button| {
+                button
+                    .label("Self-catered halls (University Park area)")
+                    .custom_id(HOUSING_UP_SELF_CATERED)
+                    .style(ButtonStyle::Primary)
+            })
+            .create_button(|button| {
+                button
+                    .label("Private housing")
+                    .custom_id(HOUSING_PRIVATE)
+                    .style(ButtonStyle::Primary)
+            })
+        })
+        .create_action_row(|row| {
+            row.create_button(|button| {
+                button
+                    .label("Skip")
+                    .custom_id(HOUSING_SKIP)
+                    .style(ButtonStyle::Danger)
+            })
+        })
+    }
+}
+
 fn button_continue(
     id: &'static str,
 ) -> impl FnOnce(&mut CreateComponents) -> &mut CreateComponents {

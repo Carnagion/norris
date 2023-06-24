@@ -33,6 +33,7 @@ pub struct ChannelsConfig {
 pub struct RolesConfig {
     pub hierarchy: HierarchyRolesConfig,
     pub pronouns: PronounRolesConfig,
+    pub housing: HousingRolesConfig,
 }
 
 #[derive(Clone, Copy, Debug, Deserialize, Eq, Hash, PartialEq, Serialize)]
@@ -46,17 +47,6 @@ pub struct HierarchyRolesConfig {
     pub faculty_role_id: RoleId,
 }
 
-#[derive(Clone, Copy, Debug, Deserialize, Eq, Hash, PartialEq, Serialize)]
-#[serde(rename_all = "kebab-case")]
-pub struct PronounRolesConfig {
-    pub he_him_role_id: RoleId,
-    pub she_her_role_id: RoleId,
-    pub they_them_role_id: RoleId,
-    pub xe_xem_role_id: RoleId,
-    pub any_pronouns_role_id: RoleId,
-    pub ask_pronouns_role_id: RoleId,
-}
-
 impl HierarchyRolesConfig {
     pub fn role(self, kind: VerifiedUserKind) -> RoleId {
         match kind {
@@ -68,4 +58,25 @@ impl HierarchyRolesConfig {
             VerifiedUserKind::Faculty => self.faculty_role_id,
         }
     }
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, Eq, Hash, PartialEq, Serialize)]
+#[serde(rename_all = "kebab-case")]
+pub struct PronounRolesConfig {
+    pub he_him_role_id: RoleId,
+    pub she_her_role_id: RoleId,
+    pub they_them_role_id: RoleId,
+    pub xe_xem_role_id: RoleId,
+    pub any_pronouns_role_id: RoleId,
+    pub ask_pronouns_role_id: RoleId,
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, Eq, Hash, PartialEq, Serialize)]
+#[serde(rename_all = "kebab-case")]
+pub struct HousingRolesConfig {
+    pub jc_catered_role_id: RoleId,
+    pub jc_self_catered_role_id: RoleId,
+    pub up_catered_role_id: RoleId,
+    pub up_self_catered_role_id: RoleId,
+    pub private_house_role_id: RoleId,
 }

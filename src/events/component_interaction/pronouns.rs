@@ -31,10 +31,10 @@ pub async fn pronouns_clicked(
         .await?;
 
     // Move on to housing
-    pronouns_skip_clicked(context, component_interaction, bot_data).await
+    skip_clicked(context, component_interaction, bot_data).await
 }
 
-pub async fn pronouns_skip_clicked(
+pub async fn skip_clicked(
     context: &Context,
     component_interaction: &MessageComponentInteraction,
     bot_data: &BotData,

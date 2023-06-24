@@ -14,6 +14,8 @@ mod registered;
 
 mod pronouns;
 
+mod housing;
+
 pub async fn message_component_interacted(
     context: &Context,
     component_interaction: &MessageComponentInteraction,
@@ -70,7 +72,20 @@ pub async fn message_component_interacted(
         ) => pronouns::pronouns_clicked(context, component_interaction, bot_data, pronoun).await,
         // User has registered and does not want to pick a pronoun
         (responses::PRONONS_SKIP, Some(RegistrationStatus::Registered)) => {
-            pronouns::pronouns_skip_clicked(context, component_interaction, bot_data).await
+            pronouns::skip_clicked(context, component_interaction, bot_data).await
+        },
+        // User has picked or skipped prnouns and is picking housing
+        (
+            housing @ (responses::HOUSING_JC_CATERED
+            | responses::HOUSING_UP_CATERED
+            | responses::HOUSING_JC_SELF_CATERED
+            | responses::HOUSING_UP_SELF_CATERED
+            | responses::HOUSING_PRIVATE),
+            Some(RegistrationStatus::PronounsPicked),
+        ) => housing::housing_clicked(context, component_interaction, bot_data, housing).await,
+        // User has picked or skipped pronouns and does not want to pick housing
+        (responses::HOUSING_SKIP, Some(RegistrationStatus::PronounsPicked)) => {
+            housing::skip_clicked(context, component_interaction, bot_data).await
         },
         _ => Ok(()),
     }

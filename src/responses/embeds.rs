@@ -158,3 +158,20 @@ pub fn housing_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
         )
     }
 }
+
+pub fn registration_finished(
+    chat_channel_id: ChannelId,
+) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+    move |embed| {
+        embed
+            .title("Registration")
+            .colour(POSITIVE)
+            .description(format!(
+                "Thank you for your patience! \
+                We have no additional questions. \
+                If you haven't already done so, \
+                you can head over to <#{}> to chat with your new course peers and mentors.",
+                chat_channel_id,
+            ))
+    }
+}

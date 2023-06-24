@@ -6,6 +6,8 @@ use serde::{Deserialize, Serialize};
 
 use serenity::*;
 
+use crate::prelude::*;
+
 #[derive(Clone, Debug, Deserialize, Eq, Hash, PartialEq, Serialize)]
 #[serde(rename_all = "kebab-case")]
 pub struct NorrisConfig {
@@ -53,4 +55,17 @@ pub struct PronounRolesConfig {
     pub xe_xem_role_id: RoleId,
     pub any_pronouns_role_id: RoleId,
     pub ask_pronouns_role_id: RoleId,
+}
+
+impl HierarchyRolesConfig {
+    pub fn role(self, kind: VerifiedUserKind) -> RoleId {
+        match kind {
+            VerifiedUserKind::Undergrad => self.undergrad_role_id,
+            VerifiedUserKind::Postgrad => self.postgrad_role_id,
+            VerifiedUserKind::Mentor => self.mentor_role_id,
+            VerifiedUserKind::SeniorMentor => self.senior_mentor_role_id,
+            VerifiedUserKind::HonoraryMentor => self.honorary_mentor_role_id,
+            VerifiedUserKind::Faculty => self.faculty_role_id,
+        }
+    }
 }

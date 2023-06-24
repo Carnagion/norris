@@ -82,6 +82,7 @@ async fn setup_bot_data(
 
     Ok(BotData {
         database_pool,
+        guild_id: config.guild_id,
         channels: config.channels,
         roles: config.roles,
     })

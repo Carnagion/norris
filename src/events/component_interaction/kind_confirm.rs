@@ -8,15 +8,10 @@ pub async fn yes_clicked(
     context: &Context,
     component_interaction: &MessageComponentInteraction,
     bot_data: &BotData,
+    name: String,
+    kind: VerifiedUserKind,
 ) -> BotResult<()> {
     let user = &component_interaction.user;
-
-    let registration = sqlx::query!(
-        "select name, kind from registrations where user_id = ? limit 1",
-        user.id.0,
-    )
-    .fetch_one(&bot_data.database_pool)
-    .await?;
 
     // Confirm the user as registered
     sqlx::query!(
@@ -31,11 +26,19 @@ pub async fn yes_clicked(
     sqlx::query!(
         "update users set registered_user_id = ? where name = ? and kind = ? limit 1", // NOTE: Only one user should be registered
         user.id.0,
-        registration.name,
-        registration.kind,
+        name,
+        kind.to_string(),
     )
     .execute(&bot_data.database_pool)
     .await?;
+
+    // Give the user the appropriate role
+    bot_data
+        .guild_id
+        .member(&context.http, user.id)
+        .await?
+        .add_role(&context.http, bot_data.roles.hierarchy.role(kind))
+        .await?;
 
     // Inform the user of completion and extra optional questions
     component_interaction

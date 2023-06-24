@@ -8,21 +8,12 @@ pub async fn yes_clicked(
     context: &Context,
     component_interaction: &MessageComponentInteraction,
     bot_data: &BotData,
+    name: String,
 ) -> BotResult<()> {
-    // Retrieve the user's name
-    let user_name = sqlx::query!(
-        "select name from registrations where user_id = ? limit 1",
-        component_interaction.user.id.0,
-    )
-    .fetch_one(&bot_data.database_pool)
-    .await?
-    .name
-    .unwrap(); // PANICS: This should have been set in the previous state and will always exist
-
     // Try to find a matching user
     let verified_user = sqlx::query!(
         "select * from users where name = ? and registered_user_id is null order by kind limit 1",
-        user_name,
+        name,
     )
     .try_map(|row| VerifiedUser::from_columns(row.name, row.kind, row.registered_user_id))
     .fetch_optional(&bot_data.database_pool)

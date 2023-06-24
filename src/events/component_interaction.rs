@@ -37,16 +37,16 @@ pub async fn message_component_interacted(
             instructions::continue_clicked(context, component_interaction, bot_data).await
         },
         // User has confirmed their name
-        (responses::NAME_CONFIRM_YES, Some(RegistrationStatus::NameEntered(_))) => {
-            name_confirm::yes_clicked(context, component_interaction, bot_data).await
+        (responses::NAME_CONFIRM_YES, Some(RegistrationStatus::NameEntered(name))) => {
+            name_confirm::yes_clicked(context, component_interaction, bot_data, name).await
         },
         // User wants to enter a different name
         (responses::NAME_CONFIRM_NO, Some(RegistrationStatus::NameEntered(_))) => {
             name_confirm::no_clicked(context, component_interaction, bot_data).await
         },
         // User has confirmed their kind
-        (responses::KIND_CONFIRM_YES, Some(RegistrationStatus::KindFound(_, _))) => {
-            kind_confirm::yes_clicked(context, component_interaction, bot_data).await
+        (responses::KIND_CONFIRM_YES, Some(RegistrationStatus::KindFound(name, kind))) => {
+            kind_confirm::yes_clicked(context, component_interaction, bot_data, name, kind).await
         },
         // User has been incorrectly detected as the wrong kind
         (responses::KIND_CONFIRM_NO, Some(RegistrationStatus::KindFound(_, _))) => {

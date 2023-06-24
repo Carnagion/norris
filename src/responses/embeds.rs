@@ -84,7 +84,7 @@ pub fn no_name_error_embed(
             .title("Registration")
             .colour(DANGER)
             .description(format!(
-                "Unfortunately, we don't have that name in our system. \
+                "Unfortunately, we don't have that name in our system, or it has already been registered. \
                 Please seek assistance in <#{}>.",
                 support_channel_id,
             ))

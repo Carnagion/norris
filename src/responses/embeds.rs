@@ -132,6 +132,7 @@ pub fn registered_continue_embed(
                 "Thank you for your patience! \
                 Your registration is now **complete**. \
                 You can head over to <#{}> to chat with your new course peers and mentors. \
+                \
                 However, before you go, we still have a few questions for you regarding your pronouns and accommodation. \
                 Please note that these are completely optional and you can ignore or skip them if you wish to.",
                 chat_channel_id,
@@ -141,9 +142,19 @@ pub fn registered_continue_embed(
 
 pub fn pronouns_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     |embed| {
-        embed.title("Pronouns").colour(BLURPLE).description(
-            "What are your pronouns? \
-            Please note that this helps others understand how best to address you, \
+        embed.title("Registration").colour(BLURPLE).description(
+            "What are your **pronouns**? \
+            This helps others understand how best to address you, \
+            and will only be displayed via a role on your server profile.",
+        )
+    }
+}
+
+pub fn housing_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+    |embed| {
+        embed.title("Registration").colour(BLURPLE).description(
+            "What kind of **accommodation** will you be staying in? \
+            This helps you find others staying in the same accommodation or similar types, \
             and will only be displayed via a role on your server profile.",
         )
     }

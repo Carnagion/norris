@@ -12,6 +12,8 @@ mod kind_confirm;
 
 mod registered;
 
+mod pronouns;
+
 pub async fn message_component_interacted(
     context: &Context,
     component_interaction: &MessageComponentInteraction,
@@ -55,6 +57,20 @@ pub async fn message_component_interacted(
         // User has been registered and is continuing on to pronouns and housing
         (responses::REGISTERED_CONTINUE, Some(RegistrationStatus::Registered)) => {
             registered::continue_clicked(context, component_interaction).await
+        },
+        // User has registered and is picking a pronoun
+        (
+            pronoun @ (responses::PRONOUNS_HE_HIM
+            | responses::PRONOUNS_SHE_HER
+            | responses::PRONOUNS_THEY_THEM
+            | responses::PRONOUNS_XE_XEM
+            | responses::PRONOUNS_ANY
+            | responses::PRONOUNS_ASK),
+            Some(RegistrationStatus::Registered),
+        ) => pronouns::pronouns_clicked(context, component_interaction, bot_data, pronoun).await,
+        // User has registered and does not want to pick a pronoun
+        (responses::PRONONS_SKIP, Some(RegistrationStatus::Registered)) => {
+            pronouns::pronouns_skip_clicked(context, component_interaction, bot_data).await
         },
         _ => Ok(()),
     }

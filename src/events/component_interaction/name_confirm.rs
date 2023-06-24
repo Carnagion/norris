@@ -10,6 +10,18 @@ pub async fn yes_clicked(
     bot_data: &BotData,
     name: String,
 ) -> BotResult<()> {
+    // Log the name confirmation
+    bot_data
+        .channels
+        .log_channel_id
+        .send_message(&context.http, |message| {
+            message.embed(responses::name_confirmed_log_embed(
+                component_interaction.user.id,
+                &name,
+            ))
+        })
+        .await?;
+
     // Try to find a matching user
     let verified_user = sqlx::query!(
         "select * from users where name = ? and registered_user_id is null order by kind limit 1",
@@ -31,13 +43,29 @@ pub async fn yes_clicked(
                 component_interaction.user.id,
                 responses::no_name_error_embed(bot_data.channels.support_channel_id),
             )
-            .await
+            .await?;
+
+            // Alert mentors about the name error
+            bot_data
+                .channels
+                .log_channel_id
+                .send_message(&context.http, |message| {
+                    message.embed(responses::no_name_log_embed(
+                        component_interaction.user.id,
+                        &name,
+                        bot_data.channels.support_channel_id,
+                        bot_data.roles.hierarchy.mentor_role_id,
+                    ))
+                })
+                .await?;
         },
-        // Confirm the user's kind
+        // A matching name was found and ask the user to confirm their kind
         Some(verified_user) => {
-            request_kind_confirm(context, component_interaction, bot_data, verified_user).await
+            request_kind_confirm(context, component_interaction, bot_data, verified_user).await?;
         },
     }
+
+    Ok(())
 }
 
 pub async fn no_clicked(

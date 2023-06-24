@@ -51,6 +51,15 @@ pub async fn yes_clicked(
         })
         .await?;
 
+    // Log the completion of registration
+    bot_data
+        .channels
+        .log_channel_id
+        .send_message(&context.http, |message| {
+            message.embed(responses::registered_log_emed(user.id, kind))
+        })
+        .await?;
+
     Ok(())
 }
 
@@ -58,6 +67,7 @@ pub async fn no_clicked(
     context: &Context,
     component_interaction: &MessageComponentInteraction,
     bot_data: &BotData,
+    kind: VerifiedUserKind,
 ) -> BotResult<()> {
     let user = &component_interaction.user;
 
@@ -75,6 +85,20 @@ pub async fn no_clicked(
         .create_followup_message(&context.http, |message| {
             message.embed(responses::kind_error_embed(
                 bot_data.channels.support_channel_id,
+            ))
+        })
+        .await?;
+
+    // Alert the mentors about incorrect kind
+    bot_data
+        .channels
+        .log_channel_id
+        .send_message(&context.http, |message| {
+            message.embed(responses::kind_error_log_embed(
+                user.id,
+                kind,
+                bot_data.channels.support_channel_id,
+                bot_data.roles.hierarchy.mentor_role_id,
             ))
         })
         .await?;

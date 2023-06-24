@@ -18,6 +18,17 @@ pub async fn continue_clicked(
     .execute(&bot_data.database_pool)
     .await?;
 
+    // Log the start of registration
+    bot_data
+        .channels
+        .log_channel_id
+        .send_message(&context.http, |message| {
+            message.embed(responses::registration_started_log_embed(
+                component_interaction.user.id,
+            ))
+        })
+        .await?;
+
     // Ask the user to enter their name
     component_interaction
         .create_followup_message(&context.http, |message| {

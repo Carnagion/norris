@@ -53,8 +53,8 @@ pub async fn message_component_interacted(
             kind_confirm::yes_clicked(context, component_interaction, bot_data, name, kind).await
         },
         // User has been incorrectly detected as the wrong kind
-        (responses::KIND_CONFIRM_NO, Some(RegistrationStatus::KindFound(_, _))) => {
-            kind_confirm::no_clicked(context, component_interaction, bot_data).await
+        (responses::KIND_CONFIRM_NO, Some(RegistrationStatus::KindFound(_, kind))) => {
+            kind_confirm::no_clicked(context, component_interaction, bot_data, kind).await
         },
         // User has been registered and is continuing on to pronouns and housing
         (responses::REGISTERED_CONTINUE, Some(RegistrationStatus::Registered)) => {

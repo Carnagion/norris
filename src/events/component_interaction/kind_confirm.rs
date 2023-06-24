@@ -42,7 +42,7 @@ pub async fn yes_clicked(
         .create_followup_message(&context.http, |message| {
             message
                 .embed(responses::registered_continue_embed(
-                    bot_data.channels.arrival_channel_id,
+                    bot_data.channels.chat_channel_id,
                 ))
                 .components(responses::registered_continue_button())
         })

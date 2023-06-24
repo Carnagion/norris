@@ -62,6 +62,7 @@ async fn notify_instructions_sent(
     bot_data: &BotData,
 ) -> BotResult<()> {
     bot_data
+        .channels
         .arrival_channel_id
         .send_message(&context.http, |message| {
             message
@@ -79,11 +80,12 @@ async fn notify_instructions_error(
     bot_data: &BotData,
 ) -> BotResult<()> {
     bot_data
+        .channels
         .arrival_channel_id
         .send_message(&context.http, |message| {
             message.embed(responses::instructions_error_embed(
                 member.user.id,
-                bot_data.support_channel_id,
+                bot_data.channels.support_channel_id,
             ))
         })
         .await?;

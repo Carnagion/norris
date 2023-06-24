@@ -21,20 +21,15 @@ pub mod events;
 
 mod responses;
 
+pub mod config;
+
 #[derive(Clone)]
 pub struct Norris(Arc<BotFramework>);
 
 impl Norris {
-    pub async fn new(
-        token: impl Into<String>,
-        guild_id: GuildId,
-        database_url: String,
-        arrival_channel_id: ChannelId,
-        support_channel_id: ChannelId,
-        log_channel_id: ChannelId,
-    ) -> BotResult<Self> {
+    pub async fn new(config: NorrisConfig) -> BotResult<Self> {
         let framework = BotFramework::builder()
-            .token(token)
+            .token(&config.bot_token)
             .intents(GatewayIntents::non_privileged() | GatewayIntents::GUILD_MEMBERS)
             .options(FrameworkOptions {
                 commands: vec![], // TODO: Add commands once we actually have them
@@ -45,15 +40,7 @@ impl Norris {
                 ..FrameworkOptions::default()
             })
             .setup(move |context, _, framework| {
-                Box::pin(setup_bot_data(
-                    context,
-                    framework,
-                    guild_id,
-                    database_url,
-                    arrival_channel_id,
-                    support_channel_id,
-                    log_channel_id,
-                ))
+                Box::pin(setup_bot_data(context, framework, config))
             })
             .build()
             .await?;
@@ -69,15 +56,12 @@ impl Norris {
 async fn setup_bot_data(
     context: &Context,
     framework: &BotFramework,
-    guild_id: GuildId,
-    database_url: String,
-    arrival_channel_id: ChannelId,
-    support_channel_id: ChannelId,
-    log_channel_id: ChannelId,
+    config: NorrisConfig,
 ) -> BotResult<BotData> {
     // Register slash commands in the guild
     let commands = builtins::create_application_commands(&framework.options().commands);
-    guild_id
+    config
+        .guild_id
         .set_application_commands(&context.http, |guild_commands| {
             *guild_commands = commands;
             guild_commands
@@ -87,7 +71,7 @@ async fn setup_bot_data(
     // Connect to and setup the database
     let database_pool = MySqlPoolOptions::new()
         .max_connections(25) // TODO: Find an appropriate max number of connections through testing
-        .connect(&database_url)
+        .connect(&config.database_url)
         .await?;
     sqlx::query_file!("queries/create-table-users.sql")
         .execute(&database_pool)
@@ -98,8 +82,7 @@ async fn setup_bot_data(
 
     Ok(BotData {
         database_pool,
-        arrival_channel_id,
-        support_channel_id,
-        log_channel_id,
+        channels: config.channels,
+        roles: config.roles,
     })
 }

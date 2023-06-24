@@ -1,66 +1,26 @@
-use std::{
-    fs::File,
-    path::{Path, PathBuf},
-};
+use std::{fs::File, path::Path};
 
 use anyhow::Result as AnyResult;
-
-use poise::serenity_prelude as serenity;
-
-use serde::Deserialize;
-
-use serenity::*;
 
 use simplelog::{
     ColorChoice, CombinedLogger, Config as LoggerConfig, LevelFilter, TermLogger, TerminalMode,
     WriteLogger,
 };
 
-use norris::Norris;
+use norris::prelude::*;
 
 #[tokio::main]
 async fn main() -> AnyResult<()> {
-    // Load .env files
-    dotenvy::dotenv()?;
-
-    // Parse environment variables
-    let BotArgs {
-        bot_token,
-        guild_id,
-        database_url,
-        arrival_channel_id,
-        support_channel_id,
-        log_channel_id,
-        log_path,
-    } = envy::from_env()?;
+    // Deserialize config file
+    let config = toml::from_str::<NorrisConfig>(include_str!("../norris.toml"))?;
 
     // Setup logging before continuing anything else
-    setup_logger(&log_path).await?;
+    setup_logger(&config.log_path).await?;
 
-    Norris::new(
-        bot_token,
-        guild_id,
-        database_url,
-        arrival_channel_id,
-        support_channel_id,
-        log_channel_id,
-    )
-    .await?
-    .start()
-    .await?;
+    // Create and start bot
+    Norris::new(config).await?.start().await?;
 
     Ok(())
-}
-
-#[derive(Debug, Deserialize)]
-struct BotArgs {
-    bot_token: String,
-    guild_id: GuildId,
-    database_url: String, // NOTE: This is also used by sqlx to check queries at compile time
-    arrival_channel_id: ChannelId,
-    support_channel_id: ChannelId,
-    log_channel_id: ChannelId,
-    log_path: PathBuf,
 }
 
 async fn setup_logger(log_path: impl AsRef<Path>) -> AnyResult<()> {

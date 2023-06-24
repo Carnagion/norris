@@ -42,7 +42,7 @@ pub async fn yes_clicked(
         .create_followup_message(&context.http, |message| {
             message
                 .embed(responses::registered_continue_embed(
-                    bot_data.arrival_channel_id,
+                    bot_data.channels.arrival_channel_id,
                 ))
                 .components(responses::registered_continue_button())
         })
@@ -70,7 +70,9 @@ pub async fn no_clicked(
     // Ask the user to seek assistance
     component_interaction
         .create_followup_message(&context.http, |message| {
-            message.embed(responses::kind_error_embed(bot_data.support_channel_id))
+            message.embed(responses::kind_error_embed(
+                bot_data.channels.support_channel_id,
+            ))
         })
         .await?;
 

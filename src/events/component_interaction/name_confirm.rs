@@ -38,7 +38,7 @@ pub async fn yes_clicked(
                 bot_data,
                 RegistrationStatus::Failed,
                 component_interaction.user.id,
-                responses::no_name_error_embed(bot_data.support_channel_id),
+                responses::no_name_error_embed(bot_data.channels.support_channel_id),
             )
             .await
         },

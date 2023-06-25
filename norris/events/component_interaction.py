@@ -2,7 +2,7 @@ from discord import Interaction
 from sqlalchemy import select, update
 
 from ..bot import Norris
-from ..model import Registration, RegistrationStatus, VerifiedUser, NameEntered
+from ..model import NameEntered, Registration, RegistrationStatus, VerifiedUser
 
 
 async def on_instructions_continue_clicked(interaction: Interaction,

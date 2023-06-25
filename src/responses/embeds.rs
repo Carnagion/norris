@@ -138,7 +138,7 @@ pub fn kind_error_embed(
 }
 
 pub fn registered_continue_embed(
-    chat_channel_id: ChannelId,
+    _chat_channel_id: ChannelId, // TODO: Have a discussion on registration state again
 ) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
         embed

@@ -50,7 +50,7 @@ pub async fn skip_clicked(
     // Inform the user of completion
     component_interaction
         .create_followup_message(&context.http, |message| {
-            message.embed(responses::registration_finished(
+            message.embed(responses::registration_finished_embed(
                 bot_data.channels.chat_channel_id,
             ))
         })

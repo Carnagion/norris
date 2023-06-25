@@ -19,6 +19,9 @@ pub mod model;
 
 pub mod events;
 
+pub mod commands;
+use commands::*;
+
 mod responses;
 
 pub mod config;
@@ -32,7 +35,7 @@ impl Norris {
             .token(&config.bot_token)
             .intents(GatewayIntents::non_privileged() | GatewayIntents::GUILD_MEMBERS)
             .options(FrameworkOptions {
-                commands: vec![], // TODO: Add commands once we actually have them
+                commands: vec![registration()],
                 event_handler: |context, event, _, bot_data| {
                     Box::pin(events::event_handler(context, event, bot_data))
                 },

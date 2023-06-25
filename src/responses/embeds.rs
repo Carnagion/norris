@@ -1,6 +1,6 @@
 use chrono::Utc;
 
-use poise::serenity_prelude as serenity;
+use poise::serenity_prelude::{self as serenity, colours::css::WARNING};
 
 use serenity::{
     colours::{
@@ -181,7 +181,7 @@ pub fn housing_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     }
 }
 
-pub fn registration_finished(
+pub fn registration_finished_embed(
     chat_channel_id: ChannelId,
 ) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
@@ -194,6 +194,21 @@ pub fn registration_finished(
                 If you haven't already done so, \
                 you can head over to <#{}> to chat with your new course peers and mentors.",
                 chat_channel_id,
+            ))
+            .timestamp(Utc::now())
+    }
+}
+
+pub fn registration_nuke_embed(
+    role_id: RoleId,
+) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+    move |embed| {
+        embed
+            .title("Registration")
+            .colour(WARNING)
+            .description(format!(
+                "Nuked the registrations of all users with <@&{}>.",
+                role_id,
             ))
             .timestamp(Utc::now())
     }
@@ -323,6 +338,18 @@ pub fn user_left_log_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> 
                 They have been de-registered.",
                 user_id,
             ))
+            .timestamp(Utc::now())
+    }
+}
+
+pub fn registration_restart_log_embed(
+    user_id: UserId,
+) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+    move |embed| {
+        embed
+            .title("Registration")
+            .colour(WARNING)
+            .description(format!("<@{}> has re-started their registration.", user_id))
             .timestamp(Utc::now())
     }
 }

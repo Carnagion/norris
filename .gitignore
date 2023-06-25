@@ -1,0 +1,9 @@
+# Secrets and configuration
+.env
+norris.toml
+
+# Logs
+*.log
+
+# JetBrains
+.idea/

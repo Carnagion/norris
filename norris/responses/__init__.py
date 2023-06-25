@@ -12,4 +12,5 @@ from .embeds import (
     no_name_error_embed,
     request_name_embed,
     confirm_kind_embed,
+    kind_denied_embed,
 )

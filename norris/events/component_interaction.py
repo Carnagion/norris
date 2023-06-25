@@ -63,7 +63,7 @@ async def name_confirmed(interaction: Interaction, norris: Norris) -> None:
             user_kind = verified_user.kind.description()
             await interaction.user.send(
                 embed=confirm_kind_embed(user_kind),
-                view=KindConfirmView(Norris),
+                view=KindConfirmView(norris),
             )
 
         """match verified_user:
@@ -108,3 +108,23 @@ async def no_name_error(interaction: Interaction, norris: Norris) -> None:
     await interaction.followup.send(
         embed=no_name_error_embed(norris.support_channel_id),
     )
+
+async def kind_denied(interaction: Interaction, norris: Norris) -> None:
+    # Defer response to give time for database queries
+    await interaction.response.defer()
+
+    # Update the user's registration state to name entered
+    async with norris.database_engine.begin() as connection:
+        await connection.execute(
+            update(Registration)
+            .where(Registration.user_id == interaction.user.id)
+            .values(status=RegistrationStatus.NAME_ENTERED),
+        )
+
+    # NOTE: guess what
+    from ..responses import kind_denied_embed
+
+    # Direct the user to reg support
+    await interaction.user.send(
+                embed=kind_denied_embed(norris.support_channel_id),
+            )

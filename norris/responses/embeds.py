@@ -64,3 +64,11 @@ def confirm_kind_embed(user_kind: str) -> Embed:
         description=f"Our system has detected you are a **{user_kind}**, is that "
                     f"correct?",
     )
+
+def kind_denied_embed(support_channel_id: int) -> Embed:
+    return Embed(
+        title="Registration",
+        colour=Colour.blurple(),
+        description=f"We're having trouble finding your role, please seek assistance "
+                    f"in <#{support_channel_id}>.",
+    )

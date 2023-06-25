@@ -64,4 +64,4 @@ class KindConfirmView(View):
     @button(label="No", style=ButtonStyle.red)
     async def kind_denied(self, _: Button, interaction: Interaction) -> None:
         pass
-        #await component_interaction.name_denied(interaction, self._norris)
+        await component_interaction.kind_denied(interaction, self._norris)

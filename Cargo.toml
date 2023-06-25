@@ -5,6 +5,7 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.71"
+chrono = "0.4.26"
 log = "0.4.19"
 poise = "0.5.5"
 serde = { version = "1.0.164", features = ["derive"] }

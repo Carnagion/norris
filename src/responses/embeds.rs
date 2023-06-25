@@ -1,3 +1,5 @@
+use chrono::Utc;
+
 use poise::serenity_prelude as serenity;
 
 use serenity::{
@@ -20,6 +22,7 @@ pub fn instructions_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &
                 We'll need a couple of details from you in order to get you set up.",
                 user_id,
             ))
+            .timestamp(Utc::now())
     }
 }
 
@@ -35,6 +38,7 @@ pub fn instructions_sent_embed(
                 Please check your direct messages for instructions on how to continue.",
                 user_id,
             ))
+            .timestamp(Utc::now())
     }
 }
 
@@ -52,14 +56,19 @@ pub fn instructions_error_embed(
                 Please seek assistance in <#{}>.",
                 user_id, support_channel_id,
             ))
+            .timestamp(Utc::now())
     }
 }
 
 pub fn request_name_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     |embed| {
-        embed.title("Registration").colour(BLURPLE).description(
-            "Please enter your **name** exactly as when you applied to the University.",
-        )
+        embed
+            .title("Registration")
+            .colour(BLURPLE)
+            .description(
+                "Please enter your **name** exactly as when you applied to the University.",
+            )
+            .timestamp(Utc::now())
     }
 }
 
@@ -73,6 +82,7 @@ pub fn confirm_name_embed(name: &str) -> impl FnOnce(&mut CreateEmbed) -> &mut C
                 Is that correct?",
                 name,
             ))
+            .timestamp(Utc::now())
     }
 }
 
@@ -88,6 +98,7 @@ pub fn no_name_error_embed(
                 Please seek assistance in <#{}>.",
                 support_channel_id,
             ))
+            .timestamp(Utc::now())
     }
 }
 
@@ -103,6 +114,7 @@ pub fn confirm_kind_embed(
                 Is that correct?",
                 kind.description(),
             ))
+            .timestamp(Utc::now())
     }
 }
 
@@ -118,6 +130,7 @@ pub fn kind_error_embed(
                 Please seek assistance in <#{}>.",
                 support_channel_id,
             ))
+            .timestamp(Utc::now())
     }
 }
 
@@ -136,26 +149,35 @@ pub fn registered_continue_embed(
                 Please note that these are completely optional and you can ignore or skip them if you wish to.",
                 chat_channel_id,
             ))
+            .timestamp(Utc::now())
     }
 }
 
 pub fn pronouns_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     |embed| {
-        embed.title("Registration").colour(BLURPLE).description(
-            "What are your **pronouns**? \
+        embed
+            .title("Registration")
+            .colour(BLURPLE)
+            .description(
+                "What are your **pronouns**? \
             This helps others understand how best to address you, \
             and will only be displayed via a role on your server profile.",
-        )
+            )
+            .timestamp(Utc::now())
     }
 }
 
 pub fn housing_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     |embed| {
-        embed.title("Registration").colour(BLURPLE).description(
-            "What kind of **accommodation** will you be staying in? \
+        embed
+            .title("Registration")
+            .colour(BLURPLE)
+            .description(
+                "What kind of **accommodation** will you be staying in? \
             This helps you find others staying in the same accommodation or similar types, \
             and will only be displayed via a role on your server profile.",
-        )
+            )
+            .timestamp(Utc::now())
     }
 }
 
@@ -173,6 +195,7 @@ pub fn registration_finished(
                 you can head over to <#{}> to chat with your new course peers and mentors.",
                 chat_channel_id,
             ))
+            .timestamp(Utc::now())
     }
 }
 
@@ -182,6 +205,7 @@ pub fn user_joined_log_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -
             .title("Registration")
             .colour(BLURPLE)
             .description(format!("<@{}> has joined the server.", user_id))
+            .timestamp(Utc::now())
     }
 }
 
@@ -199,6 +223,7 @@ pub fn dm_error_log_embed(
                 They have been redirected to <#{}>, and a <@&{}>'s assistance is required.",
                 user_id, support_channel_id, mentor_role_id,
             ))
+            .timestamp(Utc::now())
     }
 }
 
@@ -210,6 +235,7 @@ pub fn registration_started_log_embed(
             .title("Registration")
             .colour(BLURPLE)
             .description(format!("<@{}> has started registration.", user_id))
+            .timestamp(Utc::now())
     }
 }
 
@@ -225,6 +251,7 @@ pub fn name_confirmed_log_embed(
                 "<@{}> has confirmed their name as **{}**.",
                 user_id, name,
             ))
+            .timestamp(Utc::now())
     }
 }
 
@@ -243,6 +270,7 @@ pub fn no_name_log_embed(
                 They have been redirected to <#{}>, and a <@&{}>'s assistance is required.",
                 user_id, name, support_channel_id, mentor_role_id,
             ))
+            .timestamp(Utc::now())
     }
 }
 
@@ -264,6 +292,7 @@ pub fn kind_error_log_embed(
                 support_channel_id,
                 mentor_role_id,
             ))
+            .timestamp(Utc::now())
     }
 }
 
@@ -280,6 +309,7 @@ pub fn registered_log_emed(
                 user_id,
                 kind.description(),
             ))
+            .timestamp(Utc::now())
     }
 }
 
@@ -293,5 +323,6 @@ pub fn user_left_log_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> 
                 They have been de-registered.",
                 user_id,
             ))
+            .timestamp(Utc::now())
     }
 }

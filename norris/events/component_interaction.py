@@ -52,10 +52,18 @@ async def name_confirmed(interaction: Interaction, norris: Norris) -> None:
         if verified_user == None:
             await no_name_error(interaction, norris)
         else:
-            from ..responses import confirm_kind_embed
+            await connection.execute(
+                update(Registration)
+                .where(Registration.user_id == interaction.user.id)
+                .values(
+                    status=RegistrationStatus.KIND_FOUND,
+                ),
+            )
+            from ..responses import confirm_kind_embed, KindConfirmView
             user_kind = verified_user.kind.description()
             await interaction.user.send(
-                embed=confirm_kind_embed(user_kind)
+                embed=confirm_kind_embed(user_kind),
+                view=KindConfirmView(Norris),
             )
 
         """match verified_user:

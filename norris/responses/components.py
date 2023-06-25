@@ -48,3 +48,20 @@ class NameConfirmView(View):
     @button(label="No", style=ButtonStyle.red)
     async def name_denied(self, _: Button, interaction: Interaction) -> None:
         await component_interaction.name_denied(interaction, self._norris)
+
+class KindConfirmView(View):
+    _norris: Norris
+
+    def __init__(self, norris: Norris) -> None:
+        super().__init__()
+        self._norris = norris
+
+    @button(label="Yes", style=ButtonStyle.green)
+    async def kind_confirmed(self, _: Button, interaction: Interaction) -> None:
+        pass
+        #await component_interaction.name_confirmed(interaction, self._norris)
+
+    @button(label="No", style=ButtonStyle.red)
+    async def kind_denied(self, _: Button, interaction: Interaction) -> None:
+        pass
+        #await component_interaction.name_denied(interaction, self._norris)

@@ -2,6 +2,7 @@ from .components import (
     InstructionsContinueView,
     NameConfirmView,
     OpenDirectMessagesView,
+    KindConfirmView,
 )
 from .embeds import (
     confirm_name_embed,

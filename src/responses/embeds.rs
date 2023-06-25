@@ -146,11 +146,9 @@ pub fn registered_continue_embed(
             .colour(POSITIVE)
             .description(format!(
                 "Thank you for your patience! \
-                Your registration is now **complete**. \
-                You can head over to <#{}> to chat with your new course peers and mentors.
-                However, before you go, we still have a few questions for you regarding your pronouns and accommodation. \
-                Please note that these are completely optional and you can ignore or skip them if you wish to.",
-                chat_channel_id,
+                Your role is now **confirmed**. \
+                We still have a few questions for you regarding your pronouns and accommodation. \
+                Please note that these are completely optional and you can skip them if you wish to.",
             ))
             .timestamp(Utc::now())
     }

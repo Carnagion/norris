@@ -9,7 +9,7 @@ create table if not exists registrations (
         "PRONOUNS_PICKED",
         "HOUSING_PICKED",
         "FAILED"
-    ) not null default "unregistered",
+    ) not null default "UNREGISTERED",
     name varchar(1024) null,
     kind enum(
         "UNDERGRAD",

@@ -2,7 +2,7 @@ from discord import Interaction
 from sqlalchemy import select, update
 
 from ..bot import Norris
-from ..model import Registration, RegistrationStatus, VerifiedUser
+from ..model import Registration, RegistrationStatus, VerifiedUser, NameEntered
 
 
 async def on_instructions_continue_clicked(interaction: Interaction,
@@ -32,11 +32,11 @@ async def name_confirmed(interaction: Interaction, norris: Norris) -> None:
     async with norris.database_engine.begin() as connection:
         # Retrieve the user's name
         result = await connection.execute(
-            select(Registration)
+            select(NameEntered)
             .where(Registration.user_id == interaction.user.id)
             .limit(1),
         )
-        # FIXME: I have no clue
+        # FIXME: I hope this is fixed
         user_name = result.one().name  # NOTE: this should be a NameEntered
 
         # Try to find a matching user who is not registered

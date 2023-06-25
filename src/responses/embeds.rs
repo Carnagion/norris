@@ -278,7 +278,7 @@ pub fn registered_log_emed(
             .description(format!(
                 "<@{}>, a **{}**, has completed registration.",
                 user_id,
-                kind.to_string()
+                kind.description(),
             ))
     }
 }

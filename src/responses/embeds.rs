@@ -199,6 +199,18 @@ pub fn registration_finished_embed(
     }
 }
 
+pub fn registration_restart_embed(
+    user_id: UserId,
+) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+    move |embed| {
+        embed
+            .title("Registration")
+            .colour(WARNING)
+            .description(format!("Re-started <@{}>'s registration.", user_id,))
+            .timestamp(Utc::now())
+    }
+}
+
 pub fn registration_nuke_embed(
     role_id: RoleId,
 ) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {

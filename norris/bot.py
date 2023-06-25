@@ -11,13 +11,16 @@ class Norris(Bot):
     arrival_channel_id: int
     support_channel_id: int
     log_channel_id: int
+    undergrad_atrium_channel_id: int
+
 
     def __init__(self,
                  guild_id: int,
                  database_url: URL,
                  arrival_channel_id: int,
                  support_channel_id: int,
-                 log_channel_id: int) -> None:
+                 log_channel_id: int,
+                 undergrad_atrium_channel_id: int) -> None:
         # Create bot and connect to database
         super().__init__(intents=Intents.default() | Intents.members)
 
@@ -26,6 +29,7 @@ class Norris(Bot):
         self.arrival_channel_id = arrival_channel_id
         self.support_channel_id = support_channel_id
         self.log_channel_id = log_channel_id
+        self.undergrad_atrium_channel_id = undergrad_atrium_channel_id
 
         # NOTE: import done here because fuck Python and fuck its circular imports
         from .events import Events

@@ -3,6 +3,7 @@ from .components import (
     NameConfirmView,
     OpenDirectMessagesView,
     KindConfirmView,
+    RegisteredContinueView,
 )
 from .embeds import (
     confirm_name_embed,
@@ -13,4 +14,5 @@ from .embeds import (
     request_name_embed,
     confirm_kind_embed,
     kind_denied_embed,
+    kind_confirmed_embed,
 )

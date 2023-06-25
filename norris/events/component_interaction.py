@@ -128,3 +128,25 @@ async def kind_denied(interaction: Interaction, norris: Norris) -> None:
     await interaction.user.send(
                 embed=kind_denied_embed(norris.support_channel_id),
             )
+    
+
+async def kind_confirmed(interaction: Interaction, norris: Norris) -> None:
+     # Defer response to give time for database queries
+    await interaction.response.defer()
+    
+    async with norris.database_engine.begin() as connection:
+        # Update the user's registration state to registered
+        await connection.execute(
+            update(Registration)
+            .values(status=RegistrationStatus.REGISTERED)
+            .where(Registration.user_id == interaction.user.id),
+        )
+    
+    # NOTE: guess what
+    from ..responses import kind_confirmed_embed, RegisteredContinueView
+
+    # Direct the user to reg support
+    await interaction.user.send(
+                embed=kind_confirmed_embed(),
+                view=RegisteredContinueView(norris),
+            )

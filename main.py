@@ -19,13 +19,14 @@ async def main() -> None:
     arrival_channel_id = int(os.getenv("ARRIVAL_CHANNEL_ID"))
     support_channel_id = int(os.getenv("SUPPORT_CHANNEL_ID"))
     log_channel_id = int(os.getenv("LOG_CHANNEL_ID"))
+    undergrad_atrium_channel_id = int(os.getenv("UNDERGRAD_ATRIUM_CHANNEL_ID"))
 
     # Create and start bot
     norris = Norris(guild_id,
                     database_url,
                     arrival_channel_id,
                     support_channel_id,
-                    log_channel_id)
+                    log_channel_id, undergrad_atrium_channel_id)
     await norris.run(bot_token)
 
 

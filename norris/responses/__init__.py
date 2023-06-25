@@ -10,4 +10,5 @@ from .embeds import (
     instructions_sent_embed,
     no_name_error_embed,
     request_name_embed,
+    confirm_kind_embed,
 )

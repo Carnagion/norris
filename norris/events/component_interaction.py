@@ -36,7 +36,7 @@ async def name_confirmed(interaction: Interaction, norris: Norris) -> None:
             .where(Registration.user_id == interaction.user.id)
             .limit(1),
         )
-        # FIXME: I hope this is fixed
+   
         user_name = result.one().name  # NOTE: this should be a NameEntered
 
         # Try to find a matching user who is not registered
@@ -49,11 +49,20 @@ async def name_confirmed(interaction: Interaction, norris: Norris) -> None:
         )
         verified_user = result.one_or_none()
 
-        match verified_user:
+        if verified_user == None:
+            await no_name_error(interaction, norris)
+        else:
+            from ..responses import confirm_kind_embed
+            user_kind = verified_user.kind.description()
+            await interaction.user.send(
+                embed=confirm_kind_embed(user_kind)
+            )
+
+        """match verified_user:
             case None:
                 await no_name_error(interaction, norris)
             case VerifiedUser():
-                pass  # TODO: confirm user kind
+                pass"""
 
 
 async def name_denied(interaction: Interaction, norris: Norris) -> None:

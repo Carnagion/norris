@@ -19,17 +19,17 @@ class VerifiedUserKind(Enum):
         # mfw no expression-oriented syntax, so I have to do this
         match self:
             case VerifiedUserKind.UNDERGRAD:
-                return "first-year undergraduate student"
+                return "First Year Undergraduate Student"
             case VerifiedUserKind.POSTGRAD:
-                return "first-year postgraduate student"
+                return "First Year Postgraduate Student"
             case VerifiedUserKind.MENTOR:
-                return "mentor"
+                return "Mentor"
             case VerifiedUserKind.SENIOR_MENTOR:
-                return "senior mentor"
+                return "Senior Mentor"
             case VerifiedUserKind.HONORARY_MENTOR:
-                return "honorary mentor"
+                return "Honorary Mentor"
             case VerifiedUserKind.FACULTY:
-                return "member of faculty"
+                return "Member of Faculty"
 
 
 class VerifiedUser(DataModel):

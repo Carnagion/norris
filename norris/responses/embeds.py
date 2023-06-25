@@ -56,3 +56,11 @@ def no_name_error_embed(support_channel_id: int) -> Embed:
         description=f"Unfortunately, we don't have that name in our system. Please "
                     f"seek assistance in <#{support_channel_id}>.",
     )
+
+def confirm_kind_embed(user_kind: str) -> Embed:
+    return Embed(
+        title="Registration",
+        colour=Colour.blurple(),
+        description=f"Our system has detected you are a **{user_kind}**, is that "
+                    f"correct?",
+    )

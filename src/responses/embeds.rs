@@ -239,7 +239,7 @@ pub fn no_name_log_embed(
             .title("Registration")
             .colour(DANGER)
             .description(format!(
-                "<@{}> has entered the name **{}**, but no such name was found. \
+                "<@{}> has entered the name **{}**, but no such name was found, or it has already been registered. \
                 They have been redirected to <#{}>, and a <@&{}>'s assistance is required.",
                 user_id, name, support_channel_id, mentor_role_id,
             ))

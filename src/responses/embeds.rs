@@ -160,8 +160,8 @@ pub fn pronouns_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
             .colour(BLURPLE)
             .description(
                 "What are your **pronouns**? \
-            This helps others understand how best to address you, \
-            and will only be displayed via a role on your server profile.",
+                This helps others understand how best to address you, \
+                and will only be displayed via a role on your server profile.",
             )
             .timestamp(Utc::now())
     }
@@ -174,8 +174,8 @@ pub fn housing_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
             .colour(BLURPLE)
             .description(
                 "What kind of **accommodation** will you be staying in? \
-            This helps you find others staying in the same accommodation or similar types, \
-            and will only be displayed via a role on your server profile.",
+                This helps you find others staying in the same accommodation or similar types, \
+                and will only be displayed via a role on your server profile.",
             )
             .timestamp(Utc::now())
     }
@@ -219,7 +219,7 @@ pub fn registration_nuke_embed(
             .title("Registration")
             .colour(WARNING)
             .description(format!(
-                "Nuked the registrations of all users with <@&{}>.",
+                "Re-started the registrations of all users with <@&{}>.",
                 role_id,
             ))
             .timestamp(Utc::now())

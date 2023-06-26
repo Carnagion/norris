@@ -17,6 +17,8 @@ class Norris(Bot):
 
         # Connect to database
         self.guild_id = config.guild_id
+        self.channels = config.channels
+        self.roles = config.roles
         self.database_engine = create_async_engine(config.database_url, echo=True)
 
         # NOTE: import done here because fuck Python and fuck its circular imports

@@ -13,8 +13,8 @@ async def continue_clicked(interaction: Interaction, norris: Norris) -> None:
     async with norris.database_engine.begin() as connection:
         await connection.execute(
             update(Registration)
-            .where(Registration.user_id == interaction.user.id)
-            .values(status=RegistrationStatus.STARTED),
+            .values(status=RegistrationStatus.STARTED)
+            .where(Registration.user_id == interaction.user.id),
         )
 
     # NOTE: I love circular imports, what an amazing module system Python has

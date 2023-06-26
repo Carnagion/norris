@@ -10,10 +10,10 @@ async def yes_clicked(interaction: Interaction, norris: Norris) -> None:
     await interaction.response.defer()
 
     async with norris.database_engine.begin() as connection:
-        # Update the user's registration state to registered
+        # Update the user's registration state to verified
         await connection.execute(
             update(Registration)
-            .values(status=RegistrationStatus.REGISTERED)
+            .values(status=RegistrationStatus.VERIFIED, name=None, kind=None)
             .where(Registration.user_id == interaction.user.id),
         )
 
@@ -31,12 +31,12 @@ async def no_clicked(interaction: Interaction, norris: Norris) -> None:
     # Defer response to give time for database queries
     await interaction.response.defer()
 
-    # Update the user's registration state to name entered
+    # Update the user's registration state to failed
     async with norris.database_engine.begin() as connection:
         await connection.execute(
             update(Registration)
-            .where(Registration.user_id == interaction.user.id)
-            .values(status=RegistrationStatus.NAME_ENTERED),
+            .values(status=RegistrationStatus.FAILED, name=None, kind=None)
+            .where(Registration.user_id == interaction.user.id),
         )
 
     # NOTE: I want to bang my head against a wall

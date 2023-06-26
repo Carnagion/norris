@@ -51,10 +51,8 @@ async def yes_clicked(interaction: Interaction, norris: Norris) -> None:
             # Update the user's registration state to kind found
             await connection.execute(
                 update(Registration)
-                .where(Registration.user_id == interaction.user.id)
-                .values(
-                    status=RegistrationStatus.KIND_FOUND,
-                ),
+                .values(status=RegistrationStatus.KIND_FOUND, kind=verified_user.kind)
+                .where(Registration.user_id == interaction.user.id),
             )
 
             # Ask the user to confirm their kind

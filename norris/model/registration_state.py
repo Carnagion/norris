@@ -13,19 +13,10 @@ class RegistrationStatus(Enum):
     STARTED = "STARTED"
     NAME_ENTERED = "NAME_ENTERED"
     KIND_FOUND = "KIND_FOUND"
-    REGISTERED = "REGISTERED"
+    VERIFIED = "VERIFIED"
     PRONOUNS_PICKED = "PRONOUNS_PICKED"
-    HOUSING_PICKED = "HOUSING_PICKED"
+    REGISTERED = "REGISTERED"
     FAILED = "FAILED"
-
-    @property
-    def is_registered(self) -> bool:
-        match self:
-            case (RegistrationStatus.REGISTERED | RegistrationStatus.PRONOUNS_PICKED
-                  | RegistrationStatus.HOUSING_PICKED):
-                return True
-            case _:
-                return False
 
     def __str__(self) -> str:
         return self.value
@@ -80,9 +71,9 @@ class KindFound(Registration):
     }
 
 
-class Registered(Registration):
+class Verified(Registration):
     __mapper_args__ = {
-        "polymorphic_identity": RegistrationStatus.REGISTERED,
+        "polymorphic_identity": RegistrationStatus.VERIFIED,
     }
 
 
@@ -92,9 +83,9 @@ class PronounsPicked(Registration):
     }
 
 
-class HousingPicked(Registration):
+class Registered(Registration):
     __mapper_args__ = {
-        "polymorphic_identity": RegistrationStatus.HOUSING_PICKED,
+        "polymorphic_identity": RegistrationStatus.REGISTERED,
     }
 
 

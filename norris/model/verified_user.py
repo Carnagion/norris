@@ -8,28 +8,31 @@ from .base import DataModel
 
 
 class VerifiedUserKind(Enum):
-    UNDERGRAD = "undergrad"
-    POSTGRAD = "postgrad"
-    MENTOR = "mentor"
-    SENIOR_MENTOR = "senior_mentor"
-    HONORARY_MENTOR = "honorary_mentor"
-    FACULTY = "faculty"
+    UNDERGRAD = "UNDERGRAD"
+    POSTGRAD = "POSTGRAD"
+    MENTOR = "MENTOR"
+    SENIOR_MENTOR = "SENIOR_MENTOR"
+    HONORARY_MENTOR = "HONORARY_MENTOR"
+    FACULTY = "FACULTY"
+
+    def __str__(self) -> str:
+        return self.value
 
     def description(self) -> str:
         # mfw no expression-oriented syntax, so I have to do this
         match self:
             case VerifiedUserKind.UNDERGRAD:
-                return "First Year Undergraduate Student"
+                return "first-year undergraduate student"
             case VerifiedUserKind.POSTGRAD:
-                return "First Year Postgraduate Student"
+                return "first-year postgraduate student"
             case VerifiedUserKind.MENTOR:
-                return "Mentor"
+                return "mentor"
             case VerifiedUserKind.SENIOR_MENTOR:
-                return "Senior Mentor"
+                return "senior mentor"
             case VerifiedUserKind.HONORARY_MENTOR:
-                return "Honorary Mentor"
+                return "honorary mentor"
             case VerifiedUserKind.FACULTY:
-                return "Member of Faculty"
+                return "member of faculty"
 
 
 class VerifiedUser(DataModel):

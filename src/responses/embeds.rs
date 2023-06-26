@@ -137,19 +137,18 @@ pub fn kind_error_embed(
     }
 }
 
-pub fn registered_continue_embed(
-    _chat_channel_id: ChannelId, // TODO: Have a discussion on registration state again
-) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+pub fn verified_continue_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
         embed
             .title("Registration")
             .colour(POSITIVE)
-            .description(format!(
+            .description(
                 "Thank you for your patience! \
-                Your role is now **confirmed**. \
+                You are now **verified**, but not fully registered yet.
                 We still have a few questions for you regarding your pronouns and accommodation. \
-                Please note that these are completely optional and you can skip them if you wish to.",
-            ))
+                Please note that you can skip these if you wish to. \
+                Your registration will be complete after you answer or skip the following questions.",
+            )
             .timestamp(Utc::now())
     }
 }
@@ -192,8 +191,7 @@ pub fn registration_finished_embed(
             .description(format!(
                 "Thank you for your patience! \
                 We have no additional questions. \
-                If you haven't already done so, \
-                you can head over to <#{}> to chat with your new course peers and mentors.",
+                You can now head over to <#{}> to chat with your new course peers and mentors.",
                 chat_channel_id,
             ))
             .timestamp(Utc::now())

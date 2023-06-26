@@ -5,9 +5,9 @@ create table if not exists registrations (
         "STARTED",
         "NAME_ENTERED",
         "KIND_FOUND",
-        "REGISTERED",
+        "VERIFIED",
         "PRONOUNS_PICKED",
-        "HOUSING_PICKED",
+        "REGISTERED",
         "FAILED"
     ) not null default "UNREGISTERED",
     name varchar(1024) null,

@@ -38,10 +38,10 @@ pub fn confirm_kind_buttons() -> impl FnOnce(&mut CreateComponents) -> &mut Crea
     buttons_yes_no(KIND_CONFIRM_YES, KIND_CONFIRM_NO)
 }
 
-pub const REGISTERED_CONTINUE: &str = "registered-continue";
+pub const VERIFIED_CONTINUE: &str = "verified-continue";
 
-pub fn registered_continue_button() -> impl FnOnce(&mut CreateComponents) -> &mut CreateComponents {
-    button_continue(REGISTERED_CONTINUE)
+pub fn verified_continue_button() -> impl FnOnce(&mut CreateComponents) -> &mut CreateComponents {
+    button_continue(VERIFIED_CONTINUE)
 }
 
 pub const PRONOUNS_HE_HIM: &str = "pronouns-he-him";
@@ -56,7 +56,7 @@ pub const PRONOUNS_ANY: &str = "pronouns-any";
 
 pub const PRONOUNS_ASK: &str = "pronouns-ask";
 
-pub const PRONONS_SKIP: &str = "pronouns-skip";
+pub const PRONOUNS_SKIP: &str = "pronouns-skip";
 
 pub fn pronouns_buttons() -> impl FnOnce(&mut CreateComponents) -> &mut CreateComponents {
     |comp| {
@@ -103,7 +103,7 @@ pub fn pronouns_buttons() -> impl FnOnce(&mut CreateComponents) -> &mut CreateCo
             .create_button(|button| {
                 button
                     .label("Skip")
-                    .custom_id(PRONONS_SKIP)
+                    .custom_id(PRONOUNS_SKIP)
                     .style(ButtonStyle::Danger)
             })
         })

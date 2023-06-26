@@ -41,20 +41,13 @@ pub enum RegistrationStatus {
     Started,
     NameEntered(String),
     KindFound(String, VerifiedUserKind),
-    Registered,
+    Verified,
     PronounsPicked,
-    HousingPicked,
+    Registered,
     Failed,
 }
 
 impl RegistrationStatus {
-    pub fn is_registered(&self) -> bool {
-        matches!(
-            self,
-            Self::Registered | Self::PronounsPicked | Self::HousingPicked
-        )
-    }
-
     pub fn from_columns(
         status: String,
         name: Option<String>,

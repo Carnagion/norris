@@ -13,10 +13,12 @@ pub async fn yes_clicked(
 ) -> BotResult<()> {
     let user = &component_interaction.user;
 
-    // Confirm the user as registered
+    // Confirm the user as verified, but not registered yet
     sqlx::query!(
-        "update registrations set status = ?, name = null, kind = null where user_id = ?",
-        RegistrationStatus::Registered.to_string(),
+        "update registrations
+        set status = ?, name = null, kind = null
+        where user_id = ?",
+        RegistrationStatus::Verified.to_string(),
         user.id.0,
     )
     .execute(&bot_data.database_pool)
@@ -24,7 +26,10 @@ pub async fn yes_clicked(
 
     // Link the user's account to the verified user
     sqlx::query!(
-        "update users set registered_user_id = ? where name = ? and kind = ? limit 1", // NOTE: Only one user should be registered
+        "update users
+        set registered_user_id = ?
+        where name = ? and kind = ? and registered_user_id is null
+        limit 1", // NOTE: Only one user should be consdiered verified
         user.id.0,
         name,
         kind.to_string(),
@@ -32,31 +37,21 @@ pub async fn yes_clicked(
     .execute(&bot_data.database_pool)
     .await?;
 
-    // Give the user the appropriate role
-    bot_data
-        .guild_id
-        .member(&context.http, user.id)
-        .await?
-        .add_role(&context.http, bot_data.roles.hierarchy.role(kind))
-        .await?;
-
-    // Inform the user of completion and extra optional questions
+    // Inform the user of verification and extra questions
     component_interaction
         .create_followup_message(&context.http, |message| {
             message
-                .embed(responses::registered_continue_embed(
-                    bot_data.channels.chat_channel_id,
-                ))
-                .components(responses::registered_continue_button())
+                .embed(responses::verified_continue_embed())
+                .components(responses::verified_continue_button())
         })
         .await?;
 
-    // Log the completion of registration
+    // Log the verification
     bot_data
         .channels
         .log_channel_id
         .send_message(&context.http, |message| {
-            message.embed(responses::registered_log_emed(user.id, kind))
+            message.embed(responses::verified_log_embed(user.id, kind))
         })
         .await?;
 

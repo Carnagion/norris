@@ -109,7 +109,7 @@ pub fn kind_error_log_embed(
     }
 }
 
-pub fn registered_log_emed(
+pub fn verified_log_embed(
     user_id: UserId,
     kind: VerifiedUserKind,
 ) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
@@ -118,10 +118,20 @@ pub fn registered_log_emed(
             .title("Registration")
             .colour(POSITIVE)
             .description(format!(
-                "<@{}>, a **{}**, has completed registration.",
+                "<@{}>, a **{}**, has been verified.",
                 user_id,
                 kind.description(),
             ))
+            .timestamp(Utc::now())
+    }
+}
+
+pub fn registered_log_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+    move |embed| {
+        embed
+            .title("Registration")
+            .colour(POSITIVE)
+            .description(format!("<@{}> has **completed** registration.", user_id))
             .timestamp(Utc::now())
     }
 }

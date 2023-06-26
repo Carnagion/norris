@@ -38,14 +38,35 @@ pub async fn skip_clicked(
     component_interaction: &MessageComponentInteraction,
     bot_data: &BotData,
 ) -> BotResult<()> {
+    let user_id = component_interaction.user.id;
+
     // Update the user's registration state to housing picked
     sqlx::query!(
         "update registrations set status = ? where user_id = ?",
-        RegistrationStatus::HousingPicked.to_string(),
-        component_interaction.user.id.0,
+        RegistrationStatus::Registered.to_string(),
+        user_id.0,
     )
     .execute(&bot_data.database_pool)
     .await?;
+
+    // Find the user's kind
+    let kind = sqlx::query!(
+        "select * from users
+        where registered_user_id = ?", // NOTE: This should have been set when verified before pronouns
+        user_id.0,
+    )
+    .try_map(|row| VerifiedUser::from_columns(row.name, row.kind, row.registered_user_id))
+    .fetch_one(&bot_data.database_pool)
+    .await?
+    .kind;
+
+    // Give the user the appropriate role
+    bot_data
+        .guild_id
+        .member(&context.http, user_id)
+        .await?
+        .add_role(&context.http, bot_data.roles.hierarchy.role(kind))
+        .await?;
 
     // Inform the user of completion
     component_interaction
@@ -53,6 +74,15 @@ pub async fn skip_clicked(
             message.embed(responses::registration_finished_embed(
                 bot_data.channels.chat_channel_id,
             ))
+        })
+        .await?;
+
+    // Log the completion of registration
+    bot_data
+        .channels
+        .log_channel_id
+        .send_message(&context.http, |message| {
+            message.embed(responses::registered_log_embed(user_id))
         })
         .await?;
 

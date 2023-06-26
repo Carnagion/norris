@@ -56,11 +56,11 @@ pub async fn message_component_interacted(
         (responses::KIND_CONFIRM_NO, Some(RegistrationStatus::KindFound(_, kind))) => {
             kind_confirm::no_clicked(context, component_interaction, bot_data, kind).await
         },
-        // User has been registered and is continuing on to pronouns and housing
-        (responses::REGISTERED_CONTINUE, Some(RegistrationStatus::Registered)) => {
+        // User has been verified and is continuing on to pronouns and housing
+        (responses::VERIFIED_CONTINUE, Some(RegistrationStatus::Verified)) => {
             registered::continue_clicked(context, component_interaction).await
         },
-        // User has registered and is picking a pronoun
+        // User has been verified and is picking a pronoun
         (
             pronoun @ (responses::PRONOUNS_HE_HIM
             | responses::PRONOUNS_SHE_HER
@@ -68,10 +68,10 @@ pub async fn message_component_interacted(
             | responses::PRONOUNS_XE_XEM
             | responses::PRONOUNS_ANY
             | responses::PRONOUNS_ASK),
-            Some(RegistrationStatus::Registered),
+            Some(RegistrationStatus::Verified),
         ) => pronouns::pronouns_clicked(context, component_interaction, bot_data, pronoun).await,
-        // User has registered and does not want to pick a pronoun
-        (responses::PRONONS_SKIP, Some(RegistrationStatus::Registered)) => {
+        // User has been verified and does not want to pick a pronoun
+        (responses::PRONOUNS_SKIP, Some(RegistrationStatus::Verified)) => {
             pronouns::skip_clicked(context, component_interaction, bot_data).await
         },
         // User has picked or skipped prnouns and is picking housing

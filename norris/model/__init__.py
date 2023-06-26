@@ -1,7 +1,6 @@
 from .base import DataModel
 from .registration_state import (
     Failed,
-    HousingPicked,
     KindFound,
     NameEntered,
     PronounsPicked,

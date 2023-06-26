@@ -18,11 +18,11 @@ async def yes_clicked(interaction: Interaction, norris: Norris) -> None:
         )
 
     # NOTE: thanks Python for this amazing module system
-    from ...responses import RegisteredContinueView, kind_confirmed_embed
+    from ...responses import RegisteredContinueView, verified_continue_embed
 
     # Direct the user to reg support
     await interaction.user.send(
-        embed=kind_confirmed_embed(),
+        embed=verified_continue_embed(),
         view=RegisteredContinueView(norris),
     )
 
@@ -40,9 +40,9 @@ async def no_clicked(interaction: Interaction, norris: Norris) -> None:
         )
 
     # NOTE: I want to bang my head against a wall
-    from ...responses import kind_denied_embed
+    from ...responses import kind_error_embed
 
     # Direct the user to reg support
     await interaction.user.send(
-        embed=kind_denied_embed(norris.channels.support_channel_id),
+        embed=kind_error_embed(norris.channels.support_channel_id),
     )

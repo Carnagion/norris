@@ -1,5 +1,6 @@
-# Secrets
+# Secrets and configuration
 .env
+norris.toml
 
 # Virtual environment
 venv/

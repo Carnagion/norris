@@ -2,7 +2,7 @@ from discord import ButtonStyle, Interaction
 from discord.ui import Button, View, button
 
 from ..bot import Norris
-from ..events import component_interaction
+from ..events.component_interaction import instructions, kind_confirm, name_confirm
 
 
 class InstructionsContinueView(View):
@@ -13,11 +13,8 @@ class InstructionsContinueView(View):
         self._norris = norris
 
     @button(label="Continue", style=ButtonStyle.primary)
-    async def instructions_continue_clicked(self,
-                                            _: Button,
-                                            interaction: Interaction) -> None:
-        await component_interaction.on_instructions_continue_clicked(interaction,
-                                                                     self._norris)
+    async def continue_clicked(self, _: Button, interaction: Interaction) -> None:
+        await instructions.continue_clicked(interaction, self._norris)
 
 
 class OpenDirectMessagesView(View):
@@ -42,12 +39,12 @@ class NameConfirmView(View):
         self._norris = norris
 
     @button(label="Yes", style=ButtonStyle.green)
-    async def name_confirmed(self, _: Button, interaction: Interaction) -> None:
-        await component_interaction.name_confirmed(interaction, self._norris)
+    async def yes_clicked(self, _: Button, interaction: Interaction) -> None:
+        await name_confirm.yes_clicked(interaction, self._norris)
 
     @button(label="No", style=ButtonStyle.red)
-    async def name_denied(self, _: Button, interaction: Interaction) -> None:
-        await component_interaction.name_denied(interaction, self._norris)
+    async def no_clicked(self, _: Button, interaction: Interaction) -> None:
+        await name_confirm.no_clicked(interaction, self._norris)
 
 
 class KindConfirmView(View):
@@ -58,12 +55,12 @@ class KindConfirmView(View):
         self._norris = norris
 
     @button(label="Yes", style=ButtonStyle.green)
-    async def kind_confirmed(self, _: Button, interaction: Interaction) -> None:
-        await component_interaction.kind_confirmed(interaction, self._norris)
+    async def yes_clicked(self, _: Button, interaction: Interaction) -> None:
+        await kind_confirm.yes_clicked(interaction, self._norris)
 
     @button(label="No", style=ButtonStyle.red)
-    async def kind_denied(self, _: Button, interaction: Interaction) -> None:
-        await component_interaction.kind_denied(interaction, self._norris)
+    async def no_clicked(self, _: Button, interaction: Interaction) -> None:
+        await kind_confirm.no_clicked(interaction, self._norris)
 
 
 class RegisteredContinueView(View):

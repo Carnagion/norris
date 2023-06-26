@@ -1,8 +1,8 @@
 from discord import Interaction
 from sqlalchemy import select, update
 
-from ..bot import Norris
-from ..model import NameEntered, Registration, RegistrationStatus, VerifiedUser
+from ...bot import Norris
+from ...model import NameEntered, Registration, RegistrationStatus, VerifiedUser
 
 
 async def on_instructions_continue_clicked(interaction: Interaction,
@@ -19,7 +19,7 @@ async def on_instructions_continue_clicked(interaction: Interaction,
         )
 
     # NOTE: I love circular imports, what an amazing module system Python has
-    from ..responses import request_name_embed
+    from ...responses import request_name_embed
 
     # Ask the user to enter their name
     await interaction.followup.send(embed=request_name_embed())
@@ -61,7 +61,7 @@ async def name_confirmed(interaction: Interaction, norris: Norris) -> None:
                     ),
                 )
 
-                from ..responses import KindConfirmView, confirm_kind_embed
+                from ...responses import KindConfirmView, confirm_kind_embed
 
                 user_kind = verified_user.kind.description()
                 await interaction.user.send(
@@ -82,8 +82,8 @@ async def name_denied(interaction: Interaction, norris: Norris) -> None:
             .values(status=RegistrationStatus.STARTED, name=None),
         )
 
-    # NOTE: guess what
-    from ..responses import request_name_embed
+    # NOTE: circular modules again
+    from ...responses import request_name_embed
 
     # Ask the user to enter their name
     await interaction.followup.send(embed=request_name_embed())
@@ -98,8 +98,8 @@ async def no_name_error(interaction: Interaction, norris: Norris) -> None:
             .where(Registration.user_id == interaction.user.id),
         )
 
-    # NOTE: circular modules again
-    from ..responses import no_name_error_embed
+    # NOTE: guess what
+    from ...responses import no_name_error_embed
 
     # Ask the user to seek assistance
     await interaction.followup.send(
@@ -120,7 +120,7 @@ async def kind_denied(interaction: Interaction, norris: Norris) -> None:
         )
 
     # NOTE: guess what
-    from ..responses import kind_denied_embed
+    from ...responses import kind_denied_embed
 
     # Direct the user to reg support
     await interaction.user.send(
@@ -140,8 +140,8 @@ async def kind_confirmed(interaction: Interaction, norris: Norris) -> None:
             .where(Registration.user_id == interaction.user.id),
         )
 
-    # NOTE: guess what
-    from ..responses import RegisteredContinueView, kind_confirmed_embed
+    # NOTE: sigh
+    from ...responses import RegisteredContinueView, kind_confirmed_embed
 
     # Direct the user to reg support
     await interaction.user.send(

@@ -57,6 +57,7 @@ def no_name_error_embed(support_channel_id: int) -> Embed:
                     f"seek assistance in <#{support_channel_id}>.",
     )
 
+
 def confirm_kind_embed(user_kind: str) -> Embed:
     return Embed(
         title="Registration",
@@ -65,6 +66,7 @@ def confirm_kind_embed(user_kind: str) -> Embed:
                     f"correct?",
     )
 
+
 def kind_denied_embed(support_channel_id: int) -> Embed:
     return Embed(
         title="Registration",
@@ -72,6 +74,7 @@ def kind_denied_embed(support_channel_id: int) -> Embed:
         description=f"We're having trouble finding your role, please seek assistance "
                     f"in <#{support_channel_id}>.",
     )
+
 
 def kind_confirmed_embed() -> Embed:
     return Embed(

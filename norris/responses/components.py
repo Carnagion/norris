@@ -49,6 +49,7 @@ class NameConfirmView(View):
     async def name_denied(self, _: Button, interaction: Interaction) -> None:
         await component_interaction.name_denied(interaction, self._norris)
 
+
 class KindConfirmView(View):
     _norris: Norris
 
@@ -64,6 +65,7 @@ class KindConfirmView(View):
     async def kind_denied(self, _: Button, interaction: Interaction) -> None:
         await component_interaction.kind_denied(interaction, self._norris)
 
+
 class RegisteredContinueView(View):
     _norris: Norris
 
@@ -73,8 +75,8 @@ class RegisteredContinueView(View):
 
     @button(label="Continue", style=ButtonStyle.primary)
     async def registered_continue_clicked(self,
-                                            _: Button,
-                                            interaction: Interaction) -> None:
+                                          _: Button,
+                                          interaction: Interaction) -> None:
         pass
         """await component_interaction.on_instructions_continue_clicked(interaction,
                                                                      self._norris)"""

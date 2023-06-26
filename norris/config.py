@@ -1,7 +1,7 @@
-from typing import Self
 from dataclasses import dataclass
+from typing import Self
 
-from serde import serde, field
+from serde import field, serde
 from serde.toml import from_toml
 from sqlalchemy import URL, make_url
 
@@ -63,7 +63,7 @@ class NorrisConfig:
     log_path: str  # TODO: use when logging is setup
     channels: ChannelsConfig
     roles: RolesConfig
-    database_url: URL = field(
+    database_url: URL = field(  # NOQA: RUF009 - this is how serde is meant to be used
         deserializer=lambda url: make_url(url).set(drivername="mysql+asyncmy"),
     )
 

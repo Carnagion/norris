@@ -1,8 +1,8 @@
 from discord import Bot, Intents
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 
+from .config import ChannelsConfig, NorrisConfig, RolesConfig
 from .model import DataModel
-from .config import NorrisConfig, RolesConfig, ChannelsConfig
 
 
 class Norris(Bot):

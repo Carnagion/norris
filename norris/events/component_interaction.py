@@ -61,8 +61,7 @@ async def name_confirmed(interaction: Interaction, norris: Norris) -> None:
                     ),
                 )
 
-                # NOTE: sigh
-                from ..responses import confirm_kind_embed, KindConfirmView
+                from ..responses import KindConfirmView, confirm_kind_embed
 
                 user_kind = verified_user.kind.description()
                 await interaction.user.send(
@@ -142,7 +141,7 @@ async def kind_confirmed(interaction: Interaction, norris: Norris) -> None:
         )
 
     # NOTE: guess what
-    from ..responses import kind_confirmed_embed, RegisteredContinueView
+    from ..responses import RegisteredContinueView, kind_confirmed_embed
 
     # Direct the user to reg support
     await interaction.user.send(

@@ -1,35 +1,23 @@
 from discord import Bot, Intents
-from sqlalchemy import URL
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 
 from .model import DataModel
+from .config import NorrisConfig, RolesConfig, ChannelsConfig
 
 
 class Norris(Bot):
-    guild_id: int
     database_engine: AsyncEngine
-    arrival_channel_id: int
-    support_channel_id: int
-    log_channel_id: int
-    undergrad_atrium_channel_id: int
+    guild_id: int  # TODO: use when slash commands are setup
+    channels: ChannelsConfig
+    roles: RolesConfig
 
-
-    def __init__(self,
-                 guild_id: int,
-                 database_url: URL,
-                 arrival_channel_id: int,
-                 support_channel_id: int,
-                 log_channel_id: int,
-                 undergrad_atrium_channel_id: int) -> None:
+    def __init__(self, config: NorrisConfig) -> None:
         # Create bot and connect to database
         super().__init__(intents=Intents.default() | Intents.members)
 
-        self.guild_id = guild_id
-        self.database_engine = create_async_engine(database_url, echo=True)
-        self.arrival_channel_id = arrival_channel_id
-        self.support_channel_id = support_channel_id
-        self.log_channel_id = log_channel_id
-        self.undergrad_atrium_channel_id = undergrad_atrium_channel_id
+        # Connect to database
+        self.guild_id = config.guild_id
+        self.database_engine = create_async_engine(config.database_url, echo=True)
 
         # NOTE: import done here because fuck Python and fuck its circular imports
         from .events import Events

@@ -35,12 +35,15 @@ async def on_member_join(member: Member, norris: Norris) -> None:
         )
     except (Forbidden, HTTPException):
         # Inform user if they could not be DMed
-        await norris.get_channel(norris.arrival_channel_id).send(
-            embed=instructions_error_embed(member.id, norris.support_channel_id),
+        await norris.get_channel(norris.channels.arrival_channel_id).send(
+            embed=instructions_error_embed(
+                member.id,
+                norris.channels.support_channel_id,
+            ),
         )
     else:
         # Inform the user of instructions sent to them privately
-        await norris.get_channel(norris.arrival_channel_id).send(
+        await norris.get_channel(norris.channels.arrival_channel_id).send(
             embed=instructions_sent_embed(member.id),
             view=OpenDirectMessagesView(),
         )

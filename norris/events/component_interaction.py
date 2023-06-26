@@ -106,7 +106,7 @@ async def no_name_error(interaction: Interaction, norris: Norris) -> None:
 
     # Ask the user to seek assistance
     await interaction.followup.send(
-        embed=no_name_error_embed(norris.support_channel_id),
+        embed=no_name_error_embed(norris.channels.support_channel_id),
     )
 
 async def kind_denied(interaction: Interaction, norris: Norris) -> None:

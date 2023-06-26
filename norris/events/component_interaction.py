@@ -36,7 +36,7 @@ async def name_confirmed(interaction: Interaction, norris: Norris) -> None:
             .where(Registration.user_id == interaction.user.id)
             .limit(1),
         )
-   
+
         user_name = result.one().name  # NOTE: this should be a NameEntered
 
         # Try to find a matching user who is not registered
@@ -49,28 +49,26 @@ async def name_confirmed(interaction: Interaction, norris: Norris) -> None:
         )
         verified_user = result.one_or_none()
 
-        if verified_user == None:
-            await no_name_error(interaction, norris)
-        else:
-            await connection.execute(
-                update(Registration)
-                .where(Registration.user_id == interaction.user.id)
-                .values(
-                    status=RegistrationStatus.KIND_FOUND,
-                ),
-            )
-            from ..responses import confirm_kind_embed, KindConfirmView
-            user_kind = verified_user.kind.description()
-            await interaction.user.send(
-                embed=confirm_kind_embed(user_kind),
-                view=KindConfirmView(norris),
-            )
-
-        """match verified_user:
+        match verified_user:
             case None:
                 await no_name_error(interaction, norris)
             case VerifiedUser():
-                pass"""
+                await connection.execute(
+                    update(Registration)
+                    .where(Registration.user_id == interaction.user.id)
+                    .values(
+                        status=RegistrationStatus.KIND_FOUND,
+                    ),
+                )
+
+                # NOTE: sigh
+                from ..responses import confirm_kind_embed, KindConfirmView
+
+                user_kind = verified_user.kind.description()
+                await interaction.user.send(
+                    embed=confirm_kind_embed(user_kind),
+                    view=KindConfirmView(norris),
+                )
 
 
 async def name_denied(interaction: Interaction, norris: Norris) -> None:
@@ -109,6 +107,7 @@ async def no_name_error(interaction: Interaction, norris: Norris) -> None:
         embed=no_name_error_embed(norris.channels.support_channel_id),
     )
 
+
 async def kind_denied(interaction: Interaction, norris: Norris) -> None:
     # Defer response to give time for database queries
     await interaction.response.defer()
@@ -126,14 +125,14 @@ async def kind_denied(interaction: Interaction, norris: Norris) -> None:
 
     # Direct the user to reg support
     await interaction.user.send(
-                embed=kind_denied_embed(norris.support_channel_id),
-            )
-    
+        embed=kind_denied_embed(norris.channels.support_channel_id),
+    )
+
 
 async def kind_confirmed(interaction: Interaction, norris: Norris) -> None:
-     # Defer response to give time for database queries
+    # Defer response to give time for database queries
     await interaction.response.defer()
-    
+
     async with norris.database_engine.begin() as connection:
         # Update the user's registration state to registered
         await connection.execute(
@@ -141,12 +140,12 @@ async def kind_confirmed(interaction: Interaction, norris: Norris) -> None:
             .values(status=RegistrationStatus.REGISTERED)
             .where(Registration.user_id == interaction.user.id),
         )
-    
+
     # NOTE: guess what
     from ..responses import kind_confirmed_embed, RegisteredContinueView
 
     # Direct the user to reg support
     await interaction.user.send(
-                embed=kind_confirmed_embed(),
-                view=RegisteredContinueView(norris),
-            )
+        embed=kind_confirmed_embed(),
+        view=RegisteredContinueView(norris),
+    )

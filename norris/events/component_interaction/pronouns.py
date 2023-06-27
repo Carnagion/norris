@@ -20,7 +20,7 @@ async def pronouns_clicked(interaction: Interaction,
 
 
 async def skip_clicked(interaction: Interaction, norris: Norris) -> None:
-   # Defer response to give time for database queries
+    # Defer response to give time for database queries
     await interaction.response.defer()
 
     # Update the user's registration state to pronouns picked
@@ -31,7 +31,7 @@ async def skip_clicked(interaction: Interaction, norris: Norris) -> None:
             .where(Registration.user_id == interaction.user.id),
         )
 
-    from ...responses import housing_embed, HousingView
+    from ...responses import HousingView, housing_embed
 
     # Ask the user to pick housing
     await interaction.followup.send(

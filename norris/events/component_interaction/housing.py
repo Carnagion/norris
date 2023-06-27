@@ -20,6 +20,9 @@ async def housing_clicked(interaction: Interaction,
 
 
 async def skip_clicked(interaction: Interaction, norris: Norris) -> None:
+    # Defer response to give time for database queries
+    await interaction.response.defer()
+
     async with norris.database_engine.begin() as connection:
         # Update the user's registration state to registered
         await connection.execute(

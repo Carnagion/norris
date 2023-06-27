@@ -2,14 +2,14 @@ from discord import ButtonStyle, Interaction
 from discord.ui import Button, View, button
 
 from ..bot import Norris
-from ..config import Pronouns, Housing
+from ..config import Housing, Pronouns
 from ..events.component_interaction import (
+    housing,
     instructions,
     kind_confirm,
     name_confirm,
     pronouns,
     verified,
-    housing,
 )
 
 

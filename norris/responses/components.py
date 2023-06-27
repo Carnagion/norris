@@ -2,12 +2,14 @@ from discord import ButtonStyle, Interaction
 from discord.ui import Button, View, button
 
 from ..bot import Norris
+from ..config import Pronouns, Housing
 from ..events.component_interaction import (
     instructions,
     kind_confirm,
     name_confirm,
     pronouns,
     verified,
+    housing,
 )
 
 
@@ -90,40 +92,69 @@ class PronounsView(View):
 
     @button(label="He / Him", style=ButtonStyle.primary)
     async def he_him_clicked(self, _: Button, interaction: Interaction) -> None:
-        await pronouns.pronouns_clicked(interaction,
-                                        pronouns.Pronouns.HE_HIM,
-                                        self._norris)
+        await pronouns.pronouns_clicked(interaction, Pronouns.HE_HIM, self._norris)
 
     @button(label="She / Her", style=ButtonStyle.primary)
     async def she_her_clicked(self, _: Button, interaction: Interaction) -> None:
-        await pronouns.pronouns_clicked(interaction,
-                                        pronouns.Pronouns.SHE_HER,
-                                        self._norris)
+        await pronouns.pronouns_clicked(interaction, Pronouns.SHE_HER, self._norris)
 
     @button(label="They / Them", style=ButtonStyle.primary)
     async def they_them_clicked(self, _: Button, interaction: Interaction) -> None:
-        await pronouns.pronouns_clicked(interaction,
-                                        pronouns.Pronouns.THEY_THEM,
-                                        self._norris)
+        await pronouns.pronouns_clicked(interaction, Pronouns.THEY_THEM, self._norris)
 
     @button(label="Xe / Xem", style=ButtonStyle.primary)
     async def xe_xem_clicked(self, _: Button, interaction: Interaction) -> None:
-        await pronouns.pronouns_clicked(interaction,
-                                        pronouns.Pronouns.XE_XEM,
-                                        self._norris)
+        await pronouns.pronouns_clicked(interaction, Pronouns.XE_XEM, self._norris)
 
     @button(label="Any", style=ButtonStyle.primary)
     async def any_clicked(self, _: Button, interaction: Interaction) -> None:
-        await pronouns.pronouns_clicked(interaction,
-                                        pronouns.Pronouns.ANY,
-                                        self._norris)
+        await pronouns.pronouns_clicked(interaction, Pronouns.ANY, self._norris)
 
     @button(label="Ask me", style=ButtonStyle.primary)
     async def ask_clicked(self, _: Button, interaction: Interaction) -> None:
-        await pronouns.pronouns_clicked(interaction,
-                                        pronouns.Pronouns.ASK,
-                                        self._norris)
+        await pronouns.pronouns_clicked(interaction, Pronouns.ASK, self._norris)
 
     @button(label="Skip", style=ButtonStyle.red)
     async def skip_clicked(self, _: Button, interaction: Interaction) -> None:
         await pronouns.skip_clicked(interaction, self._norris)
+
+
+class HousingView(View):
+    _norris: Norris
+
+    def __init__(self, norris: Norris) -> None:
+        super().__init__()
+        self._norris = norris
+
+    @button(label="Catered halls (Jubilee)", style=ButtonStyle.primary)
+    async def jc_catered_clicked(self, _: Button, interaction: Interaction) -> None:
+        await housing.housing_clicked(interaction, Housing.JC_CATERED, self._norris)
+
+    @button(label="Catered halls (University Park)", style=ButtonStyle.primary)
+    async def up_catered_clicked(self, _: Button, interaction: Interaction) -> None:
+        await housing.housing_clicked(interaction, Housing.UP_CATERED, self._norris)
+
+    @button(label="Self-catered halls (Jubilee area)", style=ButtonStyle.primary)
+    async def jc_self_catered_clicked(self,
+                                      _: Button,
+                                      interaction: Interaction) -> None:
+        await housing.housing_clicked(interaction,
+                                      Housing.JC_SELF_CATERED,
+                                      self._norris)
+
+    @button(label="Self-catered halls (University Park area)",
+            style=ButtonStyle.primary)
+    async def up_self_catered_clicked(self,
+                                      _: Button,
+                                      interaction: Interaction) -> None:
+        await housing.housing_clicked(interaction,
+                                      Housing.UP_SELF_CATERED,
+                                      self._norris)
+
+    @button(label="Private housing", style=ButtonStyle.primary)
+    async def private_house_clicked(self, _: Button, interaction: Interaction) -> None:
+        await housing.housing_clicked(interaction, Housing.PRIVATE_HOUSE, self._norris)
+
+    @button(label="Skip", style=ButtonStyle.red)
+    async def skip_clicked(self, _: Button, interaction: Interaction) -> None:
+        await housing.skip_clicked(interaction, self._norris)

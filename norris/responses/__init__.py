@@ -5,6 +5,7 @@ from .components import (
     OpenDirectMessagesView,
     PronounsView,
     VerifiedContinueView,
+    HousingView,
 )
 from .embeds import (
     confirm_kind_embed,
@@ -18,4 +19,5 @@ from .embeds import (
     pronouns_embed,
     request_name_embed,
     verified_continue_embed,
+    registration_finished_embed,
 )

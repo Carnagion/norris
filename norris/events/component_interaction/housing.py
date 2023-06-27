@@ -12,7 +12,8 @@ async def housing_clicked(interaction: Interaction,
     # Give the user the desired housing role
     guild = norris.get_guild(norris.guild_id)
     member = guild.get_member(interaction.user.id)
-    await member.add_roles(norris.roles.housing.role_id(housing))
+    role = guild.get_role(norris.roles.housing.role_id(housing))
+    await member.add_roles(role)
 
     # Move on to housing
     await skip_clicked(interaction, norris)
@@ -38,7 +39,8 @@ async def skip_clicked(interaction: Interaction, norris: Norris) -> None:
         # Give the user the relevant hierarchy role
         guild = norris.get_guild(norris.guild_id)
         member = guild.get_member(interaction.user.id)
-        await member.add_roles(norris.roles.hierarchy.role_id(verified_user.kind))
+        role = guild.get_role(norris.roles.hierarchy.role_id(verified_user.kind))
+        await member.add_roles(role)
 
     from ...responses import registration_finished_embed
 

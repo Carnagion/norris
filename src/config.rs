@@ -19,13 +19,14 @@ pub struct NorrisConfig {
     pub roles: RolesConfig,
 }
 
-#[derive(Clone, Copy, Debug, Deserialize, Eq, Hash, PartialEq, Serialize)]
+#[derive(Clone, Debug, Deserialize, Eq, Hash, PartialEq, Serialize)]
 #[serde(rename_all = "kebab-case")]
 pub struct ChannelsConfig {
     pub arrival_channel_id: ChannelId,
     pub support_channel_id: ChannelId,
     pub chat_channel_id: ChannelId,
     pub log_channel_id: ChannelId,
+    pub postgrad_channel_ids: Vec<ChannelId>,
 }
 
 #[derive(Clone, Copy, Debug, Deserialize, Eq, Hash, PartialEq, Serialize)]

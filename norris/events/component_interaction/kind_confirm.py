@@ -25,14 +25,23 @@ async def yes_clicked(interaction: Interaction, norris: Norris) -> None:
             .where(Registration.user_id == interaction.user.id),
         )
 
+        # Select the ID of a verified user with a matching name and role
+        # NOTE: we need this because sqlalchemy doesn't support limits on updates, which
+        # means we can't just limit the change to one row like in the Rust version
+        result = await connection.execute(
+            select(VerifiedUser)
+            .where(VerifiedUser.name == registration.name
+                   and VerifiedUser.kind == registration.kind
+                   and VerifiedUser.registered_user_id is None)
+            .limit(1)
+        )
+        verified_user = result.one()
+
         # Link the user's account to the matching verified user
         await connection.execute(
             update(VerifiedUser)
             .values(registered_user_id=interaction.user.id)
-            .where(VerifiedUser.name == registration.name
-                   and VerifiedUser.kind == registration.kind
-                   and VerifiedUser.registered_user_id is None)
-            .limit(1),  # NOTE: only one user should be considered verified
+            .where(VerifiedUser.id == verified_user.id)
         )
 
     # NOTE: thanks Python for this amazing module system

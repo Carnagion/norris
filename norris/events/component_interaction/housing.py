@@ -48,6 +48,6 @@ async def skip_clicked(interaction: Interaction, norris: Norris) -> None:
     from ...responses import registration_finished_embed
 
     # Inform the user of completion
-    interaction.followup.send(
+    await interaction.followup.send(
         embed=registration_finished_embed(norris.channels.chat_channel_id),
     )

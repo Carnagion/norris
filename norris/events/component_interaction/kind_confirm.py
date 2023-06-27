@@ -1,8 +1,8 @@
 from discord import Interaction
-from sqlalchemy import update, select
+from sqlalchemy import select, update
 
 from ...bot import Norris
-from ...model import Registration, RegistrationStatus, KindFound, VerifiedUser
+from ...model import KindFound, Registration, RegistrationStatus, VerifiedUser
 
 
 async def yes_clicked(interaction: Interaction, norris: Norris) -> None:

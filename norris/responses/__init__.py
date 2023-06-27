@@ -20,6 +20,7 @@ from .embeds import (
     registration_finished_embed,
     request_name_embed,
     verified_continue_embed,
+    atrium_welcome_embed,
 )
 
 from .log_embeds import (
@@ -32,7 +33,7 @@ from .log_embeds import (
     housing_selected_log_embed,
     registered_log_embed,
     dm_fail_log_embed,
-    no_name_log_embed,
+    name_error_log_embed,
     kind_error_log_embed,
     user_left_log_embed,
     reg_restarted_log_embed,

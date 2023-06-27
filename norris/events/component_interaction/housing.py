@@ -45,6 +45,9 @@ async def skip_clicked(interaction: Interaction, norris: Norris) -> None:
         role = guild.get_role(norris.roles.hierarchy.role_id(verified_user.kind))
         await member.add_roles(role)
 
+        # Change the user's nickname to their verified name
+        await member.edit(nick=verified_user.name)
+
     from ...responses import registration_finished_embed
 
     # Inform the user of completion

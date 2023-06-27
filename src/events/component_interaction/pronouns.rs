@@ -41,7 +41,9 @@ pub async fn skip_clicked(
 ) -> BotResult<()> {
     // Update the user's registration state to pronouns picked
     sqlx::query!(
-        "update registrations set status = ? where user_id = ?",
+        "update registrations
+        set status = ?
+        where user_id = ?",
         RegistrationStatus::PronounsPicked.to_string(),
         component_interaction.user.id.0,
     )

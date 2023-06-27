@@ -68,7 +68,9 @@ pub async fn no_clicked(
 
     // Set the user's registration state to failed
     sqlx::query!(
-        "update registrations set status = ?, name = null where user_id = ?",
+        "update registrations
+        set status = ?, name = null
+        where user_id = ?",
         RegistrationStatus::Failed.to_string(),
         user.id.0,
     )

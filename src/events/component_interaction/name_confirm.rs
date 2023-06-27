@@ -12,7 +12,10 @@ pub async fn yes_clicked(
 ) -> BotResult<()> {
     // Try to find a matching user
     let verified_user = sqlx::query!(
-        "select * from users where name = ? and registered_user_id is null order by kind limit 1",
+        "select * from users
+        where name = ? and registered_user_id is null
+        order by kind
+        limit 1",
         name,
     )
     .try_map(|row| VerifiedUser::from_columns(row.name, row.kind, row.registered_user_id))
@@ -96,7 +99,9 @@ async fn reset_status(
 ) -> BotResult<()> {
     // Update the user's registration state
     sqlx::query!(
-        "update registrations set status = ?, name = null where user_id = ?",
+        "update registrations
+        set status = ?, name = null
+        where user_id = ?",
         status.to_string(),
         user_id.0,
     )
@@ -119,7 +124,9 @@ async fn request_kind_confirm(
 ) -> BotResult<()> {
     // Update the user's registration state to name confirmed
     sqlx::query!(
-        "update registrations set status = ?, kind = ? where user_id = ?", // NOTE: Name should have been set when name entered
+        "update registrations
+        set status = ?, kind = ?
+        where user_id = ?", // NOTE: Name should have been set when name entered
         RegistrationStatus::KindFound(verified_user.name, verified_user.kind).to_string(),
         verified_user.kind.to_string(),
         component_interaction.user.id.0,

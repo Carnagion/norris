@@ -26,7 +26,8 @@ pub async fn message_component_interacted(
 
     // Try to get the user's registration status
     let registration_status = sqlx::query!(
-        "select status, name, kind from registrations where user_id = ?",
+        "select status, name, kind from registrations
+        where user_id = ?",
         component_interaction.user.id.0,
     )
     .try_map(|row| RegistrationStatus::from_columns(row.status, row.name, row.kind))

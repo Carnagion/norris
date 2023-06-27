@@ -42,7 +42,9 @@ pub async fn skip_clicked(
 
     // Update the user's registration state to housing picked
     sqlx::query!(
-        "update registrations set status = ? where user_id = ?",
+        "update registrations
+        set status = ?
+        where user_id = ?",
         RegistrationStatus::Registered.to_string(),
         user_id.0,
     )
@@ -52,7 +54,8 @@ pub async fn skip_clicked(
     // Find the matching verified user
     let verified_user = sqlx::query!(
         "select * from users
-        where registered_user_id = ?", // NOTE: This should have been set when verified before pronouns
+        where registered_user_id = ?
+        limit 1", // NOTE: This should have been set when verified before pronouns
         user_id.0,
     )
     .try_map(|row| VerifiedUser::from_columns(row.name, row.kind, row.registered_user_id))

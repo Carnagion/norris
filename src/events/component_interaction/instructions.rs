@@ -11,7 +11,9 @@ pub async fn continue_clicked(
 ) -> BotResult<()> {
     // Update the user's registration state to started
     sqlx::query!(
-        "update registrations set status = ? where user_id = ?",
+        "update registrations
+        set status = ?
+        where user_id = ?",
         RegistrationStatus::Started.to_string(),
         component_interaction.user.id.0,
     )

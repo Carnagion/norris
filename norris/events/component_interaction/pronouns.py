@@ -28,10 +28,10 @@ async def skip_clicked(interaction: Interaction, norris: Norris) -> None:
             .where(Registration.user_id == interaction.user.id),
         )
 
-    from ...responses import HousingView, housing_embed
+    from ...responses import housing_embed, HousingView
 
     # Ask the user to pick housing
-    interaction.followup.send(
+    await interaction.followup.send(
         embed=housing_embed(),
         view=HousingView(norris),
     )

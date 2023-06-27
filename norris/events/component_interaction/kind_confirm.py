@@ -18,12 +18,12 @@ async def yes_clicked(interaction: Interaction, norris: Norris) -> None:
         )
 
     # NOTE: thanks Python for this amazing module system
-    from ...responses import RegisteredContinueView, verified_continue_embed
+    from ...responses import VerifiedContinueView, verified_continue_embed
 
-    # Direct the user to reg support
-    await interaction.user.send(
+    # Inform the user of verification and ask them to continue with optional questions
+    await interaction.followup.send(
         embed=verified_continue_embed(),
-        view=RegisteredContinueView(norris),
+        view=VerifiedContinueView(norris),
     )
 
 
@@ -42,7 +42,7 @@ async def no_clicked(interaction: Interaction, norris: Norris) -> None:
     # NOTE: I want to bang my head against a wall
     from ...responses import kind_error_embed
 
-    # Direct the user to reg support
-    await interaction.user.send(
+    # Ask the user to seek assistance
+    await interaction.followup.send(
         embed=kind_error_embed(norris.channels.support_channel_id),
     )

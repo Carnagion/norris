@@ -118,7 +118,7 @@ class PronounsView(View):
                                         pronouns.Pronouns.ANY,
                                         self._norris)
 
-    @button(label="Ask me", style=ButtonStyle.secondary)
+    @button(label="Ask me", style=ButtonStyle.primary)
     async def ask_clicked(self, _: Button, interaction: Interaction) -> None:
         await pronouns.pronouns_clicked(interaction,
                                         pronouns.Pronouns.ASK,

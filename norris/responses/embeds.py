@@ -105,9 +105,12 @@ def pronouns_embed() -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
-        description="What are your **pronouns**? This helps others understand how "
-                    "best to address you, and will only be displayed via a role on "
-                    "your server profile.",
+        description="What are your **pronouns**? Displaying your pronouns is "
+                    "important for making everyone on the server feel comfortable, "
+                    "they are for everyone regardless of if you are cis or under the "
+                    "trans umbrella. If you use multiple pronouns, or want to change "
+                    "your pronouns later, you can change them at any time in the "
+                    "pronouns channel once you are registered.",
         timestamp=datetime.utcnow(),
     )
 

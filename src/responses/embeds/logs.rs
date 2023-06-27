@@ -1,11 +1,11 @@
 use chrono::Utc;
 
-use poise::serenity_prelude::{self as serenity, colours::css::WARNING};
+use poise::serenity_prelude as serenity;
 
 use serenity::{
     colours::{
         branding::BLURPLE,
-        css::{DANGER, POSITIVE},
+        css::{DANGER, POSITIVE, WARNING},
     },
     *,
 };

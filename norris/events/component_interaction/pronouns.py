@@ -12,7 +12,8 @@ async def pronouns_clicked(interaction: Interaction,
     # Give the user the desired pronouns role
     guild = norris.get_guild(norris.guild_id)
     member = guild.get_member(interaction.user.id)
-    await member.add_roles(norris.roles.pronouns.role_id(pronouns))
+    role = guild.get_role(norris.roles.pronouns.role_id(pronouns))
+    await member.add_roles(role)
 
     # Move on to housing
     await skip_clicked(interaction, norris)

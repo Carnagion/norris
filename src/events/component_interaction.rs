@@ -74,7 +74,7 @@ pub async fn message_component_interacted(
         (responses::PRONOUNS_SKIP, Some(RegistrationStatus::Verified)) => {
             pronouns::skip_clicked(context, component_interaction, bot_data).await
         },
-        // User has picked or skipped prnouns and is picking housing
+        // User has picked or skipped pronouns and is picking housing
         (
             housing @ (responses::HOUSING_JC_CATERED
             | responses::HOUSING_UP_CATERED

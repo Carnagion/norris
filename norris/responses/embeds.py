@@ -106,7 +106,7 @@ def pronouns_embed() -> Embed:
         title="Registration",
         colour=Colour.blurple(),
         description="What are your **pronouns**? Displaying your pronouns is "
-                    "important for making everyone on the server feel comfortable, "
+                    "important for making everyone on the server feel comfortable - "
                     "they are for everyone regardless of if you are cis or under the "
                     "trans umbrella. If you use multiple pronouns, or want to change "
                     "your pronouns later, you can change them at any time in the "

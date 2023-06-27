@@ -36,6 +36,7 @@ async def pronouns_clicked(interaction: Interaction,
                            pronouns: Pronouns,
                            norris: Norris) -> None:
     # Give the user the desired pronouns role
+    # FIXME: need to get a Member from a User so we can add roles
     await interaction.user.add_roles(pronouns.role(norris))
 
     # Move on to housing

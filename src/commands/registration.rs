@@ -1,9 +1,9 @@
 use crate::prelude::*;
 
-pub mod restart;
+mod restart;
 pub use restart::restart;
 
-pub mod nuke;
+mod nuke;
 pub use nuke::nuke;
 
 #[poise::command(slash_command, subcommands("restart", "nuke"), guild_only)]

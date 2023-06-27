@@ -224,3 +224,23 @@ pub fn registration_nuke_embed(
             .timestamp(Utc::now())
     }
 }
+
+pub fn count_embed(
+    title: &str,
+    registered: u64,
+    total: u64,
+) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed + '_ {
+    // Calculate percentage of registered vs total
+    let ratio = registered as f64 / total as f64;
+    let percent = ratio * 100.0;
+
+    move |embed| {
+        embed
+            .title(title)
+            .colour(BLURPLE)
+            .field("Total", total, true)
+            .field("Registered", registered, true)
+            .field("Percentage", format!("{:.?}", percent), false)
+            .timestamp(Utc::now())
+    }
+}

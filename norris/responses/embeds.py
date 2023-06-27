@@ -72,7 +72,7 @@ def confirm_kind_embed(user_kind: VerifiedUserKind) -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
-        description=f"We've detected that you are a **<@{user_kind.description()}>**."
+        description=f"We've detected that you are a **{user_kind.description()}**."
                     f"Is that correct?",
         timestamp=datetime.utcnow(),
     )

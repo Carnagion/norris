@@ -56,9 +56,8 @@ async def yes_clicked(interaction: Interaction, norris: Norris) -> None:
             )
 
             # Ask the user to confirm their kind
-            user_kind = verified_user.kind.description()
             await interaction.followup.send(
-                embed=confirm_kind_embed(user_kind),
+                embed=confirm_kind_embed(verified_user.kind),
                 view=KindConfirmView(norris),
             )
 

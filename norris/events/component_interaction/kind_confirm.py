@@ -1,8 +1,8 @@
 from discord import Interaction
-from sqlalchemy import update
+from sqlalchemy import update, select
 
 from ...bot import Norris
-from ...model import Registration, RegistrationStatus
+from ...model import Registration, RegistrationStatus, KindFound, VerifiedUser
 
 
 async def yes_clicked(interaction: Interaction, norris: Norris) -> None:
@@ -10,11 +10,29 @@ async def yes_clicked(interaction: Interaction, norris: Norris) -> None:
     await interaction.response.defer()
 
     async with norris.database_engine.begin() as connection:
+        # Get the user's name and kind
+        result = await connection.execute(
+            select(KindFound)
+            .where(Registration.user_id == interaction.user.id)
+            .limit(1),
+        )
+        registration = result.one()
+
         # Update the user's registration state to verified
         await connection.execute(
             update(Registration)
             .values(status=RegistrationStatus.VERIFIED, name=None, kind=None)
             .where(Registration.user_id == interaction.user.id),
+        )
+
+        # Link the user's account to the matching verified user
+        await connection.execute(
+            update(VerifiedUser)
+            .values(registered_user_id=interaction.user.id)
+            .where(VerifiedUser.name == registration.name
+                   and VerifiedUser.kind == registration.kind
+                   and VerifiedUser.registered_user_id is None)
+            .limit(1),  # NOTE: only one user should be considered verified
         )
 
     # NOTE: thanks Python for this amazing module system

@@ -59,7 +59,7 @@ impl VerifiedUserKind {
     pub fn description(self) -> &'static str {
         match self {
             Self::Undergrad => "first-year undergraduate student",
-            Self::Postgrad => "postgraduate student",
+            Self::Postgrad => "first-year postgraduate student",
             Self::Mentor => "mentor",
             Self::SeniorMentor => "senior mentor",
             Self::HonoraryMentor => "honorary mentor",

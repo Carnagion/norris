@@ -1,11 +1,11 @@
 from .components import (
+    HousingView,
     InstructionsContinueView,
     KindConfirmView,
     NameConfirmView,
     OpenDirectMessagesView,
     PronounsView,
     VerifiedContinueView,
-    HousingView,
 )
 from .embeds import (
     confirm_kind_embed,
@@ -17,7 +17,7 @@ from .embeds import (
     kind_error_embed,
     no_name_error_embed,
     pronouns_embed,
+    registration_finished_embed,
     request_name_embed,
     verified_continue_embed,
-    registration_finished_embed,
 )

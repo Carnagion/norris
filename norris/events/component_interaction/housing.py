@@ -1,5 +1,5 @@
 from discord import Interaction
-from sqlalchemy import update, select
+from sqlalchemy import select, update
 
 from ...bot import Norris
 from ...config import Housing
@@ -31,7 +31,7 @@ async def skip_clicked(interaction: Interaction, norris: Norris) -> None:
         result = await connection.execute(
             select(VerifiedUser)
             .where(VerifiedUser.registered_user_id == interaction.user.id)
-            .limit(1)
+            .limit(1),
         )
         verified_user = result.one()
 

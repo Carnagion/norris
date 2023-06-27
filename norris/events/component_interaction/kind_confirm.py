@@ -33,7 +33,7 @@ async def yes_clicked(interaction: Interaction, norris: Norris) -> None:
             .where(VerifiedUser.name == registration.name
                    and VerifiedUser.kind == registration.kind
                    and VerifiedUser.registered_user_id is None)
-            .limit(1)
+            .limit(1),
         )
         verified_user = result.one()
 
@@ -41,7 +41,7 @@ async def yes_clicked(interaction: Interaction, norris: Norris) -> None:
         await connection.execute(
             update(VerifiedUser)
             .values(registered_user_id=interaction.user.id)
-            .where(VerifiedUser.id == verified_user.id)
+            .where(VerifiedUser.id == verified_user.id),
         )
 
     # NOTE: thanks Python for this amazing module system

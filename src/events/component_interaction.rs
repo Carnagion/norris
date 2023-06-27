@@ -10,7 +10,7 @@ mod name_confirm;
 
 mod kind_confirm;
 
-mod registered;
+mod verified;
 
 mod pronouns;
 
@@ -58,7 +58,7 @@ pub async fn message_component_interacted(
         },
         // User has been verified and is continuing on to pronouns and housing
         (responses::VERIFIED_CONTINUE, Some(RegistrationStatus::Verified)) => {
-            registered::continue_clicked(context, component_interaction).await
+            verified::continue_clicked(context, component_interaction).await
         },
         // User has been verified and is picking a pronoun
         (

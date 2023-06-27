@@ -49,23 +49,29 @@ pub async fn skip_clicked(
     .execute(&bot_data.database_pool)
     .await?;
 
-    // Find the user's kind
-    let kind = sqlx::query!(
+    // Find the matching verified user
+    let verified_user = sqlx::query!(
         "select * from users
         where registered_user_id = ?", // NOTE: This should have been set when verified before pronouns
         user_id.0,
     )
     .try_map(|row| VerifiedUser::from_columns(row.name, row.kind, row.registered_user_id))
     .fetch_one(&bot_data.database_pool)
-    .await?
-    .kind;
+    .await?;
+
+    let mut member = bot_data.guild_id.member(&context.http, user_id).await?;
 
     // Give the user the appropriate role
-    bot_data
-        .guild_id
-        .member(&context.http, user_id)
-        .await?
-        .add_role(&context.http, bot_data.roles.hierarchy.role(kind))
+    member
+        .add_role(
+            &context.http,
+            bot_data.roles.hierarchy.role(verified_user.kind),
+        )
+        .await?;
+
+    // Change the user's nickname to their verified name
+    member
+        .edit(&context.http, |member| member.nickname(verified_user.name))
         .await?;
 
     // Inform the user of completion

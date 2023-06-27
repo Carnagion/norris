@@ -20,6 +20,9 @@ async def pronouns_clicked(interaction: Interaction,
 
 
 async def skip_clicked(interaction: Interaction, norris: Norris) -> None:
+   # Defer response to give time for database queries
+    await interaction.response.defer()
+
     # Update the user's registration state to pronouns picked
     async with norris.database_engine.begin() as connection:
         await connection.execute(

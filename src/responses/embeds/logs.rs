@@ -160,7 +160,7 @@ pub fn user_left_log_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> 
     move |embed| {
         embed
             .title("Registration")
-            .colour(BLURPLE)
+            .colour(WARNING)
             .description(format!(
                 "<@{}> has left the server. \
                 They have been de-registered.",

@@ -77,12 +77,16 @@ pub async fn skip_clicked(
         .edit(&context.http, |member| member.nickname(verified_user.name))
         .await?;
 
+    // Use a different channel for postgrads
+    let main_channel_id = match verified_user.kind {
+        VerifiedUserKind::Postgrad => bot_data.channels.postgrad.main_channel_id,
+        _ => bot_data.channels.undergrad.main_channel_id,
+    };
+
     // Inform the user of completion
     component_interaction
         .create_followup_message(&context.http, |message| {
-            message.embed(responses::registration_finished_embed(
-                bot_data.channels.chat_channel_id,
-            ))
+            message.embed(responses::registration_finished_embed(main_channel_id))
         })
         .await?;
 

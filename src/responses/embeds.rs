@@ -182,7 +182,7 @@ pub fn housing_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
 }
 
 pub fn registration_finished_embed(
-    chat_channel_id: ChannelId,
+    main_channel_id: ChannelId,
 ) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
         embed
@@ -192,7 +192,7 @@ pub fn registration_finished_embed(
                 "Thank you for your patience! \
                 We have no additional questions. \
                 You can now head over to <#{}> to chat with your new course peers and mentors.",
-                chat_channel_id,
+                main_channel_id,
             ))
             .timestamp(Utc::now())
     }

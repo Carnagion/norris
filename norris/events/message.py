@@ -4,11 +4,18 @@ from sqlalchemy import select, update
 from ..bot import Norris
 from ..model import Registration, RegistrationStatus
 from ..responses import NameConfirmView, confirm_name_embed
+from .component_interaction import verify_registration_status
 
 
 async def on_message(message: Message, norris: Norris) -> None:
     # Ignore bots and non-DMs
     if message.author.bot or message.channel != message.author.dm_channel:
+        return
+
+    # Check that the user has the correct state to send a message
+    if not await verify_registration_status(message.author.id,
+                                            RegistrationStatus.STARTED,
+                                            norris):
         return
 
     async with norris.database_engine.begin() as connection:

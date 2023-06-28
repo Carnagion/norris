@@ -3,11 +3,18 @@ from sqlalchemy import select, update
 
 from ...bot import Norris
 from ...model import NameEntered, Registration, RegistrationStatus, VerifiedUser
+from . import verify_registration_status
 
 
 async def yes_clicked(interaction: Interaction, norris: Norris) -> None:
     # Defer response to give time for database queries
     await interaction.response.defer()
+
+    # Check that the user has the correct state to click the button
+    if not await verify_registration_status(interaction.user.id,
+                                            RegistrationStatus.NAME_ENTERED,
+                                            norris):
+        return
 
     async with norris.database_engine.begin() as connection:
         # Retrieve the user's name
@@ -81,8 +88,14 @@ async def no_clicked(interaction: Interaction, norris: Norris) -> None:
     # Defer response to give time for database queries
     await interaction.response.defer()
 
-    # Update the user's registration state to started
+    # Check that the user has the correct state to click the button
+    if not await verify_registration_status(interaction.user.id,
+                                            RegistrationStatus.NAME_ENTERED,
+                                            norris):
+        return
+
     async with norris.database_engine.begin() as connection:
+        # Update the user's registration state to started
         await connection.execute(
             update(Registration)
             .where(Registration.user_id == interaction.user.id)

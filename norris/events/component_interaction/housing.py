@@ -4,25 +4,46 @@ from sqlalchemy import select, update
 from ...bot import Norris
 from ...config import Housing
 from ...model import Registration, RegistrationStatus, VerifiedUser, VerifiedUserKind
+from . import verify_registration_status
 
 
 async def housing_clicked(interaction: Interaction,
                           housing: Housing,
                           norris: Norris) -> None:
+    # Defer response to give time for database queries
+    await interaction.response.defer()
+
+    # Check that the user has the correct state to click the button
+    if not await verify_registration_status(interaction.user.id,
+                                            RegistrationStatus.PRONOUNS_PICKED,
+                                            norris):
+        return
+
     # Give the user the desired housing role
     guild = norris.get_guild(norris.guild_id)
     member = guild.get_member(interaction.user.id)
     role = guild.get_role(norris.roles.housing.role_id(housing))
     await member.add_roles(role)
 
-    # Move on to housing
-    await skip_clicked(interaction, norris)
+    # Finish registration
+    await finish_registration(interaction, norris)
 
 
 async def skip_clicked(interaction: Interaction, norris: Norris) -> None:
     # Defer response to give time for database queries
     await interaction.response.defer()
 
+    # Check that the user has the correct state to click the button
+    if not await verify_registration_status(interaction.user.id,
+                                            RegistrationStatus.PRONOUNS_PICKED,
+                                            norris):
+        return
+
+    # Finish registration
+    await finish_registration(interaction, norris)
+
+
+async def finish_registration(interaction: Interaction, norris: Norris) -> None:
     async with norris.database_engine.begin() as connection:
         # Update the user's registration state to registered
         await connection.execute(

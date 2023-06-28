@@ -39,13 +39,15 @@ pub async fn skip_clicked(
     component_interaction: &MessageComponentInteraction,
     bot_data: &BotData,
 ) -> BotResult<()> {
+    let user_id = component_interaction.user.id;
+
     // Update the user's registration state to pronouns picked
     sqlx::query!(
         "update registrations
         set status = ?
         where user_id = ?",
         RegistrationStatus::PronounsPicked.to_string(),
-        component_interaction.user.id.0,
+        user_id.0,
     )
     .execute(&bot_data.database_pool)
     .await?;
@@ -56,6 +58,15 @@ pub async fn skip_clicked(
             message
                 .embed(responses::housing_embed())
                 .components(responses::housing_buttons())
+        })
+        .await?;
+
+    // Log selection of pronouns
+    bot_data
+        .channels
+        .log_channel_id
+        .send_message(&context.http, |message| {
+            message.embed(responses::pronouns_log_embed(user_id))
         })
         .await?;
 

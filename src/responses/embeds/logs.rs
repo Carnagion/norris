@@ -126,6 +126,26 @@ pub fn verified_log_embed(
     }
 }
 
+pub fn pronouns_log_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+    move |embed| {
+        embed
+            .title("Registration")
+            .colour(BLURPLE)
+            .description(format!("<@{}> has selected pronouns.", user_id))
+            .timestamp(Utc::now())
+    }
+}
+
+pub fn housing_log_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+    move |embed| {
+        embed
+            .title("Registration")
+            .colour(BLURPLE)
+            .description(format!("<@{}> has selected housing.", user_id))
+            .timestamp(Utc::now())
+    }
+}
+
 pub fn registered_log_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
         embed

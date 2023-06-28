@@ -198,6 +198,18 @@ pub fn registration_finished_embed(
     }
 }
 
+pub fn registration_welcome_embed(
+    user_id: UserId,
+) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+    move |embed| {
+        embed
+            .title("Registration")
+            .colour(BLURPLE)
+            .description(format!("Welcome to the server, <@{}>!", user_id))
+            .timestamp(Utc::now())
+    }
+}
+
 pub fn registration_restart_embed(
     user_id: UserId,
 ) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {

@@ -90,12 +90,21 @@ pub async fn skip_clicked(
         })
         .await?;
 
+    // Welcome the user
+    main_channel_id
+        .send_message(&context.http, |message| {
+            message.embed(responses::registration_welcome_embed(user_id))
+        })
+        .await?;
+
     // Log the completion of registration
     bot_data
         .channels
         .log_channel_id
         .send_message(&context.http, |message| {
-            message.embed(responses::registered_log_embed(user_id))
+            message
+                .add_embed(responses::housing_log_embed(user_id))
+                .add_embed(responses::registered_log_embed(user_id))
         })
         .await?;
 

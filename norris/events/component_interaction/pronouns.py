@@ -32,11 +32,14 @@ async def skip_clicked(interaction: Interaction, norris: Norris) -> None:
         )
 
     from ...responses import HousingView, housing_embed, pronouns_selected_log_embed
+
     # Ask the user to pick housing
     await interaction.followup.send(
         embed=housing_embed(),
         view=HousingView(norris),
     )
+
+    # Log selection of pronouns
     await norris.get_channel(norris.channels.log_channel_id).send(
         embed=pronouns_selected_log_embed(interaction.user.id),
     )

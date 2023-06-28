@@ -3,7 +3,7 @@ from sqlalchemy import select, update
 
 from ...bot import Norris
 from ...config import Housing
-from ...model import Registration, RegistrationStatus, VerifiedUser
+from ...model import Registration, RegistrationStatus, VerifiedUser, VerifiedUserKind
 
 
 async def housing_clicked(interaction: Interaction,
@@ -48,18 +48,29 @@ async def skip_clicked(interaction: Interaction, norris: Norris) -> None:
         # Change the user's nickname to their verified name
         await member.edit(nick=verified_user.name)
 
-    from ...responses import registration_finished_embed, housing_selected_log_embed, registered_log_embed, atrium_welcome_embed
+    from ...responses import (
+        housing_selected_log_embed,
+        registered_log_embed,
+        registration_finished_embed,
+        registration_welcome_embed,
+    )
+
+    # Find the correct atrium channel for undergrads and postgrads
+    is_postgrad = verified_user.kind == VerifiedUserKind.POSTGRAD
+    undergrad_main = norris.channels.undergrad.main_channel_id
+    postgrad_main = norris.channels.postgrad.main_channel_id
+    main_channel_id = postgrad_main if is_postgrad else undergrad_main
 
     # Inform the user of completion
-    await interaction.followup.send(
-        embed=registration_finished_embed(norris.channels.chat_channel_id),
+    await interaction.followup.send(embed=registration_finished_embed(main_channel_id))
+
+    # Welcome the user in their corresponding atrium
+    await norris.get_channel(main_channel_id).send(
+        embed=registration_welcome_embed(interaction.user.id),
     )
+
+    # Log completion of registration
     await norris.get_channel(norris.channels.log_channel_id).send(
-        embed=housing_selected_log_embed(interaction.user.id),
-    )
-    await norris.get_channel(norris.channels.log_channel_id).send(
-        embed=registered_log_embed(interaction.user.id),
-    )
-    await norris.get_channel(norris.channels.chat_channel_id).send(
-        embed=atrium_welcome_embed(interaction.user.id),
+        embeds=[housing_selected_log_embed(interaction.user.id),
+                registered_log_embed(interaction.user.id)],
     )

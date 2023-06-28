@@ -7,7 +7,7 @@ from .model import DataModel
 
 class Norris(Bot):
     database_engine: AsyncEngine
-    guild_id: int  # TODO: use when slash commands are setup
+    guild_id: int
     channels: ChannelsConfig
     roles: RolesConfig
 

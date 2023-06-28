@@ -48,9 +48,18 @@ async def skip_clicked(interaction: Interaction, norris: Norris) -> None:
         # Change the user's nickname to their verified name
         await member.edit(nick=verified_user.name)
 
-    from ...responses import registration_finished_embed
+    from ...responses import registration_finished_embed, housing_selected_log_embed, registered_log_embed, atrium_welcome_embed
 
     # Inform the user of completion
     await interaction.followup.send(
         embed=registration_finished_embed(norris.channels.chat_channel_id),
+    )
+    await norris.get_channel(norris.channels.log_channel_id).send(
+        embed=housing_selected_log_embed(interaction.user.id),
+    )
+    await norris.get_channel(norris.channels.log_channel_id).send(
+        embed=registered_log_embed(interaction.user.id),
+    )
+    await norris.get_channel(norris.channels.chat_channel_id).send(
+        embed=atrium_welcome_embed(interaction.user.id),
     )

@@ -137,3 +137,11 @@ def registration_finished_embed(chat_channel_id: int) -> Embed:
                     f"and mentors.",
         timestamp=datetime.utcnow(),
     )
+
+def atrium_welcome_embed(user_id: int) -> Embed:
+    return Embed(
+        title="Registration",
+        colour=Colour.blurple(),
+        description=f"Welcome <@{user_id}> to the server!",
+        timestamp=datetime.utcnow(),
+    )

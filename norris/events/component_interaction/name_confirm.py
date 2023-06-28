@@ -33,6 +33,8 @@ async def yes_clicked(interaction: Interaction, norris: Norris) -> None:
             KindConfirmView,
             confirm_kind_embed,
             no_name_error_embed,
+            name_entered_log_embed,
+            name_error_log_embed,
         )
 
         if verified_user is None:
@@ -47,6 +49,10 @@ async def yes_clicked(interaction: Interaction, norris: Norris) -> None:
             await interaction.followup.send(
                 embed=no_name_error_embed(norris.channels.support_channel_id),
             )
+            await norris.get_channel(norris.channels.log_channel_id).send(
+                embed=name_error_log_embed(interaction.user.id, norris.roles.hierarchy.mentor_role_id, 
+                                           norris.channels.support_channel_id, user_name),
+            )
         else:
             # Update the user's registration state to kind found
             await connection.execute(
@@ -59,6 +65,9 @@ async def yes_clicked(interaction: Interaction, norris: Norris) -> None:
             await interaction.followup.send(
                 embed=confirm_kind_embed(verified_user.kind),
                 view=KindConfirmView(norris),
+            )
+            await norris.get_channel(norris.channels.log_channel_id).send(
+                embed=name_entered_log_embed(interaction.user.id, user_name),
             )
 
 

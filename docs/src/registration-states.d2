@@ -1,0 +1,57 @@
+# States
+
+unregistered: "Unregistered"
+
+started: "Started"
+
+name-entered: "Name entered" {
+  tooltip: Contains the user's name
+}
+
+kind-found: "Kind found" {
+  tooltip: "Contains the user's name and kind"
+}
+
+verified: "Verified"
+
+pronouns-picked: "Pronouns picked"
+
+registered: "Registered"
+
+failed: "Failed"
+
+# Decisions
+
+name-confirmed?: "Name confirmed?" {
+  shape: diamond
+}
+
+kind-confirmed?: "Kind confirmed?" {
+  shape: diamond
+}
+
+# Connections
+
+unregistered -> started: "User clicks continue"
+
+started -> name-entered: "User enters name"
+
+name-entered -> name-confirmed?: "Bot asks user to double-check name"
+
+name-confirmed? -> started: "User clicks no"
+
+name-confirmed? -> kind-found: "User clicks yes and bot finds unregistered user with matching name"
+
+name-confirmed? -> failed: "User clicks yes and bot does not find unregistered user with matching name"
+
+kind-found -> kind-confirmed?: "Bot asks user to confirm kind"
+
+kind-confirmed? -> verified: "User clicks yes"
+
+kind-confirmed? -> failed: "User clicks no"
+
+verified -> pronouns-picked: "User picks pronouns or skips question"
+
+pronouns-picked -> registered: "User picks housing or skips question"
+
+failed -> unregistered: "User restarts registration after getting support"

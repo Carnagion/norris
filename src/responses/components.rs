@@ -98,7 +98,7 @@ pub fn pronouns_buttons() -> impl FnOnce(&mut CreateComponents) -> &mut CreateCo
                 button
                     .label("Ask me")
                     .custom_id(PRONOUNS_ASK)
-                    .style(ButtonStyle::Secondary)
+                    .style(ButtonStyle::Primary)
             })
             .create_button(|button| {
                 button

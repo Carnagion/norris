@@ -10,6 +10,7 @@ pub struct ChannelsConfig {
     pub arrival_channel_id: ChannelId,
     pub support_channel_id: ChannelId,
     pub log_channel_id: ChannelId,
+    pub nickname_channel_id: ChannelId,
     pub undergrad: UndergradChannelsConfig,
     pub postgrad: PostgradChannelsConfig,
 }

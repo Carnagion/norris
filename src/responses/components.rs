@@ -27,7 +27,7 @@ pub const NAME_CONFIRM_YES: &str = "name-confirm-yes";
 pub const NAME_CONFIRM_NO: &str = "name-confirm-no";
 
 pub fn confirm_name_buttons() -> impl FnOnce(&mut CreateComponents) -> &mut CreateComponents {
-    buttons_yes_no(NAME_CONFIRM_YES, NAME_CONFIRM_NO)
+    buttons_yes_no("Yes", "No", NAME_CONFIRM_YES, NAME_CONFIRM_NO)
 }
 
 pub const KIND_CONFIRM_YES: &str = "kind-confirm-yes";
@@ -35,7 +35,7 @@ pub const KIND_CONFIRM_YES: &str = "kind-confirm-yes";
 pub const KIND_CONFIRM_NO: &str = "kind-confirm-no";
 
 pub fn confirm_kind_buttons() -> impl FnOnce(&mut CreateComponents) -> &mut CreateComponents {
-    buttons_yes_no(KIND_CONFIRM_YES, KIND_CONFIRM_NO)
+    buttons_yes_no("Yes", "No", KIND_CONFIRM_YES, KIND_CONFIRM_NO)
 }
 
 pub const VERIFIED_CONTINUE: &str = "verified-continue";
@@ -167,6 +167,14 @@ pub fn housing_buttons() -> impl FnOnce(&mut CreateComponents) -> &mut CreateCom
     }
 }
 
+pub const NICKNAME_APPROVE: &str = "nickname-approve";
+
+pub const NICKNAME_DENY: &str = "nickname-deny";
+
+pub fn nickname_approval_buttons() -> impl FnOnce(&mut CreateComponents) -> &mut CreateComponents {
+    buttons_yes_no("Approve", "Deny", NICKNAME_APPROVE, NICKNAME_DENY)
+}
+
 fn button_continue(
     id: &'static str,
 ) -> impl FnOnce(&mut CreateComponents) -> &mut CreateComponents {
@@ -183,18 +191,25 @@ fn button_continue(
 }
 
 fn buttons_yes_no(
-    yes: &'static str,
-    no: &'static str,
+    yes_text: &'static str,
+    no_text: &'static str,
+    yes_id: &'static str,
+    no_id: &'static str,
 ) -> impl FnOnce(&mut CreateComponents) -> &mut CreateComponents {
     move |comp| {
         comp.create_action_row(|row| {
             row.create_button(|button| {
                 button
-                    .label("Yes")
-                    .custom_id(yes)
+                    .label(yes_text)
+                    .custom_id(yes_id)
                     .style(ButtonStyle::Success)
             })
-            .create_button(|button| button.label("No").custom_id(no).style(ButtonStyle::Danger))
+            .create_button(|button| {
+                button
+                    .label(no_text)
+                    .custom_id(no_id)
+                    .style(ButtonStyle::Danger)
+            })
         })
     }
 }

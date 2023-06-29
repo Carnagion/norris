@@ -299,6 +299,7 @@ pub fn nickname_approved_embed(
                 "Your request to change your nickname to **{}** was **approved**.",
                 nickname,
             ))
+            .timestamp(Utc::now())
     }
 }
 
@@ -314,5 +315,6 @@ pub fn nickname_denied_embed(
                 Please note that you can message a mentor if you think this was a mistake.",
                 nickname,
             ))
+            .timestamp(Utc::now())
     }
 }

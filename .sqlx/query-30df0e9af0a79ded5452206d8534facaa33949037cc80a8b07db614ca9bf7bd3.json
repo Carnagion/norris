@@ -1,0 +1,12 @@
+{
+  "db_name": "MySQL",
+  "query": "delete from registrations\n        where user_id = ?",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": []
+  },
+  "hash": "30df0e9af0a79ded5452206d8534facaa33949037cc80a8b07db614ca9bf7bd3"
+}

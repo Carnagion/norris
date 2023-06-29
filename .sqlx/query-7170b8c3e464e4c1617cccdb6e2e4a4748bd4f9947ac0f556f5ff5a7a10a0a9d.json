@@ -1,0 +1,40 @@
+{
+  "db_name": "MySQL",
+  "query": "select count(registered_user_id) as registered, count(*) as total\n        from users\n        where kind = ?",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "registered",
+        "type_info": {
+          "type": "LongLong",
+          "flags": {
+            "bits": 129
+          },
+          "char_set": 63,
+          "max_size": 21
+        }
+      },
+      {
+        "ordinal": 1,
+        "name": "total",
+        "type_info": {
+          "type": "LongLong",
+          "flags": {
+            "bits": 129
+          },
+          "char_set": 63,
+          "max_size": 21
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      false,
+      false
+    ]
+  },
+  "hash": "7170b8c3e464e4c1617cccdb6e2e4a4748bd4f9947ac0f556f5ff5a7a10a0a9d"
+}

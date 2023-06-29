@@ -1,0 +1,12 @@
+{
+  "db_name": "MySQL",
+  "query": "insert into registrations\n        value (?, ?, null, null)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 2
+    },
+    "nullable": []
+  },
+  "hash": "b09f1f01b55d5647da0212e7621d8cfd45619c1f21f1e828056e14801770a3b2"
+}

@@ -1,6 +1,6 @@
 from ...bot import Norris
-from sqlalchemy import select, update
-from ...model import Registration, RegistrationStatus, VerifiedUser, VerifiedUserKind
+from sqlalchemy import update
+from ...model import Registration, RegistrationStatus, VerifiedUser
 from discord import Forbidden, HTTPException
 
 async def nuke(norris: Norris, context) -> None:
@@ -13,7 +13,7 @@ async def nuke(norris: Norris, context) -> None:
         sm_role = guild.get_role(norris.roles.hierarchy.senior_mentor_role_id)
         hm_role = guild.get_role(norris.roles.hierarchy.honorary_mentor_role_id)
         fac_role = guild.get_role(norris.roles.hierarchy.faculty_role_id)
-        cr_role = guild.get_role(1117785827053948976)
+        cr_role = guild.get_role(0) # Replace with course rep role ID when testing
 
         if not(sm_role in member.roles or hm_role in member.roles or 
                fac_role in member.roles or member.bot): # COMMENT THIS OUT WHEN TESTING

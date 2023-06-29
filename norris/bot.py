@@ -23,9 +23,11 @@ class Norris(Bot):
 
         # NOTE: import done here because fuck Python and fuck its circular imports
         from .events import Events
+        from .commands import Commands
 
         # Add commands and event handlers
         self.add_cog(Events(self))
+        self.add_cog(Commands(self))
 
     async def run(self, token: str) -> None:
         # Set up database and tables

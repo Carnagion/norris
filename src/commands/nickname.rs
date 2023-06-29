@@ -58,7 +58,7 @@ pub async fn nickname(context: BotContext<'_>, nickname: String) -> BotResult<()
                 || interaction.data.custom_id == responses::NICKNAME_DENY
         })
         .collect_limit(1)
-        .timeout(Duration::from_secs(600));
+        .timeout(Duration::from_secs(900));
     if let Some(interaction) = collector.await {
         // Find whether it was approved or denied
         let approved = match interaction.data.custom_id.as_str() {

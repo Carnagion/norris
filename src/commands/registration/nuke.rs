@@ -8,14 +8,20 @@ use serenity::*;
 use crate::{prelude::*, responses};
 
 #[poise::command(slash_command, guild_only, required_permissions = "ADMINISTRATOR")]
-pub async fn nuke(context: BotContext<'_>, role: Role) -> BotResult<()> {
+pub async fn nuke(context: BotContext<'_>, role: Option<Role>) -> BotResult<()> {
     // Defer reply since nuking multiple users will take a significant amount of time
     context.defer().await?;
 
-    // Restart registrations of all non-bot members with the role
-    role.guild_id
+    let roles = role
+        .map(|role| vec![role.id])
+        .unwrap_or(Vec::from(context.data().roles.nukable_roles()));
+
+    // Restart registrations of all non-bot members with the roles
+    context
+        .guild_id()
+        .unwrap() // PANICS: This is a guild-only command and will always be executed in a guild
         .members_iter(context.http())
-        .try_filter(|member| future::ready(!member.user.bot && member.roles.contains(&role.id)))
+        .try_filter(|member| future::ready(!member.user.bot && roles.iter().any(|role| member.roles.contains(role))))
         .map_err(BotError::from)
         .try_for_each_concurrent(10, |mut member| async move {
             super::restart::restart_registration(context, &mut member).await
@@ -24,7 +30,7 @@ pub async fn nuke(context: BotContext<'_>, role: Role) -> BotResult<()> {
 
     // Reply after nuke
     context
-        .send(|reply| reply.embed(responses::registration_nuke_embed(role.id)))
+        .send(|reply| reply.embed(responses::registration_nuke_embed()))
         .await?;
 
     Ok(())

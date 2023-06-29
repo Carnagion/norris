@@ -222,17 +222,12 @@ pub fn registration_restart_embed(
     }
 }
 
-pub fn registration_nuke_embed(
-    role_id: RoleId,
-) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
-    move |embed| {
+pub fn registration_nuke_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+    |embed| {
         embed
             .title("Registration")
             .colour(WARNING)
-            .description(format!(
-                "Re-started the registrations of all users with <@&{}>.",
-                role_id,
-            ))
+            .description("Nuked registrations.")
             .timestamp(Utc::now())
     }
 }
@@ -252,7 +247,7 @@ pub fn count_embed(
             .colour(BLURPLE)
             .field("Total", total, true)
             .field("Registered", registered, true)
-            .field("Percentage", format!("{:.?}", percent), false)
+            .field("Percentage", format!("{:.2}", percent), false)
             .timestamp(Utc::now())
     }
 }

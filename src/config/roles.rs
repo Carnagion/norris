@@ -39,6 +39,14 @@ impl RolesConfig {
             self.housing.private_house_role_id,
         ]
     }
+
+    pub fn nukable_roles(&self) -> [RoleId; 3] {
+        [
+            self.hierarchy.undergrad_role_id,
+            self.hierarchy.postgrad_role_id,
+            self.hierarchy.mentor_role_id,
+        ]
+    }
 }
 
 #[derive(Clone, Copy, Debug, Deserialize, Eq, Hash, PartialEq, Serialize)]

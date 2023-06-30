@@ -104,3 +104,10 @@ class RolesConfig:
     hierarchy: HierarchyRolesConfig
     pronouns: PronounRolesConfig
     housing: HousingRolesConfig
+
+    def nukeable_role_ids(self) -> list[int]:
+        return [
+            self.hierarchy.undergrad_role_id,
+            self.hierarchy.postgrad_role_id,
+            self.hierarchy.mentor_role_id,
+        ]

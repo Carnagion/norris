@@ -4,7 +4,7 @@ from ...model import Registration, RegistrationStatus, VerifiedUser
 from discord import Forbidden, HTTPException
 
 async def nuke(norris: Norris, context) -> None:
-    # await context.respond(f"Hello, <@{context.author.id}>!") # Have only this uncommented to test command permissions
+    # await context.respond(f"Hello, <@{context.author.id}>!") # Have only this uncommented to test command permissions (no nuking occurs)
 
     # USE WITH CAUTION - WILL NUKE SERVER IF TESTING DONE WITH WRONG CODE UNCOMMENTED
     guild = norris.get_guild(norris.guild_id)
@@ -16,7 +16,7 @@ async def nuke(norris: Norris, context) -> None:
         cr_role = guild.get_role(0) # Replace with course rep role ID when testing
 
         if not(sm_role in member.roles or hm_role in member.roles or 
-               fac_role in member.roles or member.bot): # COMMENT THIS OUT WHEN TESTING
+               fac_role in member.roles or member.bot): # COMMENT THIS IF OUT WHEN TESTING, NUKES WHOLE SERVER
         # if cr_role in member.roles: # Use if you want to test nuke - only nukes course reps
             await member.edit(roles=[])
             async with norris.database_engine.begin() as connection:

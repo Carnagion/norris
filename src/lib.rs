@@ -4,7 +4,7 @@ use poise::{builtins, serenity_prelude as serenity, FrameworkOptions};
 
 use serenity::*;
 
-use sqlx::mysql::MySqlPoolOptions;
+use sqlx::{mysql::MySqlPoolOptions, MySqlPool};
 
 pub mod prelude;
 use prelude::*;
@@ -71,17 +71,8 @@ async fn setup_bot_data(
         })
         .await?;
 
-    // Connect to and setup the database
-    let database_pool = MySqlPoolOptions::new()
-        .max_connections(25) // TODO: Find an appropriate max number of connections through testing
-        .connect(&config.database_url)
-        .await?;
-    sqlx::query_file!("queries/create-table-users.sql")
-        .execute(&database_pool)
-        .await?;
-    sqlx::query_file!("queries/create-table-registrations.sql")
-        .execute(&database_pool)
-        .await?;
+    // Setup database and tables
+    let database_pool = setup_database(&config.database_url).await?;
 
     Ok(BotData {
         database_pool,
@@ -89,4 +80,61 @@ async fn setup_bot_data(
         channels: config.channels,
         roles: config.roles,
     })
+}
+
+async fn setup_database(database_url: &str) -> BotResult<MySqlPool> {
+    // Connect to the database
+    let database_pool = MySqlPoolOptions::new()
+        .max_connections(25) // TODO: Find an appropriate max number of connections through testing
+        .connect(database_url)
+        .await?;
+
+    // Setup users table
+    sqlx::query!(
+        r#"create table if not exists users (
+            id bigint unsigned not null auto_increment primary key,
+            name varchar(1024) not null,
+            kind enum(
+                "UNDERGRAD",
+                "POSTGRAD",
+                "MENTOR",
+                "SENIOR_MENTOR",
+                "HONORARY_MENTOR",
+                "FACULTY"
+            ) not null,
+            registered_user_id bigint unsigned null
+        )"#
+    )
+    .execute(&database_pool)
+    .await?;
+
+    // Setup registrations table
+    sqlx::query!(
+        r#"create table if not exists registrations (
+            user_id bigint unsigned not null primary key,
+            status enum(
+                "UNREGISTERED",
+                "STARTED",
+                "NAME_ENTERED",
+                "KIND_FOUND",
+                "VERIFIED",
+                "PRONOUNS_PICKED",
+                "REGISTERED",
+                "FAILED"
+            ) not null default "UNREGISTERED",
+            name varchar(1024) null,
+            kind enum(
+                "UNDERGRAD",
+                "POSTGRAD",
+                "MENTOR",
+                "SENIOR_MENTOR",
+                "HONORARY_MENTOR",
+                "FACULTY"
+            ) null
+        )"#
+    )
+    .execute(&database_pool)
+    .await?;
+
+    Ok(database_pool)
 }

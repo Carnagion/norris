@@ -146,3 +146,21 @@ def registration_welcome_embed(user_id: int) -> Embed:
         description=f"Welcome to the server, <@{user_id}>!",
         timestamp=datetime.utcnow(),
     )
+
+
+def registration_restart_embed(user_id: int) -> Embed:
+    return Embed(
+        title="Registration",
+        colour=Colour(0xFAA81A),  # NOTE: official Discord warning colour
+        description=f"Re-started <@{user_id}>'s registration.",
+        timestamp=datetime.utcnow(),
+    )
+
+
+def registration_nuke_embed() -> Embed:
+    return Embed(
+        title="Registration",
+        colour=Colour(0xFAA81A),  # NOTE: official Discord warning colour
+        description="Nuked registrations.",
+        timestamp=datetime.utcnow(),
+    )

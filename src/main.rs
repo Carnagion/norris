@@ -1,4 +1,7 @@
-use std::{fs::File, path::Path};
+use std::{
+    fs::{self, File},
+    path::Path,
+};
 
 use anyhow::Result as AnyResult;
 
@@ -12,7 +15,8 @@ use norris::prelude::*;
 #[tokio::main]
 async fn main() -> AnyResult<()> {
     // Deserialize config file
-    let config = toml::from_str::<NorrisConfig>(include_str!("../norris.toml"))?;
+    let config_string = fs::read_to_string("norris.toml")?;
+    let config = toml::from_str::<NorrisConfig>(&config_string)?;
 
     // Setup logging before continuing anything else
     setup_logger(&config.log_path).await?;

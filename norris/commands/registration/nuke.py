@@ -1,5 +1,5 @@
+from discord import ApplicationContext, Forbidden, HTTPException, Role
 from sqlalchemy import update
-from discord import Forbidden, HTTPException, ApplicationContext, Role
 
 from ...bot import Norris
 from ...model import Registration, RegistrationStatus, VerifiedUser
@@ -18,7 +18,7 @@ async def nuke(norris: Norris,
     # USE WITH CAUTION - WILL NUKE SERVER IF TESTING DONE WITH WRONG CODE UNCOMMENTED
     async for member in guild.fetch_members():
         # Ignore member if they do not have any nukeable role
-        if not any(map(lambda role: role.id in roles, member.roles)):
+        if not any(role.id in roles for role in member.roles):
             return
 
         # Remove all roles from the member
@@ -39,8 +39,11 @@ async def nuke(norris: Norris,
                 .where(Registration.user_id == member.id),
             )
 
-        from ...responses import instructions_embed, InstructionsContinueView, \
-            instructions_error_embed
+        from ...responses import (
+            InstructionsContinueView,
+            instructions_embed,
+            instructions_error_embed,
+        )
 
         try:
             # Try sending instructions in DMs

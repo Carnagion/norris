@@ -2,7 +2,7 @@ use poise::serenity_prelude as serenity;
 
 use serenity::*;
 
-use crate::{prelude::*, responses};
+use crate::prelude::*;
 
 pub async fn housing_clicked(
     context: &Context,
@@ -13,11 +13,11 @@ pub async fn housing_clicked(
     // Get the role for the housing that was picked
     let housing_config = bot_data.roles.housing;
     let housing_role_id = match housing {
-        responses::HOUSING_JC_CATERED => housing_config.jc_catered_role_id,
-        responses::HOUSING_UP_CATERED => housing_config.up_catered_role_id,
-        responses::HOUSING_JC_SELF_CATERED => housing_config.jc_self_catered_role_id,
-        responses::HOUSING_UP_SELF_CATERED => housing_config.up_self_catered_role_id,
-        responses::HOUSING_PRIVATE => housing_config.private_house_role_id,
+        components::HOUSING_JC_CATERED => housing_config.jc_catered_role_id,
+        components::HOUSING_UP_CATERED => housing_config.up_catered_role_id,
+        components::HOUSING_JC_SELF_CATERED => housing_config.jc_self_catered_role_id,
+        components::HOUSING_UP_SELF_CATERED => housing_config.up_self_catered_role_id,
+        components::HOUSING_PRIVATE => housing_config.private_house_role_id,
         _ => unreachable!(), // PANICS: This function is only called with one of the above housing as input
     };
 
@@ -86,14 +86,14 @@ pub async fn skip_clicked(
     // Inform the user of completion
     component_interaction
         .create_followup_message(&context.http, |message| {
-            message.embed(responses::registration_finished_embed(main_channel_id))
+            message.embed(embeds::registration::finished_embed(main_channel_id))
         })
         .await?;
 
     // Welcome the user
     main_channel_id
         .send_message(&context.http, |message| {
-            message.embed(responses::registration_welcome_embed(user_id))
+            message.embed(embeds::registration::welcome_embed(user_id))
         })
         .await?;
 
@@ -103,8 +103,8 @@ pub async fn skip_clicked(
         .log_channel_id
         .send_message(&context.http, |message| {
             message
-                .add_embed(responses::housing_log_embed(user_id))
-                .add_embed(responses::registered_log_embed(user_id))
+                .add_embed(embeds::logs::housing_log_embed(user_id))
+                .add_embed(embeds::logs::registered_log_embed(user_id))
         })
         .await?;
 

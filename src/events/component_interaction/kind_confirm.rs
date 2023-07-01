@@ -2,7 +2,7 @@ use poise::serenity_prelude as serenity;
 
 use serenity::*;
 
-use crate::{prelude::*, responses};
+use crate::prelude::*;
 
 pub async fn yes_clicked(
     context: &Context,
@@ -41,8 +41,8 @@ pub async fn yes_clicked(
     component_interaction
         .create_followup_message(&context.http, |message| {
             message
-                .embed(responses::verified_continue_embed())
-                .components(responses::verified_continue_button())
+                .embed(embeds::registration::verified_continue_embed())
+                .components(components::verified_continue_button())
         })
         .await?;
 
@@ -51,7 +51,7 @@ pub async fn yes_clicked(
         .channels
         .log_channel_id
         .send_message(&context.http, |message| {
-            message.embed(responses::verified_log_embed(user.id, kind))
+            message.embed(embeds::logs::verified_log_embed(user.id, kind))
         })
         .await?;
 
@@ -80,7 +80,7 @@ pub async fn no_clicked(
     // Ask the user to seek assistance
     component_interaction
         .create_followup_message(&context.http, |message| {
-            message.embed(responses::kind_error_embed(
+            message.embed(embeds::registration::kind_error_embed(
                 bot_data.channels.support_channel_id,
             ))
         })
@@ -91,7 +91,7 @@ pub async fn no_clicked(
         .channels
         .log_channel_id
         .send_message(&context.http, |message| {
-            message.embed(responses::kind_error_log_embed(
+            message.embed(embeds::logs::kind_error_log_embed(
                 user.id,
                 kind,
                 bot_data.channels.support_channel_id,

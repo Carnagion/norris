@@ -2,7 +2,7 @@ use poise::serenity_prelude as serenity;
 
 use serenity::*;
 
-use crate::{prelude::*, responses};
+use crate::prelude::*;
 
 pub async fn guild_member_added(
     context: &Context,
@@ -24,19 +24,27 @@ pub async fn guild_member_added(
         .channels
         .log_channel_id
         .send_message(&context.http, |message| {
-            message.embed(responses::user_joined_log_embed(member.user.id))
+            message.embed(embeds::logs::user_joined_log_embed(member.user.id))
         })
         .await?;
 
-    // Send instructions for registration to the user's DMs
-    let instructions_sent = member
-        .user
-        .direct_message(&context.http, |message| {
-            message
-                .embed(responses::instructions_embed(member.user.id))
-                .components(responses::instructions_continue_button())
-        })
-        .await;
+    // Try to send instructions for registration to the user and notify them
+    try_send_instructions(context, member, bot_data, |message| {
+        message
+            .embed(embeds::registration::instructions_embed(member.user.id))
+            .components(components::instructions_continue_button())
+    })
+    .await
+}
+
+pub(crate) async fn try_send_instructions<'a>(
+    context: &Context,
+    member: &Member,
+    bot_data: &BotData,
+    message: impl for<'b> FnOnce(&'b mut CreateMessage<'a>) -> &'b mut CreateMessage<'a>,
+) -> BotResult<()> {
+    // Send a DM to the user
+    let instructions_sent = member.user.direct_message(&context.http, message).await;
 
     match instructions_sent {
         // Ask user to check DMs
@@ -74,8 +82,10 @@ async fn notify_instructions_sent(
         .arrival_channel_id
         .send_message(&context.http, |message| {
             message
-                .embed(responses::instructions_sent_embed(member.user.id))
-                .components(responses::instructions_sent_button())
+                .embed(embeds::registration::instructions_sent_embed(
+                    member.user.id,
+                ))
+                .components(components::instructions_sent_button())
         })
         .await?;
 
@@ -92,7 +102,7 @@ async fn notify_instructions_error(
         .channels
         .arrival_channel_id
         .send_message(&context.http, |message| {
-            message.embed(responses::instructions_error_embed(
+            message.embed(embeds::registration::instructions_error_embed(
                 member.user.id,
                 bot_data.channels.support_channel_id,
             ))
@@ -104,7 +114,7 @@ async fn notify_instructions_error(
         .channels
         .log_channel_id
         .send_message(&context.http, |message| {
-            message.embed(responses::dm_error_log_embed(
+            message.embed(embeds::logs::dm_error_log_embed(
                 member.user.id,
                 bot_data.channels.support_channel_id,
                 bot_data.roles.hierarchy.mentor_role_id,

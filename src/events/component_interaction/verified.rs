@@ -2,7 +2,7 @@ use poise::serenity_prelude as serenity;
 
 use serenity::*;
 
-use crate::{prelude::*, responses};
+use crate::prelude::*;
 
 pub async fn continue_clicked(
     context: &Context,
@@ -12,8 +12,8 @@ pub async fn continue_clicked(
     component_interaction
         .create_followup_message(&context.http, |message| {
             message
-                .embed(responses::pronouns_embed())
-                .components(responses::pronouns_buttons())
+                .embed(embeds::registration::pronouns_embed())
+                .components(components::pronouns_buttons())
         })
         .await?;
 

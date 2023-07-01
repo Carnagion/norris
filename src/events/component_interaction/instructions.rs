@@ -2,7 +2,7 @@ use poise::serenity_prelude as serenity;
 
 use serenity::*;
 
-use crate::{prelude::*, responses};
+use crate::prelude::*;
 
 pub async fn continue_clicked(
     context: &Context,
@@ -23,7 +23,7 @@ pub async fn continue_clicked(
     // Ask the user to enter their name
     component_interaction
         .create_followup_message(&context.http, |message| {
-            message.embed(responses::request_name_embed())
+            message.embed(embeds::registration::request_name_embed())
         })
         .await?;
 
@@ -32,7 +32,7 @@ pub async fn continue_clicked(
         .channels
         .log_channel_id
         .send_message(&context.http, |message| {
-            message.embed(responses::registration_started_log_embed(
+            message.embed(embeds::logs::registration_started_log_embed(
                 component_interaction.user.id,
             ))
         })

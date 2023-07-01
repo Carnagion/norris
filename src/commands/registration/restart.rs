@@ -2,7 +2,7 @@ use poise::serenity_prelude as serenity;
 
 use serenity::*;
 
-use crate::{prelude::*, responses};
+use crate::{events, prelude::*};
 
 #[poise::command(slash_command, guild_only, required_permissions = "ADMINISTRATOR")]
 pub async fn restart(context: BotContext<'_>, mut member: Member) -> BotResult<()> {
@@ -11,7 +11,11 @@ pub async fn restart(context: BotContext<'_>, mut member: Member) -> BotResult<(
 
     // Reply after restarting their registration
     context
-        .send(|reply| reply.embed(responses::registration_restart_embed(member.user.id)))
+        .send(|reply| {
+            reply.embed(embeds::registration::registration_restart_embed(
+                member.user.id,
+            ))
+        })
         .await?;
 
     Ok(())
@@ -23,10 +27,12 @@ pub(super) async fn restart_registration(
 ) -> BotResult<()> {
     let user_id = member.user.id;
 
-    // Reset the user's registration state to started
+    // Reset the user's registration state to unregistered
     sqlx::query!(
-        "update registrations set status = ?, name = null, kind = null where user_id = ?",
-        RegistrationStatus::Started.to_string(),
+        "update registrations
+        set status = ?, name = null, kind = null
+        where user_id = ?",
+        RegistrationStatus::Unregistered.to_string(),
         user_id.0,
     )
     .execute(&context.data().database_pool)
@@ -34,7 +40,9 @@ pub(super) async fn restart_registration(
 
     // Delete their registered user ID
     sqlx::query!(
-        "update users set registered_user_id = null where registered_user_id = ?",
+        "update users
+        set registered_user_id = null
+        where registered_user_id = ?",
         user_id.0,
     )
     .execute(&context.data().database_pool)
@@ -48,23 +56,22 @@ pub(super) async fn restart_registration(
         )
         .await?;
 
-    // Ask the user to enter their name
-    member
-        .user
-        .direct_message(context.http(), |message| {
-            message.embed(responses::request_name_embed())
-        })
-        .await?;
-
     // Log the registration restart
     context
         .data()
         .channels
         .log_channel_id
         .send_message(context.http(), |message| {
-            message.embed(responses::registration_restart_log_embed(user_id))
+            message.embed(embeds::logs::registration_restart_log_embed(user_id))
         })
         .await?;
 
-    Ok(())
+    // Ask the user to start registration again
+    events::try_send_instructions(
+        context.serenity_context(),
+        member,
+        context.data(),
+        |message| message,
+    )
+    .await
 }

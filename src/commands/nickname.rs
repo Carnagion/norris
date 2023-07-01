@@ -4,13 +4,13 @@ use poise::serenity_prelude as serenity;
 
 use serenity::*;
 
-use crate::{prelude::*, responses};
+use crate::prelude::*;
 
 #[poise::command(slash_command, guild_only)]
 pub async fn nickname(context: BotContext<'_>, nickname: String) -> BotResult<()> {
     // Acknowledge nickname request
     context
-        .send(|reply| reply.embed(responses::nickname_acknowledge_embed()))
+        .send(|reply| reply.embed(embeds::nickname::nickname_acknowledge_embed()))
         .await?;
 
     let user = context.author();
@@ -38,13 +38,13 @@ pub async fn nickname(context: BotContext<'_>, nickname: String) -> BotResult<()
         .nickname_channel_id
         .send_message(http, |message| {
             message
-                .embed(responses::nickname_request_embed(
+                .embed(embeds::nickname::nickname_request_embed(
                     user.id,
                     &name,
                     current_nickname,
                     &nickname,
                 ))
-                .components(responses::nickname_approval_buttons())
+                .components(components::nickname_approval_buttons())
         })
         .await?;
 
@@ -54,16 +54,16 @@ pub async fn nickname(context: BotContext<'_>, nickname: String) -> BotResult<()
         .channel_id(bot_data.channels.nickname_channel_id)
         .message_id(message.id)
         .filter(|interaction| {
-            interaction.data.custom_id == responses::NICKNAME_APPROVE
-                || interaction.data.custom_id == responses::NICKNAME_DENY
+            interaction.data.custom_id == components::NICKNAME_APPROVE
+                || interaction.data.custom_id == components::NICKNAME_DENY
         })
         .collect_limit(1)
         .timeout(Duration::from_secs(900));
     if let Some(interaction) = collector.await {
         // Find whether it was approved or denied
         let approved = match interaction.data.custom_id.as_str() {
-            responses::NICKNAME_APPROVE => true,
-            responses::NICKNAME_DENY => false,
+            components::NICKNAME_APPROVE => true,
+            components::NICKNAME_DENY => false,
             _ => unreachable!(), // PANICS: The filter ensures only these interactions are collected
         };
 
@@ -76,12 +76,12 @@ pub async fn nickname(context: BotContext<'_>, nickname: String) -> BotResult<()
 
             // Respond with approval
             context
-                .send(|reply| reply.embed(responses::nickname_approved_embed(&nickname)))
+                .send(|reply| reply.embed(embeds::nickname::nickname_approved_embed(&nickname)))
                 .await
         } else {
             // Respond with denial
             context
-                .send(|reply| reply.embed(responses::nickname_denied_embed(&nickname)))
+                .send(|reply| reply.embed(embeds::nickname::nickname_denied_embed(&nickname)))
                 .await
         }?;
     }

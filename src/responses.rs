@@ -1,5 +1,3 @@
-mod embeds;
-pub use embeds::*;
+pub mod embeds;
 
-mod components;
-pub use components::*;
+pub mod components;

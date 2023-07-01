@@ -2,7 +2,7 @@ use poise::serenity_prelude as serenity;
 
 use serenity::*;
 
-use crate::{prelude::*, responses};
+use crate::prelude::*;
 
 pub async fn guild_member_removed(
     context: &Context,
@@ -34,7 +34,7 @@ pub async fn guild_member_removed(
         .channels
         .log_channel_id
         .send_message(&context.http, |message| {
-            message.embed(responses::user_left_log_embed(user.id))
+            message.embed(embeds::logs::user_left_log_embed(user.id))
         })
         .await?;
 

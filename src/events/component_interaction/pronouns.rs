@@ -2,7 +2,7 @@ use poise::serenity_prelude as serenity;
 
 use serenity::*;
 
-use crate::{prelude::*, responses};
+use crate::prelude::*;
 
 pub async fn pronouns_clicked(
     context: &Context,
@@ -13,12 +13,12 @@ pub async fn pronouns_clicked(
     // Get the role for the pronoun that was picked
     let pronouns_config = bot_data.roles.pronouns;
     let pronouns_role_id = match pronouns {
-        responses::PRONOUNS_HE_HIM => pronouns_config.he_him_role_id,
-        responses::PRONOUNS_SHE_HER => pronouns_config.she_her_role_id,
-        responses::PRONOUNS_THEY_THEM => pronouns_config.they_them_role_id,
-        responses::PRONOUNS_XE_XEM => pronouns_config.xe_xem_role_id,
-        responses::PRONOUNS_ANY => pronouns_config.any_pronouns_role_id,
-        responses::PRONOUNS_ASK => pronouns_config.ask_pronouns_role_id,
+        components::PRONOUNS_HE_HIM => pronouns_config.he_him_role_id,
+        components::PRONOUNS_SHE_HER => pronouns_config.she_her_role_id,
+        components::PRONOUNS_THEY_THEM => pronouns_config.they_them_role_id,
+        components::PRONOUNS_XE_XEM => pronouns_config.xe_xem_role_id,
+        components::PRONOUNS_ANY => pronouns_config.any_pronouns_role_id,
+        components::PRONOUNS_ASK => pronouns_config.ask_pronouns_role_id,
         _ => unreachable!(), // PANICS: This function is only called with one of the above pronouns as input
     };
 
@@ -56,8 +56,8 @@ pub async fn skip_clicked(
     component_interaction
         .create_followup_message(&context.http, |message| {
             message
-                .embed(responses::housing_embed())
-                .components(responses::housing_buttons())
+                .embed(embeds::registration::housing_embed())
+                .components(components::housing_buttons())
         })
         .await?;
 
@@ -66,7 +66,7 @@ pub async fn skip_clicked(
         .channels
         .log_channel_id
         .send_message(&context.http, |message| {
-            message.embed(responses::pronouns_log_embed(user_id))
+            message.embed(embeds::logs::pronouns_log_embed(user_id))
         })
         .await?;
 

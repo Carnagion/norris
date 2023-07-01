@@ -2,7 +2,7 @@ use poise::serenity_prelude as serenity;
 
 use serenity::*;
 
-use crate::{prelude::*, responses};
+use crate::prelude::*;
 
 pub async fn messaged(context: &Context, message: &Message, bot_data: &BotData) -> BotResult<()> {
     // Try to get the user's registration status
@@ -46,8 +46,10 @@ async fn request_name_confirm(
         .channel_id
         .send_message(&context.http, |message| {
             message
-                .embed(responses::confirm_name_embed(&name_message.content))
-                .components(responses::confirm_name_buttons())
+                .embed(embeds::registration::confirm_name_embed(
+                    &name_message.content,
+                ))
+                .components(components::confirm_name_buttons())
                 .reference_message(name_message)
         })
         .await?;

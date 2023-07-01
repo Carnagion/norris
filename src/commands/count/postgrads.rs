@@ -1,4 +1,4 @@
-use crate::{prelude::*, responses};
+use crate::prelude::*;
 
 #[poise::command(slash_command, guild_only)]
 pub async fn postgrads(context: BotContext<'_>) -> BotResult<()> {
@@ -18,7 +18,7 @@ pub async fn postgrads(context: BotContext<'_>) -> BotResult<()> {
     // Reply to the command
     context
         .send(|reply| {
-            reply.embed(responses::count_embed(
+            reply.embed(embeds::registration::count_embed(
                 "Postgraduates",
                 count.registered as u64,
                 count.total as u64,

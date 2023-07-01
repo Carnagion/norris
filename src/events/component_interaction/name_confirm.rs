@@ -2,7 +2,7 @@ use poise::serenity_prelude as serenity;
 
 use serenity::*;
 
-use crate::{prelude::*, responses};
+use crate::prelude::*;
 
 pub async fn yes_clicked(
     context: &Context,
@@ -32,7 +32,7 @@ pub async fn yes_clicked(
                 bot_data,
                 RegistrationStatus::Failed,
                 component_interaction.user.id,
-                responses::no_name_error_embed(bot_data.channels.support_channel_id),
+                embeds::registration::no_name_error_embed(bot_data.channels.support_channel_id),
             )
             .await?;
 
@@ -41,7 +41,7 @@ pub async fn yes_clicked(
                 .channels
                 .log_channel_id
                 .send_message(&context.http, |message| {
-                    message.embed(responses::no_name_log_embed(
+                    message.embed(embeds::logs::no_name_log_embed(
                         component_interaction.user.id,
                         &name,
                         bot_data.channels.support_channel_id,
@@ -60,7 +60,7 @@ pub async fn yes_clicked(
                 .channels
                 .log_channel_id
                 .send_message(&context.http, |message| {
-                    message.embed(responses::name_confirmed_log_embed(
+                    message.embed(embeds::logs::name_confirmed_log_embed(
                         component_interaction.user.id,
                         &name,
                     ))
@@ -84,7 +84,7 @@ pub async fn no_clicked(
         bot_data,
         RegistrationStatus::Started,
         component_interaction.user.id,
-        responses::request_name_embed(),
+        embeds::registration::request_name_embed(),
     )
     .await
 }
@@ -138,8 +138,8 @@ async fn request_kind_confirm(
     component_interaction
         .create_followup_message(&context.http, |message| {
             message
-                .embed(responses::confirm_kind_embed(verified_user.kind))
-                .components(responses::confirm_kind_buttons())
+                .embed(embeds::registration::confirm_kind_embed(verified_user.kind))
+                .components(components::confirm_kind_buttons())
         })
         .await?;
 

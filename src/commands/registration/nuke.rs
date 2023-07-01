@@ -5,7 +5,7 @@ use poise::{
 
 use serenity::*;
 
-use crate::{prelude::*, responses};
+use crate::prelude::*;
 
 #[poise::command(slash_command, guild_only, required_permissions = "ADMINISTRATOR")]
 pub async fn nuke(context: BotContext<'_>, role: Option<Role>) -> BotResult<()> {
@@ -30,7 +30,7 @@ pub async fn nuke(context: BotContext<'_>, role: Option<Role>) -> BotResult<()> 
 
     // Reply after nuke
     context
-        .send(|reply| reply.embed(responses::registration_nuke_embed()))
+        .send(|reply| reply.embed(embeds::registration::registration_nuke_embed()))
         .await?;
 
     Ok(())

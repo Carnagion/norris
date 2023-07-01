@@ -32,7 +32,7 @@ pub async fn yes_clicked(
                 bot_data,
                 RegistrationStatus::Failed,
                 component_interaction.user.id,
-                embeds::registration::no_name_error_embed(bot_data.channels.support_channel_id),
+                embeds::registration::name_error(bot_data.channels.support_channel_id),
             )
             .await?;
 
@@ -41,7 +41,7 @@ pub async fn yes_clicked(
                 .channels
                 .log_channel_id
                 .send_message(&context.http, |message| {
-                    message.embed(embeds::logs::no_name_log_embed(
+                    message.embed(embeds::logs::name_error(
                         component_interaction.user.id,
                         &name,
                         bot_data.channels.support_channel_id,
@@ -60,7 +60,7 @@ pub async fn yes_clicked(
                 .channels
                 .log_channel_id
                 .send_message(&context.http, |message| {
-                    message.embed(embeds::logs::name_confirmed_log_embed(
+                    message.embed(embeds::logs::name_confirmed(
                         component_interaction.user.id,
                         &name,
                     ))
@@ -84,7 +84,7 @@ pub async fn no_clicked(
         bot_data,
         RegistrationStatus::Started,
         component_interaction.user.id,
-        embeds::registration::request_name_embed(),
+        embeds::registration::name_request(),
     )
     .await
 }
@@ -138,7 +138,7 @@ async fn request_kind_confirm(
     component_interaction
         .create_followup_message(&context.http, |message| {
             message
-                .embed(embeds::registration::confirm_kind_embed(verified_user.kind))
+                .embed(embeds::registration::kind_confirm(verified_user.kind))
                 .components(components::confirm_kind_buttons())
         })
         .await?;

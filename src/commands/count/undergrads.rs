@@ -18,7 +18,7 @@ pub async fn undergrads(context: BotContext<'_>) -> BotResult<()> {
     // Reply to the command
     context
         .send(|reply| {
-            reply.embed(embeds::registration::count_embed(
+            reply.embed(embeds::registration::count(
                 "Undergraduates",
                 count.registered as u64,
                 count.total as u64,

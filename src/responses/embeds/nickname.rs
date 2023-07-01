@@ -10,7 +10,7 @@ use serenity::{
     *,
 };
 
-pub fn nickname_acknowledge_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+pub fn acknowledge_request() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     |embed| {
         embed
             .title("Nickname request")
@@ -23,7 +23,7 @@ pub fn nickname_acknowledge_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut Cre
     }
 }
 
-pub fn nickname_request_embed<'a>(
+pub fn request_approval<'a>(
     user_id: UserId,
     name: &'a str,
     current_nickname: &'a str,
@@ -41,9 +41,7 @@ pub fn nickname_request_embed<'a>(
     }
 }
 
-pub fn nickname_approved_embed(
-    nickname: &str,
-) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed + '_ {
+pub fn approved(nickname: &str) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed + '_ {
     move |embed| {
         embed
             .title("Nickname request")
@@ -56,9 +54,7 @@ pub fn nickname_approved_embed(
     }
 }
 
-pub fn nickname_denied_embed(
-    nickname: &str,
-) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed + '_ {
+pub fn denied(nickname: &str) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed + '_ {
     move |embed| {
         embed
             .title("Nickname request")

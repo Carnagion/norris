@@ -10,7 +10,7 @@ use crate::prelude::*;
 pub async fn nickname(context: BotContext<'_>, nickname: String) -> BotResult<()> {
     // Acknowledge nickname request
     context
-        .send(|reply| reply.embed(embeds::nickname::nickname_acknowledge_embed()))
+        .send(|reply| reply.embed(embeds::nickname::acknowledge_request()))
         .await?;
 
     let user = context.author();
@@ -38,7 +38,7 @@ pub async fn nickname(context: BotContext<'_>, nickname: String) -> BotResult<()
         .nickname_channel_id
         .send_message(http, |message| {
             message
-                .embed(embeds::nickname::nickname_request_embed(
+                .embed(embeds::nickname::request_approval(
                     user.id,
                     &name,
                     current_nickname,
@@ -76,12 +76,12 @@ pub async fn nickname(context: BotContext<'_>, nickname: String) -> BotResult<()
 
             // Respond with approval
             context
-                .send(|reply| reply.embed(embeds::nickname::nickname_approved_embed(&nickname)))
+                .send(|reply| reply.embed(embeds::nickname::approved(&nickname)))
                 .await
         } else {
             // Respond with denial
             context
-                .send(|reply| reply.embed(embeds::nickname::nickname_denied_embed(&nickname)))
+                .send(|reply| reply.embed(embeds::nickname::denied(&nickname)))
                 .await
         }?;
     }

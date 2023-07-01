@@ -12,7 +12,7 @@ use serenity::{
 
 use crate::prelude::*;
 
-pub fn user_joined_log_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+pub fn user_joined(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
         embed
             .title("Registration")
@@ -22,7 +22,7 @@ pub fn user_joined_log_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -
     }
 }
 
-pub fn dm_error_log_embed(
+pub fn dm_error(
     user_id: UserId,
     support_channel_id: ChannelId,
     mentor_role_id: RoleId,
@@ -40,9 +40,7 @@ pub fn dm_error_log_embed(
     }
 }
 
-pub fn registration_started_log_embed(
-    user_id: UserId,
-) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+pub fn registration_started(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
         embed
             .title("Registration")
@@ -52,7 +50,7 @@ pub fn registration_started_log_embed(
     }
 }
 
-pub fn name_confirmed_log_embed(
+pub fn name_confirmed(
     user_id: UserId,
     name: &str,
 ) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed + '_ {
@@ -68,7 +66,7 @@ pub fn name_confirmed_log_embed(
     }
 }
 
-pub fn no_name_log_embed(
+pub fn name_error(
     user_id: UserId,
     name: &str,
     support_channel_id: ChannelId,
@@ -87,7 +85,7 @@ pub fn no_name_log_embed(
     }
 }
 
-pub fn kind_error_log_embed(
+pub fn kind_error(
     user_id: UserId,
     kind: VerifiedUserKind,
     support_channel_id: ChannelId,
@@ -109,7 +107,7 @@ pub fn kind_error_log_embed(
     }
 }
 
-pub fn verified_log_embed(
+pub fn verified(
     user_id: UserId,
     kind: VerifiedUserKind,
 ) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
@@ -126,7 +124,7 @@ pub fn verified_log_embed(
     }
 }
 
-pub fn pronouns_log_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+pub fn pronouns_picked(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
         embed
             .title("Registration")
@@ -136,7 +134,7 @@ pub fn pronouns_log_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &
     }
 }
 
-pub fn housing_log_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+pub fn housing_picked(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
         embed
             .title("Registration")
@@ -146,7 +144,7 @@ pub fn housing_log_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &m
     }
 }
 
-pub fn registered_log_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+pub fn registration_finished(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
         embed
             .title("Registration")
@@ -156,7 +154,7 @@ pub fn registered_log_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) ->
     }
 }
 
-pub fn user_left_log_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+pub fn user_left(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
         embed
             .title("Registration")
@@ -170,7 +168,7 @@ pub fn user_left_log_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> 
     }
 }
 
-pub fn registration_restart_log_embed(
+pub fn registration_restarted(
     user_id: UserId,
 ) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {

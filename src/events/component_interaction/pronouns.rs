@@ -56,7 +56,7 @@ pub async fn skip_clicked(
     component_interaction
         .create_followup_message(&context.http, |message| {
             message
-                .embed(embeds::registration::housing_embed())
+                .embed(embeds::registration::housing())
                 .components(components::housing_buttons())
         })
         .await?;
@@ -66,7 +66,7 @@ pub async fn skip_clicked(
         .channels
         .log_channel_id
         .send_message(&context.http, |message| {
-            message.embed(embeds::logs::pronouns_log_embed(user_id))
+            message.embed(embeds::logs::pronouns_picked(user_id))
         })
         .await?;
 

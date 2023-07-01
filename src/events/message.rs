@@ -46,9 +46,7 @@ async fn request_name_confirm(
         .channel_id
         .send_message(&context.http, |message| {
             message
-                .embed(embeds::registration::confirm_name_embed(
-                    &name_message.content,
-                ))
+                .embed(embeds::registration::name_confirm(&name_message.content))
                 .components(components::confirm_name_buttons())
                 .reference_message(name_message)
         })

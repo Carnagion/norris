@@ -12,7 +12,7 @@ use serenity::{
 
 use crate::prelude::*;
 
-pub fn instructions_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+pub fn instructions(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
         embed
             .title("Registration")
@@ -26,9 +26,7 @@ pub fn instructions_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &
     }
 }
 
-pub fn instructions_sent_embed(
-    user_id: UserId,
-) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+pub fn instructions_sent(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
         embed
             .title("Registration")
@@ -42,7 +40,7 @@ pub fn instructions_sent_embed(
     }
 }
 
-pub fn instructions_error_embed(
+pub fn instructions_error(
     user_id: UserId,
     support_channel_id: ChannelId,
 ) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
@@ -60,7 +58,7 @@ pub fn instructions_error_embed(
     }
 }
 
-pub fn request_name_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+pub fn name_request() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     |embed| {
         embed
             .title("Registration")
@@ -72,7 +70,7 @@ pub fn request_name_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed
     }
 }
 
-pub fn confirm_name_embed(name: &str) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed + '_ {
+pub fn name_confirm(name: &str) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed + '_ {
     move |embed| {
         embed
             .title("Registration")
@@ -86,7 +84,7 @@ pub fn confirm_name_embed(name: &str) -> impl FnOnce(&mut CreateEmbed) -> &mut C
     }
 }
 
-pub fn no_name_error_embed(
+pub fn name_error(
     support_channel_id: ChannelId,
 ) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
@@ -102,9 +100,7 @@ pub fn no_name_error_embed(
     }
 }
 
-pub fn confirm_kind_embed(
-    kind: VerifiedUserKind,
-) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+pub fn kind_confirm(kind: VerifiedUserKind) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
         embed
             .title("Registration")
@@ -118,7 +114,7 @@ pub fn confirm_kind_embed(
     }
 }
 
-pub fn kind_error_embed(
+pub fn kind_error(
     support_channel_id: ChannelId,
 ) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
@@ -134,7 +130,7 @@ pub fn kind_error_embed(
     }
 }
 
-pub fn verified_continue_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+pub fn verified() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
         embed
             .title("Registration")
@@ -150,7 +146,7 @@ pub fn verified_continue_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut Create
     }
 }
 
-pub fn pronouns_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+pub fn pronouns() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     |embed| {
         embed
             .title("Registration")
@@ -164,7 +160,7 @@ pub fn pronouns_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     }
 }
 
-pub fn housing_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+pub fn housing() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     |embed| {
         embed
             .title("Registration")
@@ -178,9 +174,7 @@ pub fn housing_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     }
 }
 
-pub fn finished_embed(
-    main_channel_id: ChannelId,
-) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+pub fn finished(main_channel_id: ChannelId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
         embed
             .title("Registration")
@@ -195,7 +189,7 @@ pub fn finished_embed(
     }
 }
 
-pub fn welcome_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+pub fn welcome(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
         embed
             .title("Registration")
@@ -205,9 +199,7 @@ pub fn welcome_embed(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut C
     }
 }
 
-pub fn registration_restart_embed(
-    user_id: UserId,
-) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+pub fn restart(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
         embed
             .title("Registration")
@@ -217,7 +209,7 @@ pub fn registration_restart_embed(
     }
 }
 
-pub fn registration_nuke_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+pub fn nuke() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     |embed| {
         embed
             .title("Registration")
@@ -227,7 +219,7 @@ pub fn registration_nuke_embed() -> impl FnOnce(&mut CreateEmbed) -> &mut Create
     }
 }
 
-pub fn count_embed(
+pub fn count(
     title: &str,
     registered: u64,
     total: u64,

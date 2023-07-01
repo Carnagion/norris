@@ -11,11 +11,7 @@ pub async fn restart(context: BotContext<'_>, mut member: Member) -> BotResult<(
 
     // Reply after restarting their registration
     context
-        .send(|reply| {
-            reply.embed(embeds::registration::registration_restart_embed(
-                member.user.id,
-            ))
-        })
+        .send(|reply| reply.embed(embeds::registration::restart(member.user.id)))
         .await?;
 
     Ok(())
@@ -62,7 +58,7 @@ pub(super) async fn restart_registration(
         .channels
         .log_channel_id
         .send_message(context.http(), |message| {
-            message.embed(embeds::logs::registration_restart_log_embed(user_id))
+            message.embed(embeds::logs::registration_restarted(user_id))
         })
         .await?;
 

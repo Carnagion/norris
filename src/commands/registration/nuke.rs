@@ -30,7 +30,7 @@ pub async fn nuke(context: BotContext<'_>, role: Option<Role>) -> BotResult<()> 
 
     // Reply after nuke
     context
-        .send(|reply| reply.embed(embeds::registration::registration_nuke_embed()))
+        .send(|reply| reply.embed(embeds::registration::nuke()))
         .await?;
 
     Ok(())

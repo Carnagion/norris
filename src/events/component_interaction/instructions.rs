@@ -23,7 +23,7 @@ pub async fn continue_clicked(
     // Ask the user to enter their name
     component_interaction
         .create_followup_message(&context.http, |message| {
-            message.embed(embeds::registration::request_name_embed())
+            message.embed(embeds::registration::name_request())
         })
         .await?;
 
@@ -32,7 +32,7 @@ pub async fn continue_clicked(
         .channels
         .log_channel_id
         .send_message(&context.http, |message| {
-            message.embed(embeds::logs::registration_started_log_embed(
+            message.embed(embeds::logs::registration_started(
                 component_interaction.user.id,
             ))
         })

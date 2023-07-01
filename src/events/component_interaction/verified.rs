@@ -12,7 +12,7 @@ pub async fn continue_clicked(
     component_interaction
         .create_followup_message(&context.http, |message| {
             message
-                .embed(embeds::registration::pronouns_embed())
+                .embed(embeds::registration::pronouns())
                 .components(components::pronouns_buttons())
         })
         .await?;

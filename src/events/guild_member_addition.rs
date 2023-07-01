@@ -24,14 +24,14 @@ pub async fn guild_member_added(
         .channels
         .log_channel_id
         .send_message(&context.http, |message| {
-            message.embed(embeds::logs::user_joined_log_embed(member.user.id))
+            message.embed(embeds::logs::user_joined(member.user.id))
         })
         .await?;
 
     // Try to send instructions for registration to the user and notify them
     try_send_instructions(context, member, bot_data, |message| {
         message
-            .embed(embeds::registration::instructions_embed(member.user.id))
+            .embed(embeds::registration::instructions(member.user.id))
             .components(components::instructions_continue_button())
     })
     .await
@@ -77,14 +77,13 @@ async fn notify_instructions_sent(
     member: &Member,
     bot_data: &BotData,
 ) -> BotResult<()> {
+    // Inform user of DM sent
     bot_data
         .channels
         .arrival_channel_id
         .send_message(&context.http, |message| {
             message
-                .embed(embeds::registration::instructions_sent_embed(
-                    member.user.id,
-                ))
+                .embed(embeds::registration::instructions_sent(member.user.id))
                 .components(components::instructions_sent_button())
         })
         .await?;
@@ -102,7 +101,7 @@ async fn notify_instructions_error(
         .channels
         .arrival_channel_id
         .send_message(&context.http, |message| {
-            message.embed(embeds::registration::instructions_error_embed(
+            message.embed(embeds::registration::instructions_error(
                 member.user.id,
                 bot_data.channels.support_channel_id,
             ))
@@ -114,7 +113,7 @@ async fn notify_instructions_error(
         .channels
         .log_channel_id
         .send_message(&context.http, |message| {
-            message.embed(embeds::logs::dm_error_log_embed(
+            message.embed(embeds::logs::dm_error(
                 member.user.id,
                 bot_data.channels.support_channel_id,
                 bot_data.roles.hierarchy.mentor_role_id,

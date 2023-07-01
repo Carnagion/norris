@@ -34,7 +34,7 @@ pub async fn guild_member_removed(
         .channels
         .log_channel_id
         .send_message(&context.http, |message| {
-            message.embed(embeds::logs::user_left_log_embed(user.id))
+            message.embed(embeds::logs::user_left(user.id))
         })
         .await?;
 

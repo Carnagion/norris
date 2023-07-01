@@ -86,14 +86,14 @@ pub async fn skip_clicked(
     // Inform the user of completion
     component_interaction
         .create_followup_message(&context.http, |message| {
-            message.embed(embeds::registration::finished_embed(main_channel_id))
+            message.embed(embeds::registration::finished(main_channel_id))
         })
         .await?;
 
     // Welcome the user
     main_channel_id
         .send_message(&context.http, |message| {
-            message.embed(embeds::registration::welcome_embed(user_id))
+            message.embed(embeds::registration::welcome(user_id))
         })
         .await?;
 
@@ -103,8 +103,8 @@ pub async fn skip_clicked(
         .log_channel_id
         .send_message(&context.http, |message| {
             message
-                .add_embed(embeds::logs::housing_log_embed(user_id))
-                .add_embed(embeds::logs::registered_log_embed(user_id))
+                .add_embed(embeds::logs::housing_picked(user_id))
+                .add_embed(embeds::logs::registration_finished(user_id))
         })
         .await?;
 

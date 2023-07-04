@@ -52,8 +52,8 @@ async def yes_clicked(interaction: Interaction, norris: Norris) -> None:
         )
 
     # NOTE: thanks Python for this amazing module system
-    from ...responses.components import VerifiedContinueView
     from ...responses import embeds
+    from ...responses.components import VerifiedContinueView
 
     # Inform the user of verification and ask them to continue with optional questions
     await interaction.followup.send(

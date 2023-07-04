@@ -47,7 +47,7 @@ async def try_send_instructions(member: Member, norris: Norris) -> None:
             await connection.execute(
                 update(Registration)
                 .values(status=RegistrationStatus.FAILED)
-                .where(Registration.user_id == member.id)
+                .where(Registration.user_id == member.id),
             )
 
         # Inform user that they could not be DMed

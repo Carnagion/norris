@@ -36,8 +36,8 @@ async def yes_clicked(interaction: Interaction, norris: Norris) -> None:
         )
         verified_user = result.one_or_none()
 
-        from ...responses.components import KindConfirmView
         from ...responses import embeds
+        from ...responses.components import KindConfirmView
 
         if verified_user is None:
             # Update the user's registration state to failed
@@ -59,7 +59,7 @@ async def yes_clicked(interaction: Interaction, norris: Norris) -> None:
                     interaction.user.id,
                     norris.roles.hierarchy.mentor_role_id,
                     norris.channels.support_channel_id,
-                    user_name
+                    user_name,
                 ),
             )
         else:

@@ -1,4 +1,4 @@
-from discord import ApplicationContext, Role, SlashCommandGroup, Member
+from discord import ApplicationContext, Member, Role, SlashCommandGroup
 from discord.ext.commands import Cog, has_guild_permissions
 
 from ..bot import Norris

@@ -53,8 +53,8 @@ async def transition_to_housing(interaction: Interaction, norris: Norris) -> Non
         )
 
     # NOTE: circular imports ffs
-    from ...responses.components import HousingView
     from ...responses import embeds
+    from ...responses.components import HousingView
 
     # Ask the user to pick housing
     await interaction.followup.send(

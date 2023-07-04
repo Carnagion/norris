@@ -10,7 +10,6 @@ async def nuke(norris: Norris,
     # Defer response to give time for database queries
     await context.response.defer()
 
-    # await context.respond(f"Hello, <@{context.author.id}>!") # Have only this
     # uncommented to test command permissions (no nuking occurs)
 
     guild = norris.get_guild(norris.guild_id)

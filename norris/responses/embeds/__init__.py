@@ -1,2 +1,1 @@
-from . import logs
-from . import registration
+from . import logs, registration

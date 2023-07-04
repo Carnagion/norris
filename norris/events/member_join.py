@@ -1,5 +1,5 @@
 from discord import Forbidden, HTTPException, Member
-from sqlalchemy import insert
+from sqlalchemy import insert, update
 
 from ..bot import Norris
 from ..model import Registration, RegistrationStatus
@@ -30,6 +30,11 @@ async def on_member_join(member: Member, norris: Norris) -> None:
                     kind=None),
         )
 
+    # Try to send instructions to user and notify them
+    await try_send_instructions(member, norris)
+
+
+async def try_send_instructions(member: Member, norris: Norris) -> None:
     try:
         # Try sending instructions in DMs
         await member.send(
@@ -37,7 +42,15 @@ async def on_member_join(member: Member, norris: Norris) -> None:
             view=InstructionsContinueView(norris),
         )
     except (Forbidden, HTTPException):
-        # Inform user if they could not be DMed
+        # Update their registration status to failed
+        async with norris.database_engine.begin() as connection:
+            await connection.execute(
+                update(Registration)
+                .values(status=RegistrationStatus.FAILED)
+                .where(Registration.user_id == member.id)
+            )
+
+        # Inform user that they could not be DMed
         await norris.get_channel(norris.channels.arrival_channel_id).send(
             embed=embeds.registration.instructions_error(
                 member.id,

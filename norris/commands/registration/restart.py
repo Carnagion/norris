@@ -1,16 +1,25 @@
-from discord import ApplicationContext, Forbidden, HTTPException, Role, Member
+from discord import ApplicationContext, Member
 from sqlalchemy import update
 
 from ...bot import Norris
 from ...model import Registration, RegistrationStatus, VerifiedUser
 
 
-async def restart(norris: Norris,
-                  context: ApplicationContext,
-                  member: Member) -> None:
+async def restart(norris: Norris, context: ApplicationContext, member: Member) -> None:
+    # Defer response to give time for database queries
+    await context.response.defer()
+
+    # Ignore bots
+    if member.bot:
+        return
+
+    # Restart the user's registration process
     await restart_registration(member, norris)
 
-    await context.respond()
+    from ...responses import embeds
+
+    # Reply after restarting their registration
+    await context.followup.send(embed=embeds.registration.restart(member.id))
 
 
 async def restart_registration(member: Member, norris: Norris) -> None:
@@ -34,20 +43,13 @@ async def restart_registration(member: Member, norris: Norris) -> None:
                 norris.roles.role_ids_needing_registration())
     await member.remove_roles(*roles)
 
-    from ...responses.components import InstructionsContinueView
+    from ...events.member_join import try_send_instructions
     from ...responses import embeds
 
-    try:
-        # Try sending instructions in DMs
-        await member.send(
-            embed=embeds.registration.instructions(member.id),
-            view=InstructionsContinueView(norris),
-        )
-    except (Forbidden, HTTPException):
-        # Inform user if they could not be DMed
-        await norris.get_channel(norris.channels.arrival_channel_id).send(
-            embed=embeds.registration.instructions_error(
-                member.id,
-                norris.channels.support_channel_id,
-            ),
-        )
+    # Log the registration restart
+    await norris.get_channel(norris.channels.log_channel_id).send(
+        embed=embeds.logs.registration_restarted(member.id),
+    )
+
+    # Ask the user to start registration again
+    await try_send_instructions(member, norris)

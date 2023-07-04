@@ -111,3 +111,27 @@ class RolesConfig:
             self.hierarchy.postgrad_role_id,
             self.hierarchy.mentor_role_id,
         ]
+
+    def role_ids_needing_registration(self) -> list[int]:
+        return [
+            # Hierarchy and user kind roles
+            self.hierarchy.undergrad_role_id,
+            self.hierarchy.postgrad_role_id,
+            self.hierarchy.mentor_role_id,
+            self.hierarchy.senior_mentor_role_id,
+            self.hierarchy.honorary_mentor_role_id,
+            self.hierarchy.faculty_role_id,
+            # Pronoun roles
+            self.pronouns.he_him_role_id,
+            self.pronouns.she_her_role_id,
+            self.pronouns.they_them_role_id,
+            self.pronouns.xe_xem_role_id,
+            self.pronouns.any_pronouns_role_id,
+            self.pronouns.ask_pronouns_role_id,
+            # Housing roles
+            self.housing.jc_catered_role_id,
+            self.housing.up_catered_role_id,
+            self.housing.jc_self_catered_role_id,
+            self.housing.up_self_catered_role_id,
+            self.housing.private_house_role_id,
+        ]

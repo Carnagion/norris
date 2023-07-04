@@ -49,13 +49,13 @@ async def yes_clicked(interaction: Interaction, norris: Norris) -> None:
 
             # Ask the user to seek assistance
             await interaction.followup.send(
-                embed=embeds.registration.no_name_error_embed(
+                embed=embeds.registration.name_error(
                     norris.channels.support_channel_id),
             )
 
             # Alert the mentors about no name being found
             await norris.get_channel(norris.channels.log_channel_id).send(
-                embed=embeds.logs.name_error_log_embed(
+                embed=embeds.logs.name_error(
                     interaction.user.id,
                     norris.roles.hierarchy.mentor_role_id,
                     norris.channels.support_channel_id,
@@ -72,14 +72,14 @@ async def yes_clicked(interaction: Interaction, norris: Norris) -> None:
 
             # Ask the user to confirm their kind
             await interaction.followup.send(
-                embed=embeds.registration.confirm_kind_embed(verified_user.kind),
+                embed=embeds.registration.kind_confirm(verified_user.kind),
                 view=KindConfirmView(norris),
             )
 
             # Log the name confirmation
             await norris.get_channel(norris.channels.log_channel_id).send(
-                embed=embeds.logs.name_confirmed_log_embed(interaction.user.id,
-                                                           user_name),
+                embed=embeds.logs.name_confirmed(interaction.user.id,
+                                                 user_name),
             )
 
 
@@ -105,4 +105,4 @@ async def no_clicked(interaction: Interaction, norris: Norris) -> None:
     from ...responses import embeds
 
     # Ask the user to enter their name
-    await interaction.followup.send(embed=embeds.registration.request_name_embed())
+    await interaction.followup.send(embed=embeds.registration.name_request())

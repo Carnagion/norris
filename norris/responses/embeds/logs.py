@@ -5,7 +5,7 @@ from discord import Colour, Embed
 from norris.model import VerifiedUserKind
 
 
-def user_joined_log_embed(user_id: int) -> Embed:
+def user_joined(user_id: int) -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -14,9 +14,7 @@ def user_joined_log_embed(user_id: int) -> Embed:
     )
 
 
-def dm_error_log_embed(user_id: int,
-                       mentor_role_id: int,
-                       support_channel_id: int) -> Embed:
+def dm_error(user_id: int, mentor_role_id: int, support_channel_id: int) -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.red(),
@@ -27,7 +25,7 @@ def dm_error_log_embed(user_id: int,
     )
 
 
-def registration_started_log_embed(user_id: int) -> Embed:
+def registration_started(user_id: int) -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -36,7 +34,7 @@ def registration_started_log_embed(user_id: int) -> Embed:
     )
 
 
-def name_confirmed_log_embed(user_id: int, name: str) -> Embed:
+def name_confirmed(user_id: int, name: str) -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -45,10 +43,10 @@ def name_confirmed_log_embed(user_id: int, name: str) -> Embed:
     )
 
 
-def name_error_log_embed(user_id: int,
-                         mentor_role_id: int,
-                         support_channel_id: int,
-                         name: str) -> Embed:
+def name_error(user_id: int,
+               mentor_role_id: int,
+               support_channel_id: int,
+               name: str) -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.red(),
@@ -60,10 +58,10 @@ def name_error_log_embed(user_id: int,
     )
 
 
-def kind_error_log_embed(user_id: int,
-                         kind: VerifiedUserKind,
-                         mentor_role_id: int,
-                         support_channel_id: int) -> Embed:
+def kind_error(user_id: int,
+               kind: VerifiedUserKind,
+               mentor_role_id: int,
+               support_channel_id: int) -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.red(),
@@ -75,7 +73,7 @@ def kind_error_log_embed(user_id: int,
     )
 
 
-def verified_log_embed(user_id: int, kind: VerifiedUserKind) -> Embed:
+def verified(user_id: int, kind: VerifiedUserKind) -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.green(),
@@ -85,7 +83,7 @@ def verified_log_embed(user_id: int, kind: VerifiedUserKind) -> Embed:
     )
 
 
-def pronouns_selected_log_embed(user_id: int) -> Embed:
+def pronouns_picked(user_id: int) -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -94,7 +92,7 @@ def pronouns_selected_log_embed(user_id: int) -> Embed:
     )
 
 
-def housing_selected_log_embed(user_id: int) -> Embed:
+def housing_picked(user_id: int) -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -103,7 +101,7 @@ def housing_selected_log_embed(user_id: int) -> Embed:
     )
 
 
-def registered_log_embed(user_id: int) -> Embed:
+def registration_finished(user_id: int) -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.green(),
@@ -112,7 +110,7 @@ def registered_log_embed(user_id: int) -> Embed:
     )
 
 
-def user_left_log_embed(user_id: int) -> Embed:
+def user_left(user_id: int) -> Embed:
     return Embed(
         title="Registration",
         colour=Colour(0xFAA81A),  # NOTE: official Discord warning colour
@@ -121,7 +119,7 @@ def user_left_log_embed(user_id: int) -> Embed:
     )
 
 
-def registration_restarted_log_embed(user_id: int) -> Embed:
+def registration_restarted(user_id: int) -> Embed:
     return Embed(
         title="Registration",
         colour=Colour(0xFAA81A),  # NOTE: official Discord warning colour

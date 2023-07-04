@@ -79,16 +79,16 @@ async def finish_registration(interaction: Interaction, norris: Norris) -> None:
 
     # Inform the user of completion
     await interaction.followup.send(
-        embed=embeds.registration.registration_finished_embed(main_channel_id),
+        embed=embeds.registration.finished(main_channel_id),
     )
 
     # Welcome the user in their corresponding atrium
     await norris.get_channel(main_channel_id).send(
-        embed=embeds.registration.registration_welcome_embed(interaction.user.id),
+        embed=embeds.registration.welcome(interaction.user.id),
     )
 
     # Log completion of registration
     await norris.get_channel(norris.channels.log_channel_id).send(
-        embeds=[embeds.logs.housing_selected_log_embed(interaction.user.id),
-                embeds.logs.registered_log_embed(interaction.user.id)],
+        embeds=[embeds.logs.housing_picked(interaction.user.id),
+                embeds.logs.registration_finished(interaction.user.id)],
     )

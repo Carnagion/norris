@@ -5,7 +5,7 @@ from discord import Colour, Embed
 from ...model import VerifiedUserKind
 
 
-def instructions_embed(user_id: int) -> Embed:
+def instructions(user_id: int) -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -16,7 +16,7 @@ def instructions_embed(user_id: int) -> Embed:
     )
 
 
-def instructions_sent_embed(user_id: int) -> Embed:
+def instructions_sent(user_id: int) -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -27,7 +27,7 @@ def instructions_sent_embed(user_id: int) -> Embed:
     )
 
 
-def instructions_error_embed(user_id: int, support_channel_id: int) -> Embed:
+def instructions_error(user_id: int, support_channel_id: int) -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.red(),
@@ -39,7 +39,7 @@ def instructions_error_embed(user_id: int, support_channel_id: int) -> Embed:
     )
 
 
-def request_name_embed() -> Embed:
+def name_request() -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -49,7 +49,7 @@ def request_name_embed() -> Embed:
     )
 
 
-def confirm_name_embed(name: str) -> Embed:
+def name_confirm(name: str) -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -58,7 +58,7 @@ def confirm_name_embed(name: str) -> Embed:
     )
 
 
-def no_name_error_embed(support_channel_id: int) -> Embed:
+def name_error(support_channel_id: int) -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.red(),
@@ -68,7 +68,7 @@ def no_name_error_embed(support_channel_id: int) -> Embed:
     )
 
 
-def confirm_kind_embed(user_kind: VerifiedUserKind) -> Embed:
+def kind_confirm(user_kind: VerifiedUserKind) -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -78,7 +78,7 @@ def confirm_kind_embed(user_kind: VerifiedUserKind) -> Embed:
     )
 
 
-def kind_error_embed(support_channel_id: int) -> Embed:
+def kind_error(support_channel_id: int) -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.red(),
@@ -88,7 +88,7 @@ def kind_error_embed(support_channel_id: int) -> Embed:
     )
 
 
-def verified_continue_embed() -> Embed:
+def verified() -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -101,7 +101,7 @@ def verified_continue_embed() -> Embed:
     )
 
 
-def pronouns_embed() -> Embed:
+def pronouns() -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -115,7 +115,7 @@ def pronouns_embed() -> Embed:
     )
 
 
-def housing_embed() -> Embed:
+def housing() -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -127,7 +127,7 @@ def housing_embed() -> Embed:
     )
 
 
-def registration_finished_embed(chat_channel_id: int) -> Embed:
+def finished(chat_channel_id: int) -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.green(),
@@ -139,7 +139,7 @@ def registration_finished_embed(chat_channel_id: int) -> Embed:
     )
 
 
-def registration_welcome_embed(user_id: int) -> Embed:
+def welcome(user_id: int) -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -148,7 +148,7 @@ def registration_welcome_embed(user_id: int) -> Embed:
     )
 
 
-def registration_restart_embed(user_id: int) -> Embed:
+def restart(user_id: int) -> Embed:
     return Embed(
         title="Registration",
         colour=Colour(0xFAA81A),  # NOTE: official Discord warning colour
@@ -157,7 +157,7 @@ def registration_restart_embed(user_id: int) -> Embed:
     )
 
 
-def registration_nuke_embed() -> Embed:
+def nuke() -> Embed:
     return Embed(
         title="Registration",
         colour=Colour(0xFAA81A),  # NOTE: official Discord warning colour

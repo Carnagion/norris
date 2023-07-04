@@ -28,9 +28,9 @@ async def continue_clicked(interaction: Interaction, norris: Norris) -> None:
     from ...responses import embeds
 
     # Ask the user to enter their name
-    await interaction.followup.send(embed=embeds.registration.request_name_embed())
+    await interaction.followup.send(embed=embeds.registration.name_request())
 
     # Log the start of registration
     await norris.get_channel(norris.channels.log_channel_id).send(
-        embed=embeds.logs.registration_started_log_embed(interaction.user.id),
+        embed=embeds.logs.registration_started(interaction.user.id),
     )

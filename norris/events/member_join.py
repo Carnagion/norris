@@ -17,7 +17,7 @@ async def on_member_join(member: Member, norris: Norris) -> None:
 
     # Log user joining
     await norris.get_channel(norris.channels.log_channel_id).send(
-        embed=embeds.logs.user_joined_log_embed(member.id),
+        embed=embeds.logs.user_joined(member.id),
     )
 
     async with norris.database_engine.begin() as connection:
@@ -33,13 +33,13 @@ async def on_member_join(member: Member, norris: Norris) -> None:
     try:
         # Try sending instructions in DMs
         await member.send(
-            embed=embeds.registration.instructions_embed(member.id),
+            embed=embeds.registration.instructions(member.id),
             view=InstructionsContinueView(norris),
         )
     except (Forbidden, HTTPException):
         # Inform user if they could not be DMed
         await norris.get_channel(norris.channels.arrival_channel_id).send(
-            embed=embeds.registration.instructions_error_embed(
+            embed=embeds.registration.instructions_error(
                 member.id,
                 norris.channels.support_channel_id,
             ),
@@ -47,7 +47,7 @@ async def on_member_join(member: Member, norris: Norris) -> None:
 
         # Alert mentors about the error
         await norris.get_channel(norris.channels.log_channel_id).send(
-            embed=embeds.logs.dm_error_log_embed(
+            embed=embeds.logs.dm_error(
                 member.id,
                 norris.roles.hierarchy.mentor_role_id,
                 norris.channels.support_channel_id,
@@ -56,6 +56,6 @@ async def on_member_join(member: Member, norris: Norris) -> None:
     else:
         # Inform the user of instructions sent to them privately
         await norris.get_channel(norris.channels.arrival_channel_id).send(
-            embed=embeds.registration.instructions_sent_embed(member.id),
+            embed=embeds.registration.instructions_sent(member.id),
             view=OpenDirectMessagesView(),
         )

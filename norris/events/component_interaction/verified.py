@@ -21,6 +21,6 @@ async def continue_clicked(interaction: Interaction, norris: Norris) -> None:
 
     # Ask the user their pronouns
     await interaction.followup.send(
-        embed=embeds.registration.pronouns_embed(),
+        embed=embeds.registration.pronouns(),
         view=PronounsView(norris),
     )

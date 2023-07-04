@@ -45,7 +45,7 @@ async def on_message(message: Message, norris: Norris) -> None:
 
     # Ask user to confirm their name
     await message.channel.send(
-        embed=embeds.registration.confirm_name_embed(message.content),
+        embed=embeds.registration.name_confirm(message.content),
         view=NameConfirmView(norris),
         reference=message,
     )

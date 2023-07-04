@@ -58,11 +58,11 @@ async def transition_to_housing(interaction: Interaction, norris: Norris) -> Non
 
     # Ask the user to pick housing
     await interaction.followup.send(
-        embed=embeds.registration.housing_embed(),
+        embed=embeds.registration.housing(),
         view=HousingView(norris),
     )
 
     # Log selection of pronouns
     await norris.get_channel(norris.channels.log_channel_id).send(
-        embed=embeds.logs.pronouns_selected_log_embed(interaction.user.id),
+        embed=embeds.logs.pronouns_picked(interaction.user.id),
     )

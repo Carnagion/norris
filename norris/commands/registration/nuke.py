@@ -10,13 +10,11 @@ async def nuke(norris: Norris,
     # Defer response to give time for database queries
     await context.response.defer()
 
-    # uncommented to test command permissions (no nuking occurs)
-
     guild = norris.get_guild(norris.guild_id)
 
     roles = norris.roles.nukeable_role_ids() if role is None else [role.id]
 
-    # USE WITH CAUTION - WILL NUKE SERVER IF TESTING DONE WITH WRONG CODE UNCOMMENTED
+    # USE WITH CAUTION - WILL NUKE SERVER IF TESTING DONE WITH CODE UNCOMMENTED
     async for member in guild.fetch_members():
         # Ignore member if they are a bot or do not have any nukeable role
         if member.bot or not any(role.id in roles for role in member.roles):

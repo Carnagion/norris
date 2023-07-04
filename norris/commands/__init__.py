@@ -1,4 +1,4 @@
-from discord import ApplicationContext, Member, Role, SlashCommandGroup
+from discord import ApplicationContext, Member, Role, SlashCommandGroup, Option
 from discord.ext.commands import Cog, has_guild_permissions
 
 from ..bot import Norris
@@ -15,10 +15,12 @@ class Commands(Cog):
 
     @registration.command()
     @has_guild_permissions(administrator=True)
-    async def nuke(self, context: ApplicationContext, role: Role | None = None) -> None:
+    async def nuke(self,
+                   context: ApplicationContext,
+                   role: Option(Role) = None) -> None:
         await nuke.nuke(self._norris, context, role)
 
     @registration.command()
     @has_guild_permissions(administrator=True)
-    async def restart(self, context: ApplicationContext, member: Member) -> None:
+    async def restart(self, context: ApplicationContext, member: Option(Member)) -> None:
         await restart.restart(self._norris, context, member)

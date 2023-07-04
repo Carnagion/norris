@@ -1,4 +1,4 @@
-from discord import ApplicationContext, Member, Role, SlashCommandGroup, Option
+from discord import ApplicationContext, Member, Option, Role, SlashCommandGroup
 from discord.ext.commands import Cog, has_guild_permissions
 
 from ..bot import Norris
@@ -22,5 +22,7 @@ class Commands(Cog):
 
     @registration.command()
     @has_guild_permissions(administrator=True)
-    async def restart(self, context: ApplicationContext, member: Option(Member)) -> None:
+    async def restart(self,
+                      context: ApplicationContext,
+                      member: Option(Member)) -> None:
         await restart.restart(self._norris, context, member)

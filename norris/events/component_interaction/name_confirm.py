@@ -36,13 +36,8 @@ async def yes_clicked(interaction: Interaction, norris: Norris) -> None:
         )
         verified_user = result.one_or_none()
 
-        from ...responses import (
-            KindConfirmView,
-            confirm_kind_embed,
-            name_confirmed_log_embed,
-            name_error_log_embed,
-            no_name_error_embed,
-        )
+        from ...responses.components import KindConfirmView
+        from ...responses import embeds
 
         if verified_user is None:
             # Update the user's registration state to failed
@@ -54,15 +49,18 @@ async def yes_clicked(interaction: Interaction, norris: Norris) -> None:
 
             # Ask the user to seek assistance
             await interaction.followup.send(
-                embed=no_name_error_embed(norris.channels.support_channel_id),
+                embed=embeds.registration.no_name_error_embed(
+                    norris.channels.support_channel_id),
             )
 
             # Alert the mentors about no name being found
             await norris.get_channel(norris.channels.log_channel_id).send(
-                embed=name_error_log_embed(interaction.user.id,
-                                           norris.roles.hierarchy.mentor_role_id,
-                                           norris.channels.support_channel_id,
-                                           user_name),
+                embed=embeds.logs.name_error_log_embed(
+                    interaction.user.id,
+                    norris.roles.hierarchy.mentor_role_id,
+                    norris.channels.support_channel_id,
+                    user_name
+                ),
             )
         else:
             # Update the user's registration state to kind found
@@ -74,13 +72,14 @@ async def yes_clicked(interaction: Interaction, norris: Norris) -> None:
 
             # Ask the user to confirm their kind
             await interaction.followup.send(
-                embed=confirm_kind_embed(verified_user.kind),
+                embed=embeds.registration.confirm_kind_embed(verified_user.kind),
                 view=KindConfirmView(norris),
             )
 
             # Log the name confirmation
             await norris.get_channel(norris.channels.log_channel_id).send(
-                embed=name_confirmed_log_embed(interaction.user.id, user_name),
+                embed=embeds.logs.name_confirmed_log_embed(interaction.user.id,
+                                                           user_name),
             )
 
 
@@ -103,7 +102,7 @@ async def no_clicked(interaction: Interaction, norris: Norris) -> None:
         )
 
     # NOTE: circular modules again
-    from ...responses import request_name_embed
+    from ...responses import embeds
 
     # Ask the user to enter their name
-    await interaction.followup.send(embed=request_name_embed())
+    await interaction.followup.send(embed=embeds.registration.request_name_embed())

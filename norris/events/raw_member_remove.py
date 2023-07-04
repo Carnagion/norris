@@ -25,9 +25,9 @@ async def on_raw_member_remove(member_removed: RawMemberRemoveEvent,
             .where(Registration.user_id == member_removed.user.id),
         )
 
-    from ..responses import user_left_log_embed
+    from ..responses import embeds
 
     # Log user leaving
     await norris.get_channel(norris.channels.log_channel_id).send(
-        embed=user_left_log_embed(member_removed.user.id),
+        embed=embeds.logs.user_left_log_embed(member_removed.user.id),
     )

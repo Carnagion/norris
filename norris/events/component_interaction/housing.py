@@ -69,12 +69,7 @@ async def finish_registration(interaction: Interaction, norris: Norris) -> None:
         # Change the user's nickname to their verified name
         await member.edit(nick=verified_user.name)
 
-    from ...responses import (
-        housing_selected_log_embed,
-        registered_log_embed,
-        registration_finished_embed,
-        registration_welcome_embed,
-    )
+    from ...responses import embeds
 
     # Find the correct atrium channel for undergrads and postgrads
     is_postgrad = verified_user.kind == VerifiedUserKind.POSTGRAD
@@ -83,15 +78,17 @@ async def finish_registration(interaction: Interaction, norris: Norris) -> None:
     main_channel_id = postgrad_main if is_postgrad else undergrad_main
 
     # Inform the user of completion
-    await interaction.followup.send(embed=registration_finished_embed(main_channel_id))
+    await interaction.followup.send(
+        embed=embeds.registration.registration_finished_embed(main_channel_id),
+    )
 
     # Welcome the user in their corresponding atrium
     await norris.get_channel(main_channel_id).send(
-        embed=registration_welcome_embed(interaction.user.id),
+        embed=embeds.registration.registration_welcome_embed(interaction.user.id),
     )
 
     # Log completion of registration
     await norris.get_channel(norris.channels.log_channel_id).send(
-        embeds=[housing_selected_log_embed(interaction.user.id),
-                registered_log_embed(interaction.user.id)],
+        embeds=[embeds.logs.housing_selected_log_embed(interaction.user.id),
+                embeds.logs.registered_log_embed(interaction.user.id)],
     )

@@ -16,10 +16,11 @@ async def continue_clicked(interaction: Interaction, norris: Norris) -> None:
         return
 
     # NOTE: I hate circular imports
-    from ...responses import PronounsView, pronouns_embed
+    from ...responses import embeds
+    from ...responses.components import PronounsView
 
     # Ask the user their pronouns
     await interaction.followup.send(
-        embed=pronouns_embed(),
+        embed=embeds.registration.pronouns_embed(),
         view=PronounsView(norris),
     )

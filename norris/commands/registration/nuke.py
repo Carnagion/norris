@@ -39,22 +39,19 @@ async def nuke(norris: Norris,
                 .where(Registration.user_id == member.id),
             )
 
-        from ...responses import (
-            InstructionsContinueView,
-            instructions_embed,
-            instructions_error_embed,
-        )
+        from ...responses.components import InstructionsContinueView
+        from ...responses import embeds
 
         try:
             # Try sending instructions in DMs
             await member.send(
-                embed=instructions_embed(member.id),
+                embed=embeds.registration.instructions_embed(member.id),
                 view=InstructionsContinueView(norris),
             )
         except (Forbidden, HTTPException):
             # Inform user if they could not be DMed
             await norris.get_channel(norris.channels.arrival_channel_id).send(
-                embed=instructions_error_embed(
+                embed=embeds.registration.instructions_error_embed(
                     member.id,
                     norris.channels.support_channel_id,
                 ),

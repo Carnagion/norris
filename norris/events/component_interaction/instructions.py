@@ -25,12 +25,12 @@ async def continue_clicked(interaction: Interaction, norris: Norris) -> None:
         )
 
     # NOTE: I love circular imports, what an amazing module system Python has
-    from ...responses import registration_started_log_embed, request_name_embed
+    from ...responses import embeds
 
     # Ask the user to enter their name
-    await interaction.followup.send(embed=request_name_embed())
+    await interaction.followup.send(embed=embeds.registration.request_name_embed())
 
     # Log the start of registration
     await norris.get_channel(norris.channels.log_channel_id).send(
-        embed=registration_started_log_embed(interaction.user.id),
+        embed=embeds.logs.registration_started_log_embed(interaction.user.id),
     )

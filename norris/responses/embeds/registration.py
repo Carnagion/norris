@@ -2,7 +2,7 @@ from datetime import datetime
 
 from discord import Colour, Embed
 
-from ..model import VerifiedUserKind
+from ...model import VerifiedUserKind
 
 
 def instructions_embed(user_id: int) -> Embed:

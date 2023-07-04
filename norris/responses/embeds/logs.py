@@ -2,7 +2,7 @@ from datetime import datetime
 
 from discord import Colour, Embed
 
-from ..model import VerifiedUserKind
+from norris.model import VerifiedUserKind
 
 
 def user_joined_log_embed(user_id: int) -> Embed:

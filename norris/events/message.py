@@ -3,7 +3,8 @@ from sqlalchemy import select, update
 
 from ..bot import Norris
 from ..model import Registration, RegistrationStatus
-from ..responses import NameConfirmView, confirm_name_embed
+from ..responses import embeds
+from ..responses.components import NameConfirmView
 from .component_interaction import verify_registration_status
 
 
@@ -44,7 +45,7 @@ async def on_message(message: Message, norris: Norris) -> None:
 
     # Ask user to confirm their name
     await message.channel.send(
-        embed=confirm_name_embed(message.content),
+        embed=embeds.registration.confirm_name_embed(message.content),
         view=NameConfirmView(norris),
         reference=message,
     )

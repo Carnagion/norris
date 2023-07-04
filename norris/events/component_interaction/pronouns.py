@@ -52,15 +52,17 @@ async def transition_to_housing(interaction: Interaction, norris: Norris) -> Non
             .where(Registration.user_id == interaction.user.id),
         )
 
-    from ...responses import HousingView, housing_embed, pronouns_selected_log_embed
+    # NOTE: circular imports ffs
+    from ...responses.components import HousingView
+    from ...responses import embeds
 
     # Ask the user to pick housing
     await interaction.followup.send(
-        embed=housing_embed(),
+        embed=embeds.registration.housing_embed(),
         view=HousingView(norris),
     )
 
     # Log selection of pronouns
     await norris.get_channel(norris.channels.log_channel_id).send(
-        embed=pronouns_selected_log_embed(interaction.user.id),
+        embed=embeds.logs.pronouns_selected_log_embed(interaction.user.id),
     )

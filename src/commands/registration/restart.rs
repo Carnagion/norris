@@ -67,7 +67,11 @@ pub(super) async fn restart_registration(
         context.serenity_context(),
         member,
         context.data(),
-        |message| message,
+        |message| {
+            message
+                .embed(embeds::registration::instructions(user_id))
+                .components(components::instructions_continue_button())
+        },
     )
     .await
 }

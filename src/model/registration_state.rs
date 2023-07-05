@@ -67,13 +67,13 @@ impl RegistrationStatus {
         let this = Self::from_str(status).map_err(|_| DecodeRegistrationError::UnknownStatus)?;
         match (this, name, kind) {
             (Self::NameEntered(_), Some(name), None) => Ok(Self::NameEntered(name)),
-            (Self::KindFound(_, _), Some(name), Some(kind)) => Ok(Self::KindFound(
+            (Self::KindFound(..), Some(name), Some(kind)) => Ok(Self::KindFound(
                 name,
                 VerifiedUserKind::from_str(&kind)
                     .map_err(|_| DecodeRegistrationError::UnknownKind)?,
             )),
             (this, None, None) => Ok(this),
-            (_, _, _) => Err(DecodeRegistrationError::InvalidDataCombination),
+            (..) => Err(DecodeRegistrationError::InvalidDataCombination),
         }
     }
 }

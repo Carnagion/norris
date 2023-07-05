@@ -6,7 +6,12 @@ use std::{
 use anyhow::Result as AnyResult;
 
 use simplelog::{
-    ColorChoice, CombinedLogger, Config as LoggerConfig, LevelFilter, TermLogger, TerminalMode,
+    ColorChoice,
+    CombinedLogger,
+    Config as LoggerConfig,
+    LevelFilter,
+    TermLogger,
+    TerminalMode,
     WriteLogger,
 };
 

@@ -32,8 +32,8 @@ pub fn dm_error(
             .title("Registration")
             .colour(DANGER)
             .description(format!(
-                "There was an error in sending <@{}> a direct message. \
-                They have been redirected to <#{}>, and a <@&{}>'s assistance is required.",
+                "There was an error in sending <@{}> a direct message. They have been redirected \
+                 to <#{}>, and a <@&{}>'s assistance is required.",
                 user_id, support_channel_id, mentor_role_id,
             ))
             .timestamp(Utc::now())
@@ -77,8 +77,9 @@ pub fn name_error(
             .title("Registration")
             .colour(DANGER)
             .description(format!(
-                "<@{}> has entered the name **{}**, but no such name was found, or it has already been registered. \
-                They have been redirected to <#{}>, and a <@&{}>'s assistance is required.",
+                "<@{}> has entered the name **{}**, but no such name was found, or it has already \
+                 been registered. They have been redirected to <#{}>, and a <@&{}>'s assistance \
+                 is required.",
                 user_id, name, support_channel_id, mentor_role_id,
             ))
             .timestamp(Utc::now())
@@ -96,8 +97,8 @@ pub fn kind_error(
             .title("Registration")
             .colour(DANGER)
             .description(format!(
-                "<@{}> has indicated that they have been incorrectly identified as a **{}**. \
-                They have been redirected to <#{}>, and a <@&{}>'s assistance is required.",
+                "<@{}> has indicated that they have been incorrectly identified as a **{}**. They \
+                 have been redirected to <#{}>, and a <@&{}>'s assistance is required.",
                 user_id,
                 kind.description(),
                 support_channel_id,
@@ -160,8 +161,7 @@ pub fn user_left(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut Creat
             .title("Registration")
             .colour(WARNING)
             .description(format!(
-                "<@{}> has left the server. \
-                They have been de-registered.",
+                "<@{}> has left the server. They have been de-registered.",
                 user_id,
             ))
             .timestamp(Utc::now())

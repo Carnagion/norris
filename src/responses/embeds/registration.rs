@@ -19,7 +19,7 @@ pub fn instructions(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut Cr
             .colour(BLURPLE)
             .description(format!(
                 "Welcome to the **University of Nottingham Computer Science** server, <@{}>! \
-                We'll need a couple of details from you in order to get you set up.",
+                 We'll need a couple of details from you in order to get you set up.",
                 user_id,
             ))
             .timestamp(Utc::now())
@@ -33,7 +33,7 @@ pub fn instructions_sent(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &m
             .colour(BLURPLE)
             .description(format!(
                 "Welcome to the **University of Nottingham Computer Science** server, <@{}>! \
-                Please check your direct messages for instructions on how to continue.",
+                 Please check your direct messages for instructions on how to continue.",
                 user_id,
             ))
             .timestamp(Utc::now())
@@ -50,8 +50,8 @@ pub fn instructions_error(
             .colour(DANGER)
             .description(format!(
                 "Welcome to the **University of Nottingham Computer Science** server, <@{}>! \
-                Unfortunately, there was an error in sending you instructions. \
-                Please seek assistance in <#{}>.",
+                 Unfortunately, there was an error in sending you instructions. Please seek \
+                 assistance in <#{}>.",
                 user_id, support_channel_id,
             ))
             .timestamp(Utc::now())
@@ -76,8 +76,7 @@ pub fn name_confirm(name: &str) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateE
             .title("Registration")
             .colour(BLURPLE)
             .description(format!(
-                "You entered the name **{}**. \
-                Is that correct?",
+                "You entered the name **{}**. Is that correct?",
                 name,
             ))
             .timestamp(Utc::now())
@@ -92,8 +91,8 @@ pub fn name_error(
             .title("Registration")
             .colour(DANGER)
             .description(format!(
-                "Unfortunately, we don't have that name in our system, or it has already been registered. \
-                Please seek assistance in <#{}>.",
+                "Unfortunately, we don't have that name in our system, or it has already been \
+                 registered. Please seek assistance in <#{}>.",
                 support_channel_id,
             ))
             .timestamp(Utc::now())
@@ -106,8 +105,7 @@ pub fn kind_confirm(kind: VerifiedUserKind) -> impl FnOnce(&mut CreateEmbed) -> 
             .title("Registration")
             .colour(BLURPLE)
             .description(format!(
-                "We've detected that you are a **{}**. \
-                Is that correct?",
+                "We've detected that you are a **{}**. Is that correct?",
                 kind.description(),
             ))
             .timestamp(Utc::now())
@@ -122,8 +120,8 @@ pub fn kind_error(
             .title("Registration")
             .colour(DANGER)
             .description(format!(
-                "Unfortunately, our system might have assigned you incorrectly. \
-                Please seek assistance in <#{}>.",
+                "Unfortunately, our system might have assigned you incorrectly. Please seek \
+                 assistance in <#{}>.",
                 support_channel_id,
             ))
             .timestamp(Utc::now())
@@ -136,11 +134,11 @@ pub fn verified() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
             .title("Registration")
             .colour(POSITIVE)
             .description(
-                "Thank you for your patience! \
-                You are now **verified**, but not fully registered yet.
-                We still have a few questions for you regarding your pronouns and accommodation. \
-                Please note that you can skip these if you wish to. \
-                Your registration will be complete after you answer or skip the following questions.",
+                "Thank you for your patience! You are now **verified**, but not fully registered \
+                 yet.
+                 We still have a few questions for you regarding your pronouns and accommodation. \
+                 Please note that you can skip these if you wish to. Your registration will be \
+                 complete after you answer or skip the following questions.",
             )
             .timestamp(Utc::now())
     }
@@ -152,9 +150,8 @@ pub fn pronouns() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
             .title("Registration")
             .colour(BLURPLE)
             .description(
-                "What are your **pronouns**? \
-                This helps others understand how best to address you, \
-                and will only be displayed via a role on your server profile.",
+                "What are your **pronouns**? This helps others understand how best to address \
+                 you, and will only be displayed via a role on your server profile.",
             )
             .timestamp(Utc::now())
     }
@@ -166,9 +163,9 @@ pub fn housing() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
             .title("Registration")
             .colour(BLURPLE)
             .description(
-                "What kind of **accommodation** will you be staying in? \
-                This helps you find others staying in the same accommodation or similar types, \
-                and will only be displayed via a role on your server profile.",
+                "What kind of **accommodation** will you be staying in? This helps you find \
+                 others staying in the same accommodation or similar types, and will only be \
+                 displayed via a role on your server profile.",
             )
             .timestamp(Utc::now())
     }
@@ -180,9 +177,8 @@ pub fn finished(main_channel_id: ChannelId) -> impl FnOnce(&mut CreateEmbed) -> 
             .title("Registration")
             .colour(POSITIVE)
             .description(format!(
-                "Thank you for your patience! \
-                We have no additional questions. \
-                You can now head over to <#{}> to chat with your new course peers and mentors.",
+                "Thank you for your patience! We have no additional questions. You can now head \
+                 over to <#{}> to chat with your new course peers and mentors.",
                 main_channel_id,
             ))
             .timestamp(Utc::now())

@@ -16,8 +16,7 @@ pub fn acknowledge_request() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbe
             .title("Nickname request")
             .colour(BLURPLE)
             .description(
-                "Your nickname request has been received. \
-                Please wait for approval by a mentor.",
+                "Your nickname request has been received. Please wait for approval by a mentor.",
             )
             .timestamp(Utc::now())
     }
@@ -60,8 +59,8 @@ pub fn denied(nickname: &str) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmb
             .title("Nickname request")
             .colour(DANGER)
             .description(format!(
-                "Your request to change your nickname to **{}** was **denied**. \
-                Please note that you can message a mentor if you think this was a mistake.",
+                "Your request to change your nickname to **{}** was **denied**. Please note that \
+                 you can message a mentor if you think this was a mistake.",
                 nickname,
             ))
             .timestamp(Utc::now())

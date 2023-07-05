@@ -1,5 +1,6 @@
 use crate::prelude::*;
 
+/// Count the number of registered postgraduate students.
 #[poise::command(slash_command, guild_only)]
 pub async fn postgrads(context: BotContext<'_>) -> BotResult<()> {
     // Defer reply to allow time for counting students

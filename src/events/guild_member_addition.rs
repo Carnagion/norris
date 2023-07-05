@@ -4,6 +4,7 @@ use serenity::*;
 
 use crate::prelude::*;
 
+/// Called when a [`Member`] joins the [`Guild`].
 pub async fn guild_member_added(
     context: &Context,
     member: &Member,

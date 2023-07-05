@@ -1,3 +1,5 @@
+//! Data models and representations of the registration process.
+
 mod verified_user;
 pub use verified_user::*;
 

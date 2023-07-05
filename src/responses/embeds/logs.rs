@@ -1,3 +1,5 @@
+//! Embeds used when logging the registration process of a user.
+
 use chrono::Utc;
 
 use poise::serenity_prelude as serenity;
@@ -12,6 +14,7 @@ use serenity::{
 
 use crate::prelude::*;
 
+/// Embed builder for logging when a [`User`] joins the [`Guild`].
 pub fn user_joined(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
         embed
@@ -22,6 +25,7 @@ pub fn user_joined(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut Cre
     }
 }
 
+/// Embed builder for logging when a [`User`] could not be sent a direct message.
 pub fn dm_error(
     user_id: UserId,
     support_channel_id: ChannelId,
@@ -40,6 +44,7 @@ pub fn dm_error(
     }
 }
 
+/// Embed builder for logging when a [`User`] starts registration.
 pub fn registration_started(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
         embed
@@ -50,6 +55,7 @@ pub fn registration_started(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) ->
     }
 }
 
+/// Embed builder for logging when a [`User`] confirms their name.
 pub fn name_confirmed(
     user_id: UserId,
     name: &str,
@@ -66,6 +72,7 @@ pub fn name_confirmed(
     }
 }
 
+/// Embed builder for logging when a name does not exist or is already registered.
 pub fn name_error(
     user_id: UserId,
     name: &str,
@@ -86,6 +93,7 @@ pub fn name_error(
     }
 }
 
+/// Embed builder for logging when a [`VerifiedUserKind`] is detected incorrectly.
 pub fn kind_error(
     user_id: UserId,
     kind: VerifiedUserKind,
@@ -108,6 +116,7 @@ pub fn kind_error(
     }
 }
 
+/// Embed builder for logging when a [`User`] is verified.
 pub fn verified(
     user_id: UserId,
     kind: VerifiedUserKind,
@@ -125,6 +134,7 @@ pub fn verified(
     }
 }
 
+/// Embed builder for logging when a [`User`] picks or skips pronouns.
 pub fn pronouns_picked(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
         embed
@@ -135,6 +145,7 @@ pub fn pronouns_picked(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut
     }
 }
 
+/// Embed builder for logging when a [`User`] picks or skips housing.
 pub fn housing_picked(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
         embed
@@ -145,6 +156,7 @@ pub fn housing_picked(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut 
     }
 }
 
+/// Embed builder for logging registration completion.
 pub fn registration_finished(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
         embed
@@ -155,6 +167,7 @@ pub fn registration_finished(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -
     }
 }
 
+/// Embed builder for logging when a [`User`] leaves and gets de-registered.
 pub fn user_left(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
         embed
@@ -168,6 +181,7 @@ pub fn user_left(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut Creat
     }
 }
 
+/// Embed builder for logging when a [`User`] restarts their registration.
 pub fn registration_restarted(
     user_id: UserId,
 ) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {

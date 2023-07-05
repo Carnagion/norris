@@ -16,6 +16,7 @@ mod pronouns;
 
 mod housing;
 
+/// Called when a [`User`] triggers a component interaction, such as clicking a button.
 pub async fn message_component_interacted(
     context: &Context,
     component_interaction: &MessageComponentInteraction,

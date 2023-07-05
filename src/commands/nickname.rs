@@ -1,3 +1,5 @@
+//! Slash commands for requesting a nickname.
+
 use std::time::Duration;
 
 use poise::serenity_prelude as serenity;
@@ -6,8 +8,12 @@ use serenity::*;
 
 use crate::prelude::*;
 
+/// Request a nickname change.
 #[poise::command(slash_command, guild_only)]
-pub async fn nickname(context: BotContext<'_>, nickname: String) -> BotResult<()> {
+pub async fn nickname(
+    context: BotContext<'_>,
+    #[description = "Your new nickname."] nickname: String,
+) -> BotResult<()> {
     // Acknowledge nickname request
     context
         .send(|reply| reply.embed(embeds::nickname::acknowledge_request()))

@@ -4,6 +4,7 @@ use serenity::*;
 
 use crate::prelude::*;
 
+/// Called when a [`Member`] leaves the [`Guild`].
 pub async fn guild_member_removed(
     context: &Context,
     user: &User,

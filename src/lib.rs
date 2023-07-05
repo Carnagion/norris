@@ -1,3 +1,7 @@
+//! A registration bot for the [University of Nottingham](https://www.nottingham.ac.uk) Computer Science Discord server.
+
+#![warn(missing_docs)]
+
 use std::sync::Arc;
 
 use poise::{builtins, serenity_prelude as serenity, FrameworkOptions};
@@ -25,10 +29,17 @@ pub mod commands;
 
 pub mod responses;
 
+/// An abstraction over a [`BotFramework`], allowing for easy instantiation with all the relevant commands, handlers, and configuration.
 #[derive(Clone)]
 pub struct Norris(Arc<BotFramework>);
 
 impl Norris {
+    /// Creates a new instance of [`Norris`] with the provided configuration.
+    ///
+    /// # Errors
+    ///
+    /// Fails if building the inner [`BotFramework`] fails.
+    /// See [`BotFramework::builder`].
     pub async fn new(config: NorrisConfig) -> BotResult<Self> {
         let framework = BotFramework::builder()
             .token(&config.bot_token)
@@ -53,6 +64,7 @@ impl Norris {
         Ok(Norris(framework))
     }
 
+    /// Starts the bot and keeps it running in an asynchronous loop.
     pub async fn start(self) -> BotResult<()> {
         self.0.start().await?;
         Ok(())

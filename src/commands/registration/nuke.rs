@@ -7,8 +7,12 @@ use serenity::*;
 
 use crate::prelude::*;
 
+/// Restart the registrations of multiple users.
 #[poise::command(slash_command, guild_only, required_permissions = "ADMINISTRATOR")]
-pub async fn nuke(context: BotContext<'_>, role: Option<Role>) -> BotResult<()> {
+pub async fn nuke(
+    context: BotContext<'_>,
+    #[description = "Only restart the registrations of users with this role."] role: Option<Role>,
+) -> BotResult<()> {
     // Defer reply since nuking multiple users will take a significant amount of time
     context.defer().await?;
 

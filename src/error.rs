@@ -10,10 +10,13 @@ use thiserror::Error;
 
 use crate::prelude::*;
 
+/// Possible errors that can occur during [`Norris`]'s operation.
 #[derive(Debug, Error)]
 pub enum BotError {
+    /// A Discord-related error, either returned by custom Discord handler code or by the Discord API.
     #[error("discord error: {}", .0)]
     Discord(#[from] SerenityError),
+    /// A database-related error.
     #[error("{}", .0)]
     Sql(#[from] SqlError),
 }

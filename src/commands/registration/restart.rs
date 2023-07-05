@@ -4,8 +4,12 @@ use serenity::*;
 
 use crate::{events, prelude::*};
 
+/// Restart a user's registration.
 #[poise::command(slash_command, guild_only, required_permissions = "ADMINISTRATOR")]
-pub async fn restart(context: BotContext<'_>, mut member: Member) -> BotResult<()> {
+pub async fn restart(
+    context: BotContext<'_>,
+    #[description = "Whose registration to restart."] mut member: Member,
+) -> BotResult<()> {
     // Restart the user's registration process
     restart_registration(context, &mut member).await?;
 

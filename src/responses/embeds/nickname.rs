@@ -1,3 +1,5 @@
+//! Embeds used for nickname requests.
+
 use chrono::Utc;
 
 use poise::serenity_prelude as serenity;
@@ -10,6 +12,7 @@ use serenity::{
     *,
 };
 
+/// Embed builder for replying to a nickname request command.
 pub fn acknowledge_request() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     |embed| {
         embed
@@ -22,6 +25,7 @@ pub fn acknowledge_request() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbe
     }
 }
 
+/// Embed builder for requesting approval of a nickname.
 pub fn request_approval<'a>(
     user_id: UserId,
     name: &'a str,
@@ -40,6 +44,7 @@ pub fn request_approval<'a>(
     }
 }
 
+/// Embed builder for indicating nickname approval.
 pub fn approved(nickname: &str) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed + '_ {
     move |embed| {
         embed
@@ -53,6 +58,7 @@ pub fn approved(nickname: &str) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateE
     }
 }
 
+/// Embed builder for indicating that a nickname was denied.
 pub fn denied(nickname: &str) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed + '_ {
     move |embed| {
         embed

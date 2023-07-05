@@ -150,8 +150,11 @@ pub fn pronouns() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
             .title("Registration")
             .colour(BLURPLE)
             .description(
-                "What are your **pronouns**? This helps others understand how best to address \
-                 you, and will only be displayed via a role on your server profile.",
+                "What are your **pronouns**? Displaying your pronouns is important for making \
+                 everyone on the server feel comfortable - they are for everyone regardless of if \
+                 you are cis or under the trans umbrella. If you use multiple pronouns, or want \
+                 to change your pronouns later, you can change them at any time in the pronouns \
+                 channel once you are registered.",
             )
             .timestamp(Utc::now())
     }
@@ -177,8 +180,9 @@ pub fn finished(main_channel_id: ChannelId) -> impl FnOnce(&mut CreateEmbed) -> 
             .title("Registration")
             .colour(POSITIVE)
             .description(format!(
-                "Thank you for your patience! We have no additional questions. You can now head \
-                 over to <#{}> to chat with your new course peers and mentors.",
+                "Thank you for your patience! Your registration is now **complete**. We have no \
+                 additional questions. You can now head over to <#{}> to chat with your new \
+                 course peers and mentors.",
                 main_channel_id,
             ))
             .timestamp(Utc::now())

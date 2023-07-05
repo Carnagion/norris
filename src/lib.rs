@@ -9,6 +9,8 @@ use sqlx::{mysql::MySqlPoolOptions, MySqlPool};
 pub mod prelude;
 use prelude::*;
 
+pub mod config;
+
 mod data;
 pub use data::*;
 
@@ -20,11 +22,8 @@ pub mod model;
 pub mod events;
 
 pub mod commands;
-use commands::*;
 
-mod responses;
-
-pub mod config;
+pub mod responses;
 
 #[derive(Clone)]
 pub struct Norris(Arc<BotFramework>);
@@ -35,7 +34,11 @@ impl Norris {
             .token(&config.bot_token)
             .intents(GatewayIntents::non_privileged() | GatewayIntents::GUILD_MEMBERS)
             .options(FrameworkOptions {
-                commands: vec![registration(), count(), nickname()],
+                commands: vec![
+                    commands::registration(),
+                    commands::count(),
+                    commands::nickname(),
+                ],
                 event_handler: |context, event, _, bot_data| {
                     Box::pin(events::event_handler(context, event, bot_data))
                 },

@@ -18,7 +18,7 @@ pub enum BotError {
     Sql(#[from] SqlError),
 }
 
-pub async fn report_framework_error(error: BotFrameworkError<'_>) {
+pub(crate) async fn report_framework_error(error: BotFrameworkError<'_>) {
     let result = match error {
         BotFrameworkError::Command { error, ctx } => {
             log::error!("Failed to execute command: {}", error);

@@ -59,12 +59,8 @@ jobs:
               uses: actions-rs/toolchain@v1
               with:
                 profile: minimal
-                toolchain: stable
+                toolchain: nightly
                 override: true
-            
-            - name: Install rustfmt
-              run: |
-                rustup component add rustfmt
             
             - name: Run tests
               uses: actions-rs/cargo@v1
@@ -86,10 +82,6 @@ jobs:
                 profile: minimal
                 toolchain: stable
                 override: true
-            
-            - name: Install clippy
-              run: |
-                rustup component add clippy
             
             - name: Run linter
               uses: actions-rs/cargo@v1

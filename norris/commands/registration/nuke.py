@@ -4,9 +4,9 @@ from ...bot import Norris
 from .restart import restart_registration
 
 
-async def nuke(norris: Norris,
-               context: ApplicationContext,
-               role: Role | None = None) -> None:
+async def handle_nuke(norris: Norris,
+                      context: ApplicationContext,
+                      role: Role | None = None) -> None:
     # Defer response to give time for database queries
     await context.response.defer()
 

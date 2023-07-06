@@ -5,7 +5,9 @@ from ...bot import Norris
 from ...model import Registration, RegistrationStatus, VerifiedUser
 
 
-async def restart(norris: Norris, context: ApplicationContext, member: Member) -> None:
+async def handle_restart(norris: Norris,
+                         context: ApplicationContext,
+                         member: Member) -> None:
     # Defer response to give time for database queries
     await context.response.defer()
 

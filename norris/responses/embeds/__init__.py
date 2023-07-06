@@ -1,1 +1,1 @@
-from . import logs, registration
+from . import logs, nickname, registration

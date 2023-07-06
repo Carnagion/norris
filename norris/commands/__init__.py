@@ -3,7 +3,8 @@ from discord.ext import commands
 from discord.ext.commands import Cog, has_guild_permissions
 
 from ..bot import Norris
-from .registration import nuke, restart
+from .nickname import handle_nickname
+from .registration import handle_nuke, handle_restart
 
 
 class Commands(Cog):
@@ -20,16 +21,16 @@ class Commands(Cog):
     async def nuke(self,
                    context: ApplicationContext,
                    role: Option(Role) = None) -> None:
-        await nuke.nuke(self._norris, context, role)
+        await handle_nuke(self._norris, context, role)
 
     @registration.command()
     @has_guild_permissions(administrator=True)
     async def restart(self,
                       context: ApplicationContext,
                       member: Option(Member)) -> None:
-        await restart.restart(self._norris, context, member)
+        await handle_restart(self._norris, context, member)
 
     # FIXME: pycord complains about not being able to remove commands
     @commands.command()
     async def nickname(self, context: ApplicationContext, nickname: str) -> None:
-        pass
+        await handle_nickname(self._norris, context, nickname)

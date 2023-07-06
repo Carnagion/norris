@@ -62,6 +62,10 @@ jobs:
                 toolchain: nightly
                 override: true
             
+            - name: Install rustfmt
+              run: |
+                rustup component add rustfmt
+            
             - name: Run tests
               uses: actions-rs/cargo@v1
               with:

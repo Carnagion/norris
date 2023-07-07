@@ -22,5 +22,6 @@ class ChannelsConfig:
     arrival_channel_id: int
     support_channel_id: int
     log_channel_id: int
+    nickname_channel_id: int
     undergrad: UndergradChannelsConfig
     postgrad: PostgradChannelsConfig

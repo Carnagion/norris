@@ -25,7 +25,7 @@ async def handle_nickname(norris: Norris,
         name = result.one().name
 
     # Ask mentors to approve or deny nickname
-    await norris.get_channel(norris.channels.log_channel_id).send(
+    await norris.get_channel(norris.channels.nickname_channel_id).send(
         embed=embeds.nickname.request_approval(
             context.author.id,
             name,

@@ -1,6 +1,6 @@
 # Norris
 
-**Norris** is the registration bot for the official [University of Nottingham Computer Science](todo) starters Discord server.
+**Norris** is the registration bot for the official [University of Nottingham Computer Science](https://www.nottingham.ac.uk/computerscience/) starters Discord server.
 
 ## Configuration ⚙️
 

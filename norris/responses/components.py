@@ -158,3 +158,19 @@ class HousingView(View):
     @button(label="Skip", style=ButtonStyle.red)
     async def skip_clicked(self, _: Button, interaction: Interaction) -> None:
         await housing.skip_clicked(interaction, self._norris)
+
+
+class NicknameView(View):
+    _norris: Norris
+
+    def __init__(self, norris: Norris) -> None:
+        super().__init__()
+        self._norris = norris
+
+    @button(label="Approve", style=ButtonStyle.green)
+    async def approve_clicked(self, _: Button, interaction: Interaction) -> None:
+        pass
+
+    @button(label="Deny", style=ButtonStyle.red)
+    async def deny_clicked(self, _: Button, interaction: Interaction) -> None:
+        pass

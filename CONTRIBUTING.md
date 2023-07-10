@@ -18,6 +18,8 @@ To host a separate instance of **Norris**, you will require a Discord developer 
 3. Set the bot application's logo, which can be downloaded from the University's [branding guidelines](https://www.nottingham.ac.uk/brand/visual/logos.aspx).
 </details>
 
+4. Disable the public bot option.
+
 **Norris** requires a set of permissions and gateway intents to function properly, including one *privileged* gateway intent.
 These must be set from the Discord developer portal as well as by the bot itself during startup.
 

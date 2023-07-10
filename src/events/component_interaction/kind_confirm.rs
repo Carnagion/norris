@@ -91,12 +91,13 @@ pub async fn no_clicked(
         .channels
         .log_channel_id
         .send_message(&context.http, |message| {
-            message.embed(embeds::logs::kind_error(
-                user.id,
-                kind,
-                bot_data.channels.support_channel_id,
-                bot_data.roles.hierarchy.mentor_role_id,
-            ))
+            message
+                .content(format!("<@&{}>", bot_data.roles.hierarchy.mentor_role_id))
+                .embed(embeds::logs::kind_error(
+                    user.id,
+                    kind,
+                    bot_data.channels.support_channel_id,
+                ))
         })
         .await?;
 

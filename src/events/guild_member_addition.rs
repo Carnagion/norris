@@ -114,11 +114,12 @@ async fn notify_instructions_error(
         .channels
         .log_channel_id
         .send_message(&context.http, |message| {
-            message.embed(embeds::logs::dm_error(
-                member.user.id,
-                bot_data.channels.support_channel_id,
-                bot_data.roles.hierarchy.mentor_role_id,
-            ))
+            message
+                .content(format!("<@&{}>", bot_data.roles.hierarchy.mentor_role_id))
+                .embed(embeds::logs::dm_error(
+                    member.user.id,
+                    bot_data.channels.support_channel_id,
+                ))
         })
         .await?;
 

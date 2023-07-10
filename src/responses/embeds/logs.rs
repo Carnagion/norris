@@ -29,7 +29,6 @@ pub fn user_joined(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut Cre
 pub fn dm_error(
     user_id: UserId,
     support_channel_id: ChannelId,
-    mentor_role_id: RoleId,
 ) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
         embed
@@ -37,8 +36,8 @@ pub fn dm_error(
             .colour(DANGER)
             .description(format!(
                 "There was an error in sending <@{}> a direct message. They have been redirected \
-                 to <#{}>, and a <@&{}>'s assistance is required.",
-                user_id, support_channel_id, mentor_role_id,
+                 to <#{}>.",
+                user_id, support_channel_id,
             ))
             .timestamp(Utc::now())
     }
@@ -77,7 +76,6 @@ pub fn name_error(
     user_id: UserId,
     name: &str,
     support_channel_id: ChannelId,
-    mentor_role_id: RoleId,
 ) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed + '_ {
     move |embed| {
         embed
@@ -85,9 +83,8 @@ pub fn name_error(
             .colour(DANGER)
             .description(format!(
                 "<@{}> has entered the name **{}**, but no such name was found, or it has already \
-                 been registered. They have been redirected to <#{}>, and a <@&{}>'s assistance \
-                 is required.",
-                user_id, name, support_channel_id, mentor_role_id,
+                 been registered. They have been redirected to <#{}>.",
+                user_id, name, support_channel_id,
             ))
             .timestamp(Utc::now())
     }
@@ -98,7 +95,6 @@ pub fn kind_error(
     user_id: UserId,
     kind: VerifiedUserKind,
     support_channel_id: ChannelId,
-    mentor_role_id: RoleId,
 ) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     move |embed| {
         embed
@@ -106,11 +102,10 @@ pub fn kind_error(
             .colour(DANGER)
             .description(format!(
                 "<@{}> has indicated that they have been incorrectly identified as a **{}**. They \
-                 have been redirected to <#{}>, and a <@&{}>'s assistance is required.",
+                 have been redirected to <#{}>.",
                 user_id,
                 kind.description(),
                 support_channel_id,
-                mentor_role_id,
             ))
             .timestamp(Utc::now())
     }

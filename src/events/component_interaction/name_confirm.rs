@@ -41,12 +41,13 @@ pub async fn yes_clicked(
                 .channels
                 .log_channel_id
                 .send_message(&context.http, |message| {
-                    message.embed(embeds::logs::name_error(
-                        component_interaction.user.id,
-                        &name,
-                        bot_data.channels.support_channel_id,
-                        bot_data.roles.hierarchy.mentor_role_id,
-                    ))
+                    message
+                        .content(format!("<@&{}>", bot_data.roles.hierarchy.mentor_role_id))
+                        .embed(embeds::logs::name_error(
+                            component_interaction.user.id,
+                            &name,
+                            bot_data.channels.support_channel_id,
+                        ))
                 })
                 .await
         },

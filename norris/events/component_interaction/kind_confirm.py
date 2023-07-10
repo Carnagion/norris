@@ -104,8 +104,8 @@ async def no_clicked(interaction: Interaction, norris: Norris) -> None:
 
     # Alert mentors about kind error
     await norris.get_channel(norris.channels.log_channel_id).send(
+        content=f"<@&{norris.roles.hierarchy.mentor_role_id}>",
         embed=embeds.logs.kind_error(interaction.user.id,
                                      registration.kind,
-                                     norris.roles.hierarchy.mentor_role_id,
                                      norris.channels.support_channel_id),
     )

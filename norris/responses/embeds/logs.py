@@ -14,13 +14,12 @@ def user_joined(user_id: int) -> Embed:
     )
 
 
-def dm_error(user_id: int, mentor_role_id: int, support_channel_id: int) -> Embed:
+def dm_error(user_id: int, support_channel_id: int) -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.red(),
         description=f"There was an error in sending <@{user_id}> a direct message. "
-                    f"They have been directed to <#{support_channel_id}>, and a <@&"
-                    f"{mentor_role_id}>'s assistance is required.",
+                    f"They have been directed to <#{support_channel_id}>.",
         timestamp=datetime.utcnow(),
     )
 
@@ -44,7 +43,6 @@ def name_confirmed(user_id: int, name: str) -> Embed:
 
 
 def name_error(user_id: int,
-               mentor_role_id: int,
                support_channel_id: int,
                name: str) -> Embed:
     return Embed(
@@ -52,23 +50,20 @@ def name_error(user_id: int,
         colour=Colour.red(),
         description=f"<@{user_id}> has entered the name **{name}**, but it appears to "
                     f"be invalid or already registered. They have been redirected to "
-                    f"<#{support_channel_id}>, and a <@&{mentor_role_id}>'s "
-                    f"assistance is required.",
+                    f"<#{support_channel_id}>.",
         timestamp=datetime.utcnow(),
     )
 
 
 def kind_error(user_id: int,
                kind: VerifiedUserKind,
-               mentor_role_id: int,
                support_channel_id: int) -> Embed:
     return Embed(
         title="Registration",
         colour=Colour.red(),
         description=f"<@{user_id}> has indicated that they have been incorrectly "
                     f"marked as a **{kind.description()}**. They have been redirected "
-                    f"to <#{support_channel_id}>, and a <@&{mentor_role_id}>'s "
-                    f"assistance is required.",
+                    f"to <#{support_channel_id}>.",
         timestamp=datetime.utcnow(),
     )
 

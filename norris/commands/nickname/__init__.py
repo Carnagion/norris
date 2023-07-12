@@ -3,13 +3,13 @@ from sqlalchemy import select
 
 from ...bot import Norris
 from ...model import VerifiedUser
-from ...responses.components import NicknameView
 
 
 async def handle_nickname(norris: Norris,
                           context: ApplicationContext,
                           new_nickname: str) -> None:
     from ...responses import embeds
+    from ...responses.components import NicknameView
 
     # Acknowledge the nickname request
     await context.response.send_message(

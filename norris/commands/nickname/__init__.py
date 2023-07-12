@@ -20,7 +20,7 @@ async def handle_nickname(norris: Norris,
         result = await connection.execute(
             select(VerifiedUser)
             .where(VerifiedUser.registered_user_id == context.author.id)
-            .limit(1)
+            .limit(1),
         )
         name = result.one().name
 

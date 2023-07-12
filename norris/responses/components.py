@@ -2,6 +2,7 @@ from discord import ButtonStyle, Interaction
 from discord.ui import Button, View, button
 
 from ..bot import Norris
+from ..commands import nickname
 from ..config import Housing, Pronouns
 from ..events.component_interaction import (
     housing,
@@ -169,8 +170,11 @@ class NicknameView(View):
 
     @button(label="Approve", style=ButtonStyle.green)
     async def approve_clicked(self, _: Button, interaction: Interaction) -> None:
-        pass
+        user_id = 0  # TODO: figure out which user requested it and their nickname
+        new_nickname = ""
+        await nickname.approve_clicked(user_id, new_nickname, interaction, self._norris)
 
     @button(label="Deny", style=ButtonStyle.red)
     async def deny_clicked(self, _: Button, interaction: Interaction) -> None:
-        pass
+        new_nickname = ""  # TODO: figure out how to get the requested nickname
+        await nickname.deny_clicked(new_nickname, interaction)

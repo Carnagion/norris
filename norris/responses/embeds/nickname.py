@@ -1,9 +1,16 @@
+"""
+Embeds used for nickname requests.
+"""
+
 from datetime import datetime
 
 from discord import Colour, Embed, EmbedField
 
 
 def acknowledge_request() -> Embed:
+    """
+    Embed for replying to a nickname request command.
+    """
     return Embed(
         title="Nickname request",
         colour=Colour.blurple(),
@@ -17,6 +24,9 @@ def request_approval(user_id: int,
                      name: str,
                      current_nickname: str,
                      requested_nickname: str) -> Embed:
+    """
+    Embed for requesting approval of a nickname.
+    """
     return Embed(
         title="Nickname request",
         colour=Colour.blurple(),
@@ -31,6 +41,9 @@ def request_approval(user_id: int,
 
 
 def approved(nickname: str) -> Embed:
+    """
+    Embed for indicating nickname approval.
+    """
     return Embed(
         title="Nickname request",
         colour=Colour.green(),
@@ -41,6 +54,9 @@ def approved(nickname: str) -> Embed:
 
 
 def denied(nickname: str) -> Embed:
+    """
+    Embed for indicating that a nickname was denied.
+    """
     return Embed(
         title="Nickname request",
         colour=Colour.red(),

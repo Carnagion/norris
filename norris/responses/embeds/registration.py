@@ -1,3 +1,7 @@
+"""
+Embeds used in messages related to the registration process.
+"""
+
 from datetime import datetime
 
 from discord import Colour, Embed
@@ -6,6 +10,9 @@ from ...model import VerifiedUserKind
 
 
 def instructions(user_id: int) -> Embed:
+    """
+    Embed for displaying registration instructions to a user.
+    """
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -17,6 +24,9 @@ def instructions(user_id: int) -> Embed:
 
 
 def instructions_sent(user_id: int) -> Embed:
+    """
+    Embed for notifying a user to check their direct messages for instructions.
+    """
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -28,6 +38,9 @@ def instructions_sent(user_id: int) -> Embed:
 
 
 def instructions_error(user_id: int, support_channel_id: int) -> Embed:
+    """
+    Embed for notifying a user of errors while sending registration instructions.
+    """
     return Embed(
         title="Registration",
         colour=Colour.red(),
@@ -40,6 +53,9 @@ def instructions_error(user_id: int, support_channel_id: int) -> Embed:
 
 
 def name_request() -> Embed:
+    """
+    Embed for requesting a user to enter their name.
+    """
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -50,6 +66,9 @@ def name_request() -> Embed:
 
 
 def name_confirm(name: str) -> Embed:
+    """
+    Embed for requesting a user to confirm their name.
+    """
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -59,6 +78,9 @@ def name_confirm(name: str) -> Embed:
 
 
 def name_error(support_channel_id: int) -> Embed:
+    """
+    Embed for when a name is not in the database or is already registered.
+    """
     return Embed(
         title="Registration",
         colour=Colour.red(),
@@ -69,6 +91,10 @@ def name_error(support_channel_id: int) -> Embed:
 
 
 def kind_confirm(user_kind: VerifiedUserKind) -> Embed:
+    """
+    Embed for requesting a user to confirm their
+    `norris.model.verified_user.VerifiedUserKind`.
+    """
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -79,6 +105,10 @@ def kind_confirm(user_kind: VerifiedUserKind) -> Embed:
 
 
 def kind_error(support_channel_id: int) -> Embed:
+    """
+    Embed for when a `norris.model.verified_user.VerifiedUserKind` is detected
+    incorrectly.
+    """
     return Embed(
         title="Registration",
         colour=Colour.red(),
@@ -89,6 +119,9 @@ def kind_error(support_channel_id: int) -> Embed:
 
 
 def verified() -> Embed:
+    """
+    Embed for when a user is verified.
+    """
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -102,6 +135,9 @@ def verified() -> Embed:
 
 
 def pronouns() -> Embed:
+    """
+    Embed for asking a user their pronouns.
+    """
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -116,6 +152,9 @@ def pronouns() -> Embed:
 
 
 def housing() -> Embed:
+    """
+    Embed for asking a user their accommodation.
+    """
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -128,6 +167,9 @@ def housing() -> Embed:
 
 
 def finished(chat_channel_id: int) -> Embed:
+    """
+    Embed for indicating registration completion.
+    """
     return Embed(
         title="Registration",
         colour=Colour.green(),
@@ -140,6 +182,9 @@ def finished(chat_channel_id: int) -> Embed:
 
 
 def welcome(user_id: int) -> Embed:
+    """
+    Embed for welcoming a user after their registration is complete.
+    """
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -149,6 +194,9 @@ def welcome(user_id: int) -> Embed:
 
 
 def restart(user_id: int) -> Embed:
+    """
+    Embed for indicating the restart of a user's registration.
+    """
     return Embed(
         title="Registration",
         colour=Colour(0xFAA81A),  # NOTE: official Discord warning colour
@@ -158,6 +206,9 @@ def restart(user_id: int) -> Embed:
 
 
 def nuke() -> Embed:
+    """
+    Embed for indicating that a registration nuke occurred.
+    """
     return Embed(
         title="Registration",
         colour=Colour(0xFAA81A),  # NOTE: official Discord warning colour

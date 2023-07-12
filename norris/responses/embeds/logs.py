@@ -1,3 +1,7 @@
+"""
+Embeds used when logging the registration process of a user.
+"""
+
 from datetime import datetime
 
 from discord import Colour, Embed
@@ -6,6 +10,9 @@ from norris.model import VerifiedUserKind
 
 
 def user_joined(user_id: int) -> Embed:
+    """
+    Embed for logging when a user joins the guild.
+    """
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -15,6 +22,9 @@ def user_joined(user_id: int) -> Embed:
 
 
 def dm_error(user_id: int, support_channel_id: int) -> Embed:
+    """
+    Embed for logging when a user could not be sent a direct message.
+    """
     return Embed(
         title="Registration",
         colour=Colour.red(),
@@ -25,6 +35,9 @@ def dm_error(user_id: int, support_channel_id: int) -> Embed:
 
 
 def registration_started(user_id: int) -> Embed:
+    """
+    Embed for logging when a user starts registration.
+    """
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -34,6 +47,9 @@ def registration_started(user_id: int) -> Embed:
 
 
 def name_confirmed(user_id: int, name: str) -> Embed:
+    """
+    Embed for logging when a user confirms their name.
+    """
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -45,6 +61,9 @@ def name_confirmed(user_id: int, name: str) -> Embed:
 def name_error(user_id: int,
                support_channel_id: int,
                name: str) -> Embed:
+    """
+    Embed for logging when a name does not exist or is already registered.
+    """
     return Embed(
         title="Registration",
         colour=Colour.red(),
@@ -58,6 +77,10 @@ def name_error(user_id: int,
 def kind_error(user_id: int,
                kind: VerifiedUserKind,
                support_channel_id: int) -> Embed:
+    """
+    Embed for logging when a `norris.model.verified_user.VerifiedUserKind` is
+    detected incorrectly.
+    """
     return Embed(
         title="Registration",
         colour=Colour.red(),
@@ -69,6 +92,9 @@ def kind_error(user_id: int,
 
 
 def verified(user_id: int, kind: VerifiedUserKind) -> Embed:
+    """
+    Embed for logging when a user is verified.
+    """
     return Embed(
         title="Registration",
         colour=Colour.green(),
@@ -79,6 +105,9 @@ def verified(user_id: int, kind: VerifiedUserKind) -> Embed:
 
 
 def pronouns_picked(user_id: int) -> Embed:
+    """
+    Embed for logging when a user picks or skips pronouns.
+    """
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -88,6 +117,9 @@ def pronouns_picked(user_id: int) -> Embed:
 
 
 def housing_picked(user_id: int) -> Embed:
+    """
+    Embed for logging when a user picks or skips housing.
+    """
     return Embed(
         title="Registration",
         colour=Colour.blurple(),
@@ -97,6 +129,9 @@ def housing_picked(user_id: int) -> Embed:
 
 
 def registration_finished(user_id: int) -> Embed:
+    """
+    Embed for logging registration completion.
+    """
     return Embed(
         title="Registration",
         colour=Colour.green(),
@@ -106,6 +141,9 @@ def registration_finished(user_id: int) -> Embed:
 
 
 def user_left(user_id: int) -> Embed:
+    """
+    Embed for logging when a user leaves and gets de-registered.
+    """
     return Embed(
         title="Registration",
         colour=Colour(0xFAA81A),  # NOTE: official Discord warning colour
@@ -115,6 +153,9 @@ def user_left(user_id: int) -> Embed:
 
 
 def registration_restarted(user_id: int) -> Embed:
+    """
+    Embed for logging when a user restarts their registration.
+    """
     return Embed(
         title="Registration",
         colour=Colour(0xFAA81A),  # NOTE: official Discord warning colour

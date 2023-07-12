@@ -6,13 +6,17 @@ from .model import DataModel
 
 
 class Norris(Bot):
+    """
+    An abstraction over a `discord.Bot`, allowing for easy instantiation with all
+    the relevant commands, handlers, and configuration.
+    """
+
     database_engine: AsyncEngine
     guild_id: int
     channels: ChannelsConfig
     roles: RolesConfig
 
     def __init__(self, config: NorrisConfig) -> None:
-        # Create bot and connect to database
         super().__init__(intents=Intents.default() | Intents.members)
 
         # Connect to database
@@ -30,8 +34,11 @@ class Norris(Bot):
         self.add_cog(Commands(self))
 
     async def run(self, token: str) -> None:
-        # Set up database and tables
+        """
+        Start `Norris` and keeps it running in an asynchronous loop.
+        """
         async with self.database_engine.connect() as connection:
+            # Set up tables
             await connection.run_sync(DataModel.metadata.create_all)
 
         # Start bot

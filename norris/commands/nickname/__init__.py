@@ -3,6 +3,7 @@ from sqlalchemy import select
 
 from ...bot import Norris
 from ...model import VerifiedUser
+from ...responses.components import NicknameView
 
 
 async def handle_nickname(norris: Norris,
@@ -32,6 +33,7 @@ async def handle_nickname(norris: Norris,
             context.user.nick,
             new_nickname,
         ),
+        view=NicknameView(norris),
     )
 
 

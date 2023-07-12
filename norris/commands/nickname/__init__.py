@@ -1,4 +1,4 @@
-from discord import ApplicationContext
+from discord import ApplicationContext, Interaction
 from sqlalchemy import select
 
 from ...bot import Norris
@@ -32,4 +32,28 @@ async def handle_nickname(norris: Norris,
             context.user.nick,
             new_nickname,
         ),
+    )
+
+
+async def approve_clicked(user_id: int,
+                          nickname: str,
+                          interaction: Interaction,
+                          norris: Norris) -> None:
+    # Change the user's nickname
+    await norris.get_guild(norris.guild_id).get_member(user_id).edit(nick=nickname)
+
+    from ...responses import embeds
+
+    # Respond with approval
+    await interaction.response.send(
+        embed=embeds.nickname.approved(nickname),
+    )
+
+
+async def deny_clicked(nickname: str, interaction: Interaction) -> None:
+    from ...responses import embeds
+
+    # Respond with denial
+    await interaction.response.send(
+        embed=embeds.nickname.approved(nickname),
     )

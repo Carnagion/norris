@@ -40,7 +40,7 @@ class NorrisConfig:
 
     log_path: str  # TODO: use when logging is setup
     """
-    A path at which a log file will be created and written to for the duration of the 
+    A path at which a log file will be created and written to for the duration of the
     bot's operation.
     """
 

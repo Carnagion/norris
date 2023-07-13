@@ -49,7 +49,6 @@ class VerifiedUserKind(Enum):
         """
         Describes the `VerifiedUserKind` in a user-friendly, human-readable way.
         """
-
         # mfw no expression-oriented syntax, so I have to do this
         match self:
             case VerifiedUserKind.UNDERGRAD:
@@ -98,6 +97,6 @@ class VerifiedUser(DataModel):
     registered_user_id: Mapped[int | None] = mapped_column(BIGINT(unsigned=True))
     """
     The user's Discord user ID if they have registered.
-    
+
     This is `None` if the user has not completed registration.
     """

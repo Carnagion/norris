@@ -22,6 +22,7 @@ extend-select = [
 ignore = [
     "ANN1", # self and cls should not need a type annotation
     "D1", # TODO: un-ignore once we actually have docstrings
+    "D200", "D205", "D212", "D401",
 ]
 
 [per-file-ignores]

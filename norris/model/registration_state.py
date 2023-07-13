@@ -16,7 +16,7 @@ class RegistrationStatus(Enum):
     UNREGISTERED = "UNREGISTERED"
     """
     The user has not started registration yet.
-    
+
     Users enter this stage when joining the guild or when restarting their registration.
     """
 
@@ -32,13 +32,13 @@ class RegistrationStatus(Enum):
 
     KIND_FOUND = "KIND_FOUND"
     """
-    The user has confirmed their name, and at least one unregistered 
+    The user has confirmed their name, and at least one unregistered
     `norris.model.verified_user.VerifiedUser` with the same name is found.
     """
 
     VERIFIED = "VERIFIED"
     """
-    The user has confirmed their `norris.model.verified_user.VerifiedUserKind` and is 
+    The user has confirmed their `norris.model.verified_user.VerifiedUserKind` and is
     verified, but not registered.
     """
 
@@ -55,13 +55,13 @@ class RegistrationStatus(Enum):
     FAILED = "FAILED"
     """
     One of the previous registration steps has failed.
-    
+
     Causes of failure include:
-    
+
     - The user cannot be sent a direct message to start (or restart) registration
-    - A matching unregistered `norris.model.verified_user.VerifiedUser` entry could 
+    - A matching unregistered `norris.model.verified_user.VerifiedUser` entry could
     not be found
-    - The user indicates that their matched 
+    - The user indicates that their matched
     `norris.model.verified_user.VerifiedUserKind` is incorrect
     """
 

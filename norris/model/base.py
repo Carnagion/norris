@@ -8,5 +8,5 @@ class DataModel(DeclarativeBase):
 
     # NOTE: this is here to stop pdoc3 from including the superclass constructor docs in
     # every other class that inherits this, which is very annoying
-    def __init__(self, **kwargs) -> None:
+    def __init__(self) -> None:
         pass

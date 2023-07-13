@@ -248,7 +248,7 @@ class RolesConfig:
 
     hierarchy: HierarchyRolesConfig
     """
-    Configuration data related to the `norris.model.verified_user.VerifiedUserKind` 
+    Configuration data related to the `norris.model.verified_user.VerifiedUserKind`
     hierarchy.
     """
 

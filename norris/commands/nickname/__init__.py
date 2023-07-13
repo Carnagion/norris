@@ -1,4 +1,8 @@
-from discord import ApplicationContext, Interaction
+"""
+Handlers for the `nickname` command.
+"""
+
+from discord import ApplicationContext
 from sqlalchemy import select
 
 from ...bot import Norris
@@ -8,6 +12,9 @@ from ...model import VerifiedUser
 async def handle_nickname(norris: Norris,
                           context: ApplicationContext,
                           new_nickname: str) -> None:
+    """
+    Handles the `nickname` command.
+    """
     from ...responses import embeds
     from ...responses.components import NicknameView
 
@@ -36,26 +43,3 @@ async def handle_nickname(norris: Norris,
         view=NicknameView(norris),
     )
 
-
-async def approve_clicked(user_id: int,
-                          nickname: str,
-                          interaction: Interaction,
-                          norris: Norris) -> None:
-    # Change the user's nickname
-    await norris.get_guild(norris.guild_id).get_member(user_id).edit(nick=nickname)
-
-    from ...responses import embeds
-
-    # Respond with approval
-    await interaction.response.send(
-        embed=embeds.nickname.approved(nickname),
-    )
-
-
-async def deny_clicked(nickname: str, interaction: Interaction) -> None:
-    from ...responses import embeds
-
-    # Respond with denial
-    await interaction.response.send(
-        embed=embeds.nickname.approved(nickname),
-    )

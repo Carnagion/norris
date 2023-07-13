@@ -6,7 +6,6 @@ from discord import ButtonStyle, Interaction
 from discord.ui import Button, View, button
 
 from ..bot import Norris
-from ..commands import nickname
 from ..config import Housing, Pronouns
 from ..events.component_interaction import (
     housing,
@@ -15,6 +14,7 @@ from ..events.component_interaction import (
     name_confirm,
     pronouns,
     verified,
+    nickname,
 )
 
 

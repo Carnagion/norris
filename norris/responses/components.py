@@ -12,9 +12,9 @@ from ..events.component_interaction import (
     instructions,
     kind_confirm,
     name_confirm,
+    nickname,
     pronouns,
     verified,
-    nickname,
 )
 
 

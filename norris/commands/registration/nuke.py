@@ -7,6 +7,9 @@ from .restart import restart_registration
 async def handle_nuke(norris: Norris,
                       context: ApplicationContext,
                       role: Role | None = None) -> None:
+    """
+    Handles the `registration nuke` slash command.
+    """
     # Defer response to give time for database queries
     await context.response.defer()
 

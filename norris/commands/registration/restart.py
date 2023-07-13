@@ -8,6 +8,9 @@ from ...model import Registration, RegistrationStatus, VerifiedUser
 async def handle_restart(norris: Norris,
                          context: ApplicationContext,
                          member: Member) -> None:
+    """
+    Handles the `registration restart` command.
+    """
     # Defer response to give time for database queries
     await context.response.defer()
 
@@ -25,6 +28,9 @@ async def handle_restart(norris: Norris,
 
 
 async def restart_registration(member: Member, norris: Norris) -> None:
+    """
+    Restarts the registration of a user.
+    """
     async with norris.database_engine.begin() as connection:
         # Update their registration state to unregistered
         await connection.execute(

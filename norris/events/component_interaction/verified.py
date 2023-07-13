@@ -6,6 +6,9 @@ from . import verify_registration_status
 
 
 async def continue_clicked(interaction: Interaction, norris: Norris) -> None:
+    """
+    Called when a user has been verified and clicks the `Continue` button.
+    """
     # Defer response to give time for database queries
     await interaction.response.defer()
 

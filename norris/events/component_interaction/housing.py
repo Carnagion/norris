@@ -10,6 +10,9 @@ from . import verify_registration_status
 async def housing_clicked(interaction: Interaction,
                           housing: Housing,
                           norris: Norris) -> None:
+    """
+    Called when a user picks housing.
+    """
     # Defer response to give time for database queries
     await interaction.response.defer()
 
@@ -30,6 +33,9 @@ async def housing_clicked(interaction: Interaction,
 
 
 async def skip_clicked(interaction: Interaction, norris: Norris) -> None:
+    """
+    Called when a user skips housing.
+    """
     # Defer response to give time for database queries
     await interaction.response.defer()
 
@@ -44,6 +50,9 @@ async def skip_clicked(interaction: Interaction, norris: Norris) -> None:
 
 
 async def finish_registration(interaction: Interaction, norris: Norris) -> None:
+    """
+    Finishes a user's registration.
+    """
     async with norris.database_engine.begin() as connection:
         # Update the user's registration state to registered
         await connection.execute(

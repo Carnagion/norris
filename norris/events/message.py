@@ -9,6 +9,9 @@ from .component_interaction import verify_registration_status
 
 
 async def on_message(message: Message, norris: Norris) -> None:
+    """
+    Called when the bot gets a direct message from a user.
+    """
     # Ignore bots and non-DMs
     if message.author.bot or message.channel != message.author.dm_channel:
         return

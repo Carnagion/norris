@@ -10,6 +10,9 @@ from . import verify_registration_status
 async def pronouns_clicked(interaction: Interaction,
                            pronouns: Pronouns,
                            norris: Norris) -> None:
+    """
+    Called when a user picks a pronoun.
+    """
     # Defer response to give time for database queries
     await interaction.response.defer()
 
@@ -30,6 +33,9 @@ async def pronouns_clicked(interaction: Interaction,
 
 
 async def skip_clicked(interaction: Interaction, norris: Norris) -> None:
+    """
+    Called when a user skips pronouns.
+    """
     # Defer response to give time for database queries
     await interaction.response.defer()
 
@@ -44,6 +50,9 @@ async def skip_clicked(interaction: Interaction, norris: Norris) -> None:
 
 
 async def transition_to_housing(interaction: Interaction, norris: Norris) -> None:
+    """
+    Transitions to the housing selection stage.
+    """
     async with norris.database_engine.begin() as connection:
         # Update the user's registration state to pronouns picked
         await connection.execute(

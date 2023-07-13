@@ -7,6 +7,9 @@ from . import verify_registration_status
 
 
 async def yes_clicked(interaction: Interaction, norris: Norris) -> None:
+    """
+    Called when a user confirms their name to be correct using the `Yes` button.
+    """
     # Defer response to give time for database queries
     await interaction.response.defer()
 
@@ -84,6 +87,9 @@ async def yes_clicked(interaction: Interaction, norris: Norris) -> None:
 
 
 async def no_clicked(interaction: Interaction, norris: Norris) -> None:
+    """
+    Called when a user wishes to enter another name by clicking the `No` button.
+    """
     # Defer response to give time for database queries
     await interaction.response.defer()
 

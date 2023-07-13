@@ -7,6 +7,9 @@ from ..model import Registration, VerifiedUser
 
 async def on_raw_member_remove(member_removed: RawMemberRemoveEvent,
                                norris: Norris) -> None:
+    """
+    Called when a member leaves the guild.
+    """
     # Ignore bots
     if member_removed.user.bot:
         return

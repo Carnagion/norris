@@ -11,6 +11,9 @@ from ..responses.components import (
 
 
 async def on_member_join(member: Member, norris: Norris) -> None:
+    """
+    Called when a member joins the guild.
+    """
     # Ignore bots
     if member.bot:
         return
@@ -35,6 +38,9 @@ async def on_member_join(member: Member, norris: Norris) -> None:
 
 
 async def try_send_instructions(member: Member, norris: Norris) -> None:
+    """
+    Try sending registration instructions to a member via direct message.
+    """
     try:
         # Try sending instructions in DMs
         await member.send(

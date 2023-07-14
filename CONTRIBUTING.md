@@ -1,8 +1,113 @@
 # Contributing to Norris
 
-## Discord bot application
+## Getting started
+
+### Installing prerequisites
+
+You will need to install toolchains and software for the relevant language to develop or build **Norris**.
+
+<details>
+<summary>Setting up a Rust environment</summary>
+
+1. Install the latest version of [Rust](https://www.rust-lang.org/tools/install), preferably using `rustup`.
+
+2. Install the Rust `nightly` toolchain by running `rustup toolchain install nightly`.
+
+    > **Note:** The `nightly` toolchain is required since the formatter configuration uses some `nightly`-only options. Compiling should be done using the `stable` toolchain.
+
+3. Install [`rustfmt`](https://github.com/rust-lang/rustfmt) by running `rustup component add rustfmt --toolchain nightly`.
+
+</details>
+
+<details>
+<summary>Setting up a Python environment</summary>
+
+1. Install version `3.11.4` of [Python](https://www.python.org/downloads).
+
+    > **Note:** Other versions are also acceptable, as long as they do not produce any errors or warnings. Avoid using versions older than `3.11.4`.
+
+2. Install [`ruff`](https://github.com/astral-sh/ruff) by running `pip install ruff --upgrade`.
+
+3. Install all of **Norris**' dependencies by running `pip install --requirement requirements.txt`.
+
+</details>
+
+### Using a development database
+
+**Norris** requires a MySQL database to function, and will attempt to connect to it on startup.
+
+You will therefore need to install one if you are planning to develop and test **Norris** on your local machine (i.e. not on a University-provided virtual machine).
+
+> **Warning:** Use your local database only for testing. Do not store student data on your machine.
+
+<details>
+<summary>Setting up a local MySQL database</summary>
+
+1. Download and install the [MySQL Community Server](https://dev.mysql.com/downloads/mysql).
+
+2. Launch the MySQL client and create a new database.
+
+    > **Note:** Note down the database name, server host, login details for the root user and other users - you will require them later.
+
+3. Connect to the newly created database and run some queries to verify that it works.
+
+    > **Note:** Ensure that **Norris** has permissions to create, read from, update, insert into, and delete from tables.
+
+</details>
+
+Additionally, the Rust version of **Norris** requires the [`sqlx`](https://github.com/launchbadge/sqlx) CLI to validate the bot's SQL queries at compile time.
+
+<details>
+<summary>Setting up SQLx</summary>
+
+1. Install the SQLx CLI by running `cargo install sqlx-cli`.
+
+2. Through a `.env` file in the project root, set an environment variable named `DATABASE_URL` to the MySQL database connection URL, and `SQLX_OFFLINE` to `true`.
+
+    ```bash
+    DATABASE_URL="mysql://username:password@host/database"
+    SQLX_OFFLINE=true
+    ```
+
+3. Run `cargo sqlx prepare` at regular intervals and commit any changes to the query metadata so that queries can be compiled successfully in [offline mode](https://github.com/launchbadge/sqlx/blob/main/sqlx-cli/README.md#enable-building-in-offline-mode-with-query).
+
+</details>
+
+### Viewing documentation
+
+You can also generate a documentation website with a complete API reference for **Norris** using auto-documentation tools for the relevant language.
+
+<details>
+<summary>Documentation for the Rust version</summary>
+
+1. Ensure you have [`rustdoc`](https://doc.rust-lang.org/rustdoc) installed.
+
+    > **Note:** `rustdoc` ships with the compiler and is installed by default when installing a Rust toolchain. In case it is unavailable, you can re-install it by running `rustup component add rustc`.
+
+2. From the project root, run `cargo doc --open`.
+
+    > **Note:** You can omit the `--open` flag if you just want to re-generate the documentation without opening a new browser tab.
+</details>
+
+<details>
+<summary>Documentation for the Python version</summary>
+
+1. Install [`pdoc3`](https://pdoc3.github.io/pdoc) by running `pip install pdoc3`.
+
+    > **Note:** Ensure you install `pdoc3`, not `pdoc`, which is an unmaintained version of the same.
+
+2. From the project root, run `pdoc3 norris --html --force`.
+
+3. Navigate to the generated `html/` directory and open the `index.html` file in your browser.
+</details>
+
+## Running the bot
+
+### Creating a bot application
 
 To host a separate instance of **Norris**, you will require a Discord developer account and bot application.
+
+If you are developing for an already existing instance of **Norris**, or already have a bot application set up, you can skip this step.
 
 <details>
 <summary>Creating a bot application</summary>
@@ -13,18 +118,18 @@ To host a separate instance of **Norris**, you will require a Discord developer 
 
     > **Note:** Copy the bot token and store it somewhere safe - you will require it later.
 
-    > **Warning:** *Do not* share the bot token publicly or commit it to Git, as this allows others to log in as the bot.
+    > **Warning:** Do not share the bot token publicly or commit it to Git, as this allows others to log in as the bot.
 
 3. Set the bot application's logo, which can be downloaded from the University's [branding guidelines](https://www.nottingham.ac.uk/brand/visual/logos.aspx).
 
 4. Disable the public bot option.
 </details>
 
-**Norris** requires a set of permissions and gateway intents to function properly, including one *privileged* gateway intent.
+**Norris** also requires a set of permissions and gateway intents to function properly, including one *privileged* gateway intent.
 These must be set from the Discord developer portal as well as by the bot itself during startup.
 
 <details>
-<summary>Selecting bot permissions</summary>
+<summary>Granting permissions</summary>
 
 1. In the bot application, navigate to `Bot > Privileged Gateway Intents` and enable the server members intent.
 
@@ -40,36 +145,15 @@ These must be set from the Discord developer portal as well as by the bot itself
     - `Send Messages`
 
 4. You can then use the generated URL to invite the bot to a Discord server.
-</details>
-
-## Local database
-
-**Norris** requires a MySQL database to function, and will attempt to connect to it on startup.
-You will therefore require one if you are planning to test or otherwise run **Norris** on your local machine (i.e. not on a University-provided server).
-
-> **Warning:** Use your personal database only for testing. *Do not* store student data on your machine.
-
-<details>
-<summary>Creating a local database</summary>
-
-1. Download and install the [MySQL Community Server](https://dev.mysql.com/downloads/mysql).
-
-    > **Note:** Note down the server host and login details for the root user and other users - you will require them later.
-
-2. Launch the MySQL client and create a new database.
-
-    > **Note:** Note down the database name - you will require it later.
-
-3. Connect to the newly created database and run some queries to verify that it works.
 
 </details>
 
-## Runtime configuration
+### Runtime configuration
 
 **Norris** reads secrets and other configuration data from a `norris.toml` file on startup.
 Most of this data is kept around and used throughout its runtime.
 
-> **Warning:** *Do not* share the configuration file publicly or commit it to Git, as it contains sensitive information.
+> **Warning:** Do not share the configuration file publicly or commit it to Git, as it contains sensitive information.
 
 <details>
 <summary>Breakdown of the configuration format</summary>
@@ -143,6 +227,7 @@ Most of this data is kept around and used throughout its runtime.
         - `up-self-catered-role-id` - the ID of the role for self-catered halls around University Park
 
         - `private-house-role-id` - the ID of the role for private housing
+
 </details>
 
 <details>
@@ -190,30 +275,5 @@ up-catered-role-id = 1234567890987654321
 up-self-catered-role-id = 1234567890987654321
 private-house-role-id = 1234567890987654321
 ```
-</details>
 
-## Viewing documentation
-
-A documentation website for **Norris** can be automatically generated using auto-documentation tools for the relevant language.
-
-<details>
-<summary>Documentation for the Rust version</summary>
-
-1. Ensure you have [`rustdoc`](https://doc.rust-lang.org/rustdoc) installed.
-
-    > **Note:** `rustdoc` ships with the compiler and is installed by default when installing a Rust toolchain. In case it is unavailable, you can re-install it by running `rustup component add rustc`.
-
-2. From the project root, run `cargo doc --open`.
-
-    > **Note:** You can omit the `--open` flag if you just want to re-generate the documentation without opening a new browser tab.
-</details>
-
-<details>
-<summary>Documentation for the Python version</summary>
-
-1. Install [`pdoc3`](https://pdoc3.github.io/pdoc) by running `pip install pdoc3`.
-
-    > **Note:** Ensure you install `pdoc3`, not `pdoc`, which is an unmaintained version of the same.
-
-2. From the project root, run `pdoc3 norris --html --force`.
 </details>

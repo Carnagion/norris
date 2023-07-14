@@ -191,3 +191,29 @@ up-self-catered-role-id = 1234567890987654321
 private-house-role-id = 1234567890987654321
 ```
 </details>
+
+## Viewing documentation
+
+A documentation website for **Norris** can be automatically generated using auto-documentation tools for the relevant language.
+
+<details>
+<summary>Documentation for the Rust version</summary>
+
+1. Ensure you have [`rustdoc`](https://doc.rust-lang.org/rustdoc) installed.
+
+    > **Note:** `rustdoc` ships with the compiler and is installed by default when installing a Rust toolchain. In case it is unavailable, you can re-install it by running `rustup component add rustc`.
+
+2. From the project root, run `cargo doc --open`.
+
+    > **Note:** You can omit the `--open` flag if you just want to re-generate the documentation without opening a new browser tab.
+</details>
+
+<details>
+<summary>Documentation for the Python version</summary>
+
+1. Install [`pdoc3`](https://pdoc3.github.io/pdoc) by running `pip install pdoc3`.
+
+    > **Note:** Ensure you install `pdoc3`, not `pdoc`, which is an unmaintained version of the same.
+
+2. From the project root, run `pdoc3 norris --html --force`.
+</details>

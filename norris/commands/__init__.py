@@ -7,6 +7,7 @@ from discord.ext import commands
 from discord.ext.commands import Cog, has_guild_permissions
 
 from ..bot import Norris
+from .count import handle_count_postgrads, handle_count_undergrads
 from .nickname import handle_nickname
 from .registration import handle_nuke, handle_restart
 
@@ -46,6 +47,25 @@ class Commands(Cog):
         Restart a user's registration.
         """
         await handle_restart(self._norris, context, member)
+
+    count = SlashCommandGroup("count", "Get student counts.")
+    """
+    Slash commands for counting students.
+    """
+
+    @count.command()
+    async def undergrads(self, context: ApplicationContext) -> None:
+        """
+        Count the number of registered undergraduate students.
+        """
+        await handle_count_undergrads(self._norris, context)
+
+    @count.command()
+    async def postgrads(self, context: ApplicationContext) -> None:
+        """
+        Count the number of registered postgraduate students.
+        """
+        await handle_count_postgrads(self._norris, context)
 
     # FIXME: pycord complains about not being able to remove commands
     @commands.command()

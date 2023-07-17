@@ -4,7 +4,7 @@ Embeds used in messages related to the registration process.
 
 from datetime import datetime
 
-from discord import Colour, Embed
+from discord import Colour, Embed, EmbedField
 
 from ...model import VerifiedUserKind
 
@@ -213,5 +213,23 @@ def nuke() -> Embed:
         title="Registration",
         colour=Colour(0xFAA81A),  # NOTE: official Discord warning colour
         description="Nuked registrations.",
+        timestamp=datetime.utcnow(),
+    )
+
+
+def count(title: str, registered: int, total: int) -> Embed:
+    """
+    Embed for displaying the count of registered students.
+    """
+    ratio = float(registered) / float(total)
+    percent = ratio * 100.0
+    return Embed(
+        title=title,
+        colour=Colour.blurple(),
+        fields=[
+            EmbedField("Total", str(total), inline=True),
+            EmbedField("Registered", str(registered), inline=True),
+            EmbedField("Percentage", f"{percent:.2}", inline=False),
+        ],
         timestamp=datetime.utcnow(),
     )

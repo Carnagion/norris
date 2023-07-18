@@ -13,7 +13,8 @@ You will need to install toolchains and software for the relevant language to de
 
 2. Install the Rust `nightly` toolchain by running `rustup toolchain install nightly`.
 
-    > **Note:** The `nightly` toolchain is required since the formatter configuration uses some `nightly`-only options. Compiling should be done using the `stable` toolchain.
+    > **Note**
+    > The `nightly` toolchain is required since the formatter configuration uses some `nightly`-only options. Compiling should be done using the `stable` toolchain.
 
 3. Install [`rustfmt`](https://github.com/rust-lang/rustfmt) by running `rustup component add rustfmt --toolchain nightly`.
 
@@ -24,7 +25,8 @@ You will need to install toolchains and software for the relevant language to de
 
 1. Install version `3.11.4` of [Python](https://www.python.org/downloads).
 
-    > **Note:** Other versions are also acceptable, as long as they do not produce any errors or warnings. Avoid using versions older than `3.11.4`.
+    > **Note**
+    > Other versions are also acceptable, as long as they do not produce any errors or warnings. Avoid using versions older than `3.11.4`.
 
 2. Install [`ruff`](https://github.com/astral-sh/ruff) by running `pip install ruff --upgrade`.
 
@@ -38,7 +40,8 @@ You will need to install toolchains and software for the relevant language to de
 
 You will therefore need to install one if you are planning to develop and test **Norris** on your local machine (i.e. not on a University-provided virtual machine).
 
-> **Warning:** Use your local database only for testing. Do not store student data on your machine.
+> **Warning**
+> Use your local database only for testing. Do not store student data on your machine.
 
 <details>
 <summary>Setting up a local MySQL database</summary>
@@ -47,11 +50,13 @@ You will therefore need to install one if you are planning to develop and test *
 
 2. Launch the MySQL client and create a new database.
 
-    > **Note:** Note down the database name, server host, login details for the root user and other users - you will require them later.
+    > **Note**
+    > Note down the database name, server host, login details for the root user and other users - you will require them later.
 
 3. Connect to the newly created database and run some queries to verify that it works.
 
-    > **Note:** Ensure that **Norris** has permissions to create, read from, update, insert into, and delete from tables.
+    > **Note**
+    > Ensure that **Norris** has permissions to create, read from, update, insert into, and delete from tables.
 
 </details>
 
@@ -82,11 +87,13 @@ You can also generate a documentation website with a complete API reference for 
 
 1. Ensure you have [`rustdoc`](https://doc.rust-lang.org/rustdoc) installed.
 
-    > **Note:** `rustdoc` ships with the compiler and is installed by default when installing a Rust toolchain. In case it is unavailable, you can re-install it by running `rustup component add rustc`.
+    > **Note**
+    > `rustdoc` ships with the compiler and is installed by default when installing a Rust toolchain. In case it is unavailable, you can re-install it by running `rustup component add rustc`.
 
 2. From the project root, run `cargo doc --open`.
 
-    > **Note:** You can omit the `--open` flag if you just want to re-generate the documentation without opening a new browser tab.
+    > **Note**
+    > You can omit the `--open` flag if you just want to re-generate the documentation without opening a new browser tab.
 </details>
 
 <details>
@@ -94,7 +101,8 @@ You can also generate a documentation website with a complete API reference for 
 
 1. Install [`pdoc3`](https://pdoc3.github.io/pdoc) by running `pip install pdoc3`.
 
-    > **Note:** Ensure you install `pdoc3`, not `pdoc`, which is an unmaintained version of the same.
+    > **Note**
+    > Ensure you install `pdoc3`, not `pdoc`, which is an unmaintained version of the same.
 
 2. From the project root, run `pdoc3 norris --html --force`.
 
@@ -116,9 +124,11 @@ If you are developing for an already existing instance of **Norris**, or already
 
 2. In this application, navigate to `Settings > Bot` and create a new bot.
 
-    > **Note:** Copy the bot token and store it somewhere safe - you will require it later.
+    > **Note**
+    > Copy the bot token and store it somewhere safe - you will require it later.
 
-    > **Warning:** Do not share the bot token publicly or commit it to Git, as this allows others to log in as the bot.
+    > **Warning**
+    > Do not share the bot token publicly or commit it to Git, as this allows others to log in as the bot.
 
 3. Set the bot application's logo, which can be downloaded from the University's [branding guidelines](https://www.nottingham.ac.uk/brand/visual/logos.aspx).
 
@@ -133,7 +143,8 @@ These must be set from the Discord developer portal as well as by the bot itself
 
 1. In the bot application, navigate to `Bot > Privileged Gateway Intents` and enable the server members intent.
 
-    > **Note:** Without this intent, the bot will not receive events when users join or leave the server.
+    > **Note**
+    > Without this intent, the bot will not receive events when users join or leave the server.
 
 2. Then navigate to `OAuth2 > URL Generator` and select the following scopes:
     - `bot`
@@ -153,7 +164,8 @@ These must be set from the Discord developer portal as well as by the bot itself
 **Norris** reads secrets and other configuration data from a `norris.toml` file on startup.
 Most of this data is kept around and used throughout its runtime.
 
-> **Warning:** Do not share the configuration file publicly or commit it to Git, as it contains sensitive information.
+> **Warning**
+> Do not share the configuration file publicly or commit it to Git, as it contains sensitive information.
 
 <details>
 <summary>Breakdown of the configuration format</summary>

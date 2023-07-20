@@ -289,3 +289,32 @@ private-house-role-id = 1234567890987654321
 ```
 
 </details>
+
+### Starting the bot
+
+Once your development environment and runtime configuration has been set up, you can run **Norris** using the relevant commands for the version you are working with.
+
+<details>
+<summary>Starting the bot in Rust</summary>
+
+1. Compile the bot in release mode by running `cargo build --release`.
+
+    > **Note**
+    > While not strictly necessary, it is recommended to use release mode instead of debug mode (the default) so the compiler can perform optimisations.
+
+2. Execute the compiled binary by running `nohup ./target/release/norris &`.
+
+    > **Note**
+    > Using `nohup` prevents **Norris**' process from being stopped when its shell is terminated or logged out of. Using `&` starts the process in the background.
+
+</details>
+
+<details>
+<summary>Starting the bot in Python</summary>
+
+1. Execute the main bot script by running `nohup python main.py &`.
+
+    > **Note**
+    > Using `nohup` prevents **Norris**' process from being stopped when its shell is terminated or logged out of. Using `&` starts the process in the background.
+
+</details>

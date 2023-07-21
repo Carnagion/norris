@@ -1,0 +1,12 @@
+{
+  "db_name": "MySQL",
+  "query": "insert into registrations\n        value (?, ?, null, null)\n        on duplicate key update\n        status = ?, name = null, kind = null",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 3
+    },
+    "nullable": []
+  },
+  "hash": "a8b82aebd29c0d889bb68882097b8579e5be37aa0d1d26539f1e5e8622baa501"
+}

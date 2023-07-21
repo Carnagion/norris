@@ -9,7 +9,7 @@
         "type_info": {
           "type": "String",
           "flags": {
-            "bits": 257
+            "bits": 4353
           },
           "char_set": 224,
           "max_size": 60

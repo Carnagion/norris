@@ -20,6 +20,9 @@ async def approve_clicked(user_id: int,
         embed=embeds.nickname.approved(nickname),
     )
 
+    # Delete the approval embed
+    await interaction.message.delete()
+
 
 async def deny_clicked(nickname: str, interaction: Interaction) -> None:
     """
@@ -31,3 +34,6 @@ async def deny_clicked(nickname: str, interaction: Interaction) -> None:
     await interaction.response.send(
         embed=embeds.nickname.approved(nickname),
     )
+
+    # Delete the approval embed
+    await interaction.message.delete()

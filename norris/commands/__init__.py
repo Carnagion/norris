@@ -68,6 +68,6 @@ class Commands(Cog):
         await handle_count_postgrads(self._norris, context)
 
     # FIXME: pycord complains about not being able to remove commands
-    @commands.command()
-    async def nickname(self, context: ApplicationContext, nickname: str) -> None:
-        await handle_nickname(self._norris, context, nickname)
+    # @commands.command()
+    # async def nickname(self, context: ApplicationContext, nickname: str) -> None:
+    #     await handle_nickname(self._norris, context, nickname)

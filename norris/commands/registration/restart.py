@@ -1,5 +1,5 @@
 from discord import ApplicationContext, Member
-from sqlalchemy import update
+from sqlalchemy import insert, update
 
 from ...bot import Norris
 from ...model import Registration, RegistrationStatus, VerifiedUser
@@ -32,11 +32,20 @@ async def restart_registration(member: Member, norris: Norris) -> None:
     Restarts the registration of a user.
     """
     async with norris.database_engine.begin() as connection:
-        # Update their registration state to unregistered
+        # Reset their registration state to unregistered
         await connection.execute(
-            update(Registration)
-            .values(status=RegistrationStatus.UNREGISTERED, name=None, kind=None)
-            .where(Registration.user_id == member.id),
+            insert(Registration)
+            .values(
+                id=member.id,
+                status=RegistrationStatus.UNREGISTERED,
+                name=None,
+                kind=None,
+            )
+            .on_duplicate_key_update(
+                status=RegistrationStatus.UNREGISTERED,
+                name=None,
+                kind=None,
+            ),
         )
 
         # Set their registered user ID to null if they were registered

@@ -32,11 +32,13 @@ pub(super) async fn restart_registration(
 
     // Reset the user's registration state to unregistered
     sqlx::query!(
-        "update registrations
-        set status = ?, name = null, kind = null
-        where user_id = ?",
-        RegistrationStatus::Unregistered.to_string(),
+        "insert into registrations
+        value (?, ?, null, null)
+        on duplicate key update
+        status = ?, name = null, kind = null",
         user_id.0,
+        RegistrationStatus::Unregistered.to_string(),
+        RegistrationStatus::Unregistered.to_string(),
     )
     .execute(&context.data().database_pool)
     .await?;

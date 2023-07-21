@@ -10,6 +10,9 @@ pub async fn restart(
     context: BotContext<'_>,
     #[description = "Whose registration to restart."] mut member: Member,
 ) -> BotResult<()> {
+    // Defer reply to give time for database queries
+    context.defer().await?;
+
     // Restart the user's registration process
     restart_registration(context, &mut member).await?;
 

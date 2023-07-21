@@ -92,5 +92,8 @@ pub async fn nickname(
         }?;
     }
 
+    // Delete the nickname embed sent to mentors
+    message.delete(context.http()).await?;
+
     Ok(())
 }

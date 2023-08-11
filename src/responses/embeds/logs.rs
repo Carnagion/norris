@@ -28,16 +28,17 @@ pub fn user_joined(user_id: UserId) -> impl FnOnce(&mut CreateEmbed) -> &mut Cre
 /// Embed builder for logging when a [`User`] could not be sent a direct message.
 pub fn dm_error(
     user_id: UserId,
+    username: &str,
     support_channel_id: ChannelId,
-) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed + '_ {
     move |embed| {
         embed
             .title("Registration")
             .colour(DANGER)
             .description(format!(
-                "There was an error in sending <@{}> a direct message. They have been redirected \
+                "There was an error in sending <@{}> ({}) a direct message. They have been redirected \
                  to <#{}>.",
-                user_id, support_channel_id,
+                user_id, username, support_channel_id,
             ))
             .timestamp(Utc::now())
     }
@@ -72,19 +73,20 @@ pub fn name_confirmed(
 }
 
 /// Embed builder for logging when a name does not exist or is already registered.
-pub fn name_error(
+pub fn name_error<'a>(
     user_id: UserId,
-    name: &str,
+    username: &'a str,
+    name: &'a str,
     support_channel_id: ChannelId,
-) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed + '_ {
+) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed + 'a {
     move |embed| {
         embed
             .title("Registration")
             .colour(DANGER)
             .description(format!(
-                "<@{}> has entered the name **{}**, but no such name was found, or it has already \
+                "<@{}> ({}) has entered the name **{}**, but no such name was found, or it has already \
                  been registered. They have been redirected to <#{}>.",
-                user_id, name, support_channel_id,
+                user_id, username, name, support_channel_id,
             ))
             .timestamp(Utc::now())
     }
@@ -93,17 +95,19 @@ pub fn name_error(
 /// Embed builder for logging when a [`VerifiedUserKind`] is detected incorrectly.
 pub fn kind_error(
     user_id: UserId,
+    username: &str,
     kind: VerifiedUserKind,
     support_channel_id: ChannelId,
-) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed + '_ {
     move |embed| {
         embed
             .title("Registration")
             .colour(DANGER)
             .description(format!(
-                "<@{}> has indicated that they have been incorrectly identified as a **{}**. They \
+                "<@{}> ({}) has indicated that they have been incorrectly identified as a **{}**. They \
                  have been redirected to <#{}>.",
                 user_id,
+                username,
                 kind.description(),
                 support_channel_id,
             ))

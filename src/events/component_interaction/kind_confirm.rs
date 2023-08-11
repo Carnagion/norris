@@ -98,6 +98,7 @@ pub async fn no_clicked(
                 ))
                 .embed(embeds::logs::kind_error(
                     user.id,
+                    &user.name,
                     kind,
                     bot_data.channels.support_channel_id,
                 ))

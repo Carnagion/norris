@@ -49,6 +49,7 @@ pub async fn yes_clicked(
                         ))
                         .embed(embeds::logs::name_error(
                             component_interaction.user.id,
+                            &component_interaction.user.name,
                             &name,
                             bot_data.channels.support_channel_id,
                         ))

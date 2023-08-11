@@ -121,6 +121,7 @@ async fn notify_instructions_error(
                 ))
                 .embed(embeds::logs::dm_error(
                     member.user.id,
+                    &member.user.name,
                     bot_data.channels.support_channel_id,
                 ))
         })

@@ -73,6 +73,10 @@ pub struct HierarchyRolesConfig {
     pub honorary_mentor_role_id: RoleId,
     /// The ID of the role given to members of faculty.
     pub faculty_role_id: RoleId,
+    /// The ID of the role held by server administrators.
+    ///
+    /// This is never handed out or removed by the bot.
+    pub admin_role_id: RoleId,
 }
 
 impl HierarchyRolesConfig {

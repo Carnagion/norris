@@ -2,6 +2,46 @@
 
 ## Getting started
 
+### Navigating the repository
+
+**Norris** follows a simple repository structure, consisting of three core branches (`main`, `dev`, and `docs`) and any number of additional branches for new features, pull requests, and so on.
+
+<details>
+<summary>Branch structure</summary>
+
+- `main` is the main (default) branch, meant for stable release versions of **Norris**.
+
+    > **Warning**
+    > Avoid committing directly to `main`. You should instead commit to another relevant branch and merge into it once finished.
+
+- `dev` is the core development branch, where most development occurs, and is intended to be merged into `main` after thorough reviews and testing.
+
+    > **Note**
+    > There is also another development branch, `riir`, used for developing the Rust version of **Norris**. Like `dev`, this is intended to be merged into `main` after all changes are approved.
+
+- `docs` is the branch for external documentation (i.e. *not* inline comment-based documentation) such as [design documents and diagrams](docs/), and is also intended to be merged into `main` after reviews.
+
+- Other branches typically branch out from `dev` or `main`, and may be merged back into their source (`dev` or `main`) when necessary.
+
+</details>
+
+You should follow and enforce this branch structure when making any new pushes or pull requests, or when reviewing the contributions of others.
+
+### Multiple codebases
+
+**Norris** has codebases in two different languages - Rust and Python.
+
+The dual codebase structure is a consequence of initial prototyping, but was later kept and maintained together to act as a backup, and so that features could be quickly developed and tested on one version without being held back by bugs on the other.
+
+Both versions function in almost the same manner, and follow a similar folder and code organisation structure.
+
+> **Note**
+> The current (running) version of **Norris** uses Rust, due to unresolved bugs in the Python version.
+
+While it is not necessary to port all changes to both versions, you are expected to maintain similar functionality and code structure if you update both codebases.
+
+## Developing locally
+
 ### Installing prerequisites
 
 You will need to install toolchains and software for the relevant language to develop or build **Norris**.
@@ -81,7 +121,7 @@ Additionally, the Rust version of **Norris** requires the [`sqlx`](https://githu
 
 </details>
 
-### Viewing documentation
+### Viewing code documentation
 
 You can also generate a documentation website with a complete API reference for **Norris** using auto-documentation tools for the relevant language.
 

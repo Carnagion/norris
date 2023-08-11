@@ -42,7 +42,11 @@ pub async fn yes_clicked(
                 .log_channel_id
                 .send_message(&context.http, |message| {
                     message
-                        .content(format!("<@&{}>", bot_data.roles.hierarchy.mentor_role_id))
+                        .content(format!(
+                            "<@&{}> <@&{}>",
+                            bot_data.roles.hierarchy.mentor_role_id,
+                            bot_data.roles.hierarchy.admin_role_id,
+                        ))
                         .embed(embeds::logs::name_error(
                             component_interaction.user.id,
                             &name,

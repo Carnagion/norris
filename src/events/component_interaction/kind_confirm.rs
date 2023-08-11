@@ -92,7 +92,10 @@ pub async fn no_clicked(
         .log_channel_id
         .send_message(&context.http, |message| {
             message
-                .content(format!("<@&{}>", bot_data.roles.hierarchy.mentor_role_id))
+                .content(format!(
+                    "<@&{}> <@&{}>",
+                    bot_data.roles.hierarchy.mentor_role_id, bot_data.roles.hierarchy.admin_role_id,
+                ))
                 .embed(embeds::logs::kind_error(
                     user.id,
                     kind,

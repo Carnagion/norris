@@ -1,5 +1,14 @@
 # Contributing to Norris
 
+Welcome to the contribution guide for **Norris**!
+
+The purpose of this guide is to serve as comprehensive documentation regarding the repository structure, developing and running the bot, and making contributions to the project.
+
+> **Note**
+> As this is developed and used by students at the University of Nottingham, you are expected to follow the University's [Code of Discipline](https://www.nottingham.ac.uk/governance/documents/code-of-discipline-for-students-01082021.pdf) when making contributions or interacting with other contributors.
+
+Use the table of contents icon on the top-right corner of this document to jump to a specific section of this guide quickly.
+
 ## Getting started
 
 ### Navigating the repository
@@ -25,7 +34,7 @@
 
 </details>
 
-You should follow and enforce this branch structure when making any new pushes or pull requests, or when reviewing the contributions of others.
+You should follow and enforce this branch structure when making any contributions or when reviewing the contributions of others.
 
 ### Multiple codebases
 

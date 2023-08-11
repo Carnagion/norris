@@ -11,12 +11,15 @@ You will need to install toolchains and software for the relevant language to de
 
 1. Install the latest version of [Rust](https://www.rust-lang.org/tools/install), preferably using `rustup`.
 
+    > **Note**
+    > You should preferably install the `default` profile (as the name suggests, this is picked by default), which includes all the necessary components for general Rust development.
+
 2. Install the Rust `nightly` toolchain by running `rustup toolchain install nightly`.
 
     > **Note**
     > The `nightly` toolchain is required since the formatter configuration uses some `nightly`-only options. Compiling should be done using the `stable` toolchain.
 
-3. Install [`rustfmt`](https://github.com/rust-lang/rustfmt) by running `rustup component add rustfmt --toolchain nightly`.
+3. Install [`rustfmt`](https://github.com/rust-lang/rustfmt) on the `nightly` toolchain by running `rustup component add rustfmt --toolchain nightly`.
 
 </details>
 
@@ -85,15 +88,10 @@ You can also generate a documentation website with a complete API reference for 
 <details>
 <summary>Documentation for the Rust version</summary>
 
-1. Ensure you have [`rustdoc`](https://doc.rust-lang.org/rustdoc) installed.
+1. From the project root, run `cargo doc --open`.
 
     > **Note**
-    > `rustdoc` ships with the compiler and is installed by default when installing a Rust toolchain. In case it is unavailable, you can re-install it by running `rustup component add rustc`.
-
-2. From the project root, run `cargo doc --open`.
-
-    > **Note**
-    > You can omit the `--open` flag if you just want to re-generate the documentation without opening a new browser tab.
+    > You can omit the `--open` flag if you just want to re-generate the documentation without opening a new browser tab. You will need to refresh already open documentation tabs in this case.
 </details>
 
 <details>
@@ -214,6 +212,8 @@ Most of this data is kept around and used throughout its runtime.
 
         - `undergrad-role-id` - the ID of the role for faculty members
 
+        - `admin-role-id` - the ID of the role held by server administrators
+
     - `pronouns`
 
         - `he-him-role-id` - the ID of the "he/him" pronouns role
@@ -271,6 +271,7 @@ mentor-role-id = 1234567890987654321
 senior-mentor-role-id = 1234567890987654321
 honorary-mentor-role-id = 1234567890987654321
 faculty-role-id = 1234567890987654321
+admin-role-id = 1234567890987654321
 
 [roles.pronouns]
 he-him-role-id = 1234567890987654321

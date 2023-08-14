@@ -36,8 +36,8 @@ pub fn dm_error(
             .title("Registration")
             .colour(DANGER)
             .description(format!(
-                "There was an error in sending <@{}> ({}) a direct message. They have been redirected \
-                 to <#{}>.",
+                "There was an error in sending <@{}> ({}) a direct message. They have been \
+                 redirected to <#{}>.",
                 user_id, username, support_channel_id,
             ))
             .timestamp(Utc::now())
@@ -84,8 +84,8 @@ pub fn name_error<'a>(
             .title("Registration")
             .colour(DANGER)
             .description(format!(
-                "<@{}> ({}) has entered the name **{}**, but no such name was found, or it has already \
-                 been registered. They have been redirected to <#{}>.",
+                "<@{}> ({}) has entered the name **{}**, but no such name was found, or it has \
+                 already been registered. They have been redirected to <#{}>.",
                 user_id, username, name, support_channel_id,
             ))
             .timestamp(Utc::now())
@@ -104,8 +104,8 @@ pub fn kind_error(
             .title("Registration")
             .colour(DANGER)
             .description(format!(
-                "<@{}> ({}) has indicated that they have been incorrectly identified as a **{}**. They \
-                 have been redirected to <#{}>.",
+                "<@{}> ({}) has indicated that they have been incorrectly identified as a **{}**. \
+                 They have been redirected to <#{}>.",
                 user_id,
                 username,
                 kind.description(),

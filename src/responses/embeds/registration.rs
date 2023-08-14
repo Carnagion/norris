@@ -236,6 +236,24 @@ pub fn nuke() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
     }
 }
 
+/// Embed builder for indicating a manual addition to the users database.
+pub fn add(
+    name: &str,
+    kind: VerifiedUserKind,
+) -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed + '_ {
+    move |embed| {
+        embed
+            .title("Registration")
+            .colour(WARNING)
+            .description(format!(
+                "Added **{}**, a **{}**, as an unregistered user.",
+                name,
+                kind.description(),
+            ))
+            .timestamp(Utc::now())
+    }
+}
+
 /// Embed builder for displaying the count of registered students.
 pub fn count(
     title: &str,

@@ -86,6 +86,9 @@ async fn setup_bot_data(
         })
         .await?;
 
+    // Get rid of any global application commands that might have been set accidentally during testing
+    Command::set_global_application_commands(context.http(), |commands| commands).await?;
+
     // Setup database and tables
     let database_pool = setup_database(&config.database_url).await?;
 

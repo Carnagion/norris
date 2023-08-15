@@ -3,7 +3,7 @@
 norris.toml
 
 # Logs
-*.log
+norris.log.*
 
 # Cargo
 target/

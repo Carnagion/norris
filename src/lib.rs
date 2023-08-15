@@ -40,6 +40,7 @@ impl Norris {
     ///
     /// Fails if building the inner [`BotFramework`] fails.
     /// See [`BotFramework::builder`].
+    #[tracing::instrument(skip_all, err(Debug))]
     pub async fn new(config: NorrisConfig) -> BotResult<Self> {
         let framework = BotFramework::builder()
             .token(&config.bot_token)
@@ -65,12 +66,14 @@ impl Norris {
     }
 
     /// Starts the bot and keeps it running in an asynchronous loop.
+    #[tracing::instrument(skip_all, err(Debug))]
     pub async fn start(self) -> BotResult<()> {
         self.0.start().await?;
         Ok(())
     }
 }
 
+#[tracing::instrument(skip_all, err(Debug))]
 async fn setup_bot_data(
     context: &Context,
     framework: &BotFramework,
@@ -100,6 +103,7 @@ async fn setup_bot_data(
     })
 }
 
+#[tracing::instrument(skip_all, err(Debug))]
 async fn setup_database(database_url: &str) -> BotResult<MySqlPool> {
     // Connect to the database
     let database_pool = MySqlPoolOptions::new()

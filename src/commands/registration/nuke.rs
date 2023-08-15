@@ -9,6 +9,7 @@ use crate::prelude::*;
 
 /// Restart the registrations of multiple users.
 #[poise::command(slash_command, guild_only, required_permissions = "ADMINISTRATOR")]
+#[tracing::instrument(skip_all, fields(role_id = ?role.as_ref().map(|role| role.id)), err(Debug))]
 pub async fn nuke(
     context: BotContext<'_>,
     #[description = "Only restart the registrations of users with this role."] role: Option<Role>,

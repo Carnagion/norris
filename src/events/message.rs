@@ -5,6 +5,7 @@ use serenity::*;
 use crate::prelude::*;
 
 /// Called when the bot gets a direct message from a [`User`].
+#[tracing::instrument(skip_all, fields(message_id = %message.id), err(Debug))]
 pub async fn messaged(context: &Context, message: &Message, bot_data: &BotData) -> BotResult<()> {
     // Try to get the user's registration status
     let registration_status = sqlx::query!(
@@ -27,6 +28,7 @@ pub async fn messaged(context: &Context, message: &Message, bot_data: &BotData) 
     Ok(())
 }
 
+#[tracing::instrument(skip_all, err(Debug))]
 async fn request_name_confirm(
     context: &Context,
     name_message: &Message,

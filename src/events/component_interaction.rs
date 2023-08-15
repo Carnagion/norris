@@ -17,6 +17,15 @@ mod pronouns;
 mod housing;
 
 /// Called when a [`User`] triggers a component interaction, such as clicking a button.
+#[tracing::instrument(
+    skip_all,
+    fields(
+        interaction_id = %component_interaction.id,
+        user_id = %component_interaction.user.id,
+        message_id = %component_interaction.message.id,
+    ),
+    err(Debug),
+)]
 pub async fn message_component_interacted(
     context: &Context,
     component_interaction: &MessageComponentInteraction,

@@ -10,6 +10,7 @@ use crate::prelude::*;
 
 /// Request a nickname change.
 #[poise::command(slash_command, guild_only)]
+#[tracing::instrument(skip(context), err(Debug))]
 pub async fn nickname(
     context: BotContext<'_>,
     #[description = "Your new nickname."] nickname: String,

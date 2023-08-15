@@ -5,6 +5,7 @@ use serenity::*;
 use crate::prelude::*;
 
 /// Called when a [`Member`] joins the [`Guild`].
+#[tracing::instrument(skip_all, fields(member_id = %member.user.id), err(Debug))]
 pub async fn guild_member_added(
     context: &Context,
     member: &Member,
@@ -38,6 +39,7 @@ pub async fn guild_member_added(
     .await
 }
 
+#[tracing::instrument(skip_all, fields(member_id = %member.user.id), err(Debug))]
 pub(crate) async fn try_send_instructions<'a>(
     context: &Context,
     member: &Member,
@@ -52,7 +54,7 @@ pub(crate) async fn try_send_instructions<'a>(
         Ok(_) => notify_instructions_sent(context, member, bot_data).await,
         // Handle failure
         Err(error) => {
-            log::error!("{}", error);
+            tracing::error!("{}", error);
 
             // Update their registration status to be failed
             sqlx::query!(
@@ -73,6 +75,7 @@ pub(crate) async fn try_send_instructions<'a>(
     Ok(())
 }
 
+#[tracing::instrument(skip_all, fields(member_id = %member.user.id), err(Debug))]
 async fn notify_instructions_sent(
     context: &Context,
     member: &Member,
@@ -92,6 +95,7 @@ async fn notify_instructions_sent(
     Ok(())
 }
 
+#[tracing::instrument(skip_all, fields(member_id = %member.user.id), err(Debug))]
 async fn notify_instructions_error(
     context: &Context,
     member: &Member,

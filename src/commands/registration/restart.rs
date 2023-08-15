@@ -6,6 +6,7 @@ use crate::{events, prelude::*};
 
 /// Restart a user's registration.
 #[poise::command(slash_command, guild_only, required_permissions = "KICK_MEMBERS")]
+#[tracing::instrument(skip_all, fields(member_id = %member.user.id), err(Debug))]
 pub async fn restart(
     context: BotContext<'_>,
     #[description = "Whose registration to restart."] mut member: Member,
@@ -24,6 +25,7 @@ pub async fn restart(
     Ok(())
 }
 
+#[tracing::instrument(skip_all, fields(member_id = %member.user.id), err(Debug))]
 pub(super) async fn restart_registration(
     context: BotContext<'_>,
     member: &mut Member,

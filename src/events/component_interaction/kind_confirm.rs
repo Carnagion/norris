@@ -4,6 +4,15 @@ use serenity::*;
 
 use crate::prelude::*;
 
+#[tracing::instrument(
+    skip_all,
+    fields(
+        interaction_id = %component_interaction.id,
+        user_id = %component_interaction.user.id,
+        message_id = %component_interaction.message.id,
+    ),
+    err(Debug),
+)]
 pub async fn yes_clicked(
     context: &Context,
     component_interaction: &MessageComponentInteraction,
@@ -58,6 +67,15 @@ pub async fn yes_clicked(
     Ok(())
 }
 
+#[tracing::instrument(
+    skip_all,
+    fields(
+        interaction_id = %component_interaction.id,
+        user_id = %component_interaction.user.id,
+        message_id = %component_interaction.message.id,
+    ),
+    err(Debug),
+)]
 pub async fn no_clicked(
     context: &Context,
     component_interaction: &MessageComponentInteraction,

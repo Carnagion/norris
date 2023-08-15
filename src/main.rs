@@ -1,19 +1,12 @@
-use std::{
-    fs::{self, File},
-    path::Path,
-};
+use std::{fs, io};
 
 use anyhow::Result as AnyResult;
 
-use simplelog::{
-    ColorChoice,
-    CombinedLogger,
-    Config as LoggerConfig,
-    LevelFilter,
-    TermLogger,
-    TerminalMode,
-    WriteLogger,
-};
+use tracing::level_filters::LevelFilter;
+
+use tracing_appender::rolling;
+
+use tracing_subscriber::{fmt::Layer, prelude::*};
 
 use norris::prelude::*;
 
@@ -24,30 +17,24 @@ async fn main() -> AnyResult<()> {
     let config = toml::from_str::<NorrisConfig>(&config_string)?;
 
     // Setup logging before continuing anything else
-    setup_logger(&config.log_path).await?;
+    let (file_logger, _file_guard) =
+        tracing_appender::non_blocking(rolling::daily("", &config.log_path));
+    let (stdout_logger, _stdout_guard) = tracing_appender::non_blocking(io::stdout());
+    tracing_subscriber::registry()
+        .with(
+            Layer::new()
+                .with_writer(stdout_logger)
+                .with_filter(LevelFilter::INFO),
+        )
+        .with(
+            Layer::new()
+                .with_writer(file_logger)
+                .with_filter(LevelFilter::WARN),
+        )
+        .try_init()?;
 
     // Create and start bot
     Norris::new(config).await?.start().await?;
-
-    Ok(())
-}
-
-async fn setup_logger(log_path: impl AsRef<Path>) -> AnyResult<()> {
-    CombinedLogger::init(vec![
-        // Log most events to stdout
-        TermLogger::new(
-            LevelFilter::Info,
-            LoggerConfig::default(),
-            TerminalMode::Mixed,
-            ColorChoice::Auto,
-        ),
-        // Log warnings and errors to a log file
-        WriteLogger::new(
-            LevelFilter::Warn,
-            LoggerConfig::default(),
-            File::create(log_path)?,
-        ),
-    ])?;
 
     Ok(())
 }

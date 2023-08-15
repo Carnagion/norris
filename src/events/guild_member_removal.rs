@@ -5,6 +5,7 @@ use serenity::*;
 use crate::prelude::*;
 
 /// Called when a [`Member`] leaves the [`Guild`].
+#[tracing::instrument(skip_all, fields(user_id = %user.id), err(Debug))]
 pub async fn guild_member_removed(
     context: &Context,
     user: &User,

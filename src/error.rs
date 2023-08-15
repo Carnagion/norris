@@ -21,10 +21,11 @@ pub enum BotError {
     Sql(#[from] SqlError),
 }
 
+#[tracing::instrument(skip_all)]
 pub(crate) async fn report_framework_error(error: BotFrameworkError<'_>) {
     let result = match error {
         BotFrameworkError::Command { error, ctx } => {
-            log::error!("Failed to execute command: {}", error);
+            tracing::error!("Failed to execute command: {}", error);
             embed(&ctx, |embed| {
                 embed
                     .title("Error")
@@ -35,7 +36,7 @@ pub(crate) async fn report_framework_error(error: BotFrameworkError<'_>) {
             .await
         },
         BotFrameworkError::ArgumentParse { error, input, ctx } => {
-            log::error!("Failed to parse command arguments: {}", error);
+            tracing::error!("Failed to parse command arguments: {}", error);
             embed(&ctx, |embed| {
                 embed
                     .title("Error")
@@ -56,7 +57,7 @@ pub(crate) async fn report_framework_error(error: BotFrameworkError<'_>) {
             .await
         },
         BotFrameworkError::CommandStructureMismatch { description, ctx } => {
-            log::error!("Unexpected command structure: {}", description);
+            tracing::error!("Unexpected command structure: {}", description);
             embed(&BotContext::Application(ctx), |embed| {
                 embed
                     .title("Error")
@@ -68,7 +69,7 @@ pub(crate) async fn report_framework_error(error: BotFrameworkError<'_>) {
         },
         BotFrameworkError::CommandCheckFailed { error, ctx } => {
             if let Some(error) = error {
-                log::error!("Command verification check failed: {}", error);
+                tracing::error!("Command verification check failed: {}", error);
             }
             embed(&ctx, |embed| {
                 embed
@@ -101,7 +102,7 @@ pub(crate) async fn report_framework_error(error: BotFrameworkError<'_>) {
             missing_permissions,
             ctx,
         } => {
-            log::error!("Bot requires permissions: {}", missing_permissions);
+            tracing::error!("Bot requires permissions: {}", missing_permissions);
             embed(&ctx, |embed| {
                 embed
                     .title("Error")
@@ -173,15 +174,15 @@ pub(crate) async fn report_framework_error(error: BotFrameworkError<'_>) {
             .await
         },
         BotFrameworkError::Setup { error, .. } => {
-            log::error!("User data setup failed: {}", error);
+            tracing::error!("User data setup failed: {}", error);
             Ok(())
         },
         BotFrameworkError::EventHandler { error, event, .. } => {
-            log::error!("Event handler for {} failed: {}", event.name(), error);
+            tracing::error!("Event handler for {} failed: {}", event.name(), error);
             Ok(())
         },
         BotFrameworkError::DynamicPrefix { error, msg, .. } => {
-            log::error!(r#"Dynamic prefix failed on "{}": {}"#, msg.content, error);
+            tracing::error!(r#"Dynamic prefix failed on "{}": {}"#, msg.content, error);
             Ok(())
         },
         BotFrameworkError::UnknownCommand {
@@ -189,7 +190,7 @@ pub(crate) async fn report_framework_error(error: BotFrameworkError<'_>) {
             msg_content,
             ..
         } => {
-            log::error!(
+            tracing::error!(
                 r#"Unrecognised command "{}" for prefix "{}""#,
                 msg_content,
                 prefix
@@ -197,17 +198,17 @@ pub(crate) async fn report_framework_error(error: BotFrameworkError<'_>) {
             Ok(())
         },
         BotFrameworkError::UnknownInteraction { .. } => {
-            log::error!("Unknown interaction");
+            tracing::error!("Unknown interaction");
             Ok(())
         },
         non_exhaustive => {
-            log::error!("Unknown error: {}", non_exhaustive);
+            tracing::error!("Unknown error: {}", non_exhaustive);
             Ok(())
         },
     };
 
     if let Err(nested_error) = result {
-        log::error!("Failed to report error: {}", nested_error);
+        tracing::error!("Failed to report error: {}", nested_error);
     }
 }
 

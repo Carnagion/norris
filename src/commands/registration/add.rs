@@ -4,6 +4,7 @@ use crate::prelude::*;
 
 /// Add an unregistered user to the database.
 #[poise::command(slash_command, guild_only, required_permissions = "ADMINISTRATOR")]
+#[tracing::instrument(skip(context), err(Debug))]
 pub async fn add(
     context: BotContext<'_>,
     #[description = "The user's name."] name: String,

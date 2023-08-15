@@ -103,6 +103,19 @@ pub fn name_error(
                  registered. Please seek assistance in <#{}>.",
                 support_channel_id,
             ))
+            // TODO: Remove once we have a list of names
+            .field(
+                "Note",
+                format!(
+                    "As we do not have an official list of names yet, we are temporarily \
+                     registering students manually. When seeking assistance in <#{}>, please \
+                     state whether you are an **undergraduate or postgraduate student**, and if you \
+                     **already have a confirmed place at the University** either through your results \
+                     or an unconditional offer.",
+                    support_channel_id,
+                ),
+                false,
+            )
             .timestamp(Utc::now())
     }
 }
@@ -134,6 +147,19 @@ pub fn kind_error(
                  assistance in <#{}>.",
                 support_channel_id,
             ))
+            // TODO: Remove once we have a list of names
+            .field(
+                "Note",
+                format!(
+                    "As we do not have an official list of names yet, we are temporarily \
+                     registering students manually. When seeking assistance in <#{}>, please \
+                     state whether you are an undergraduate or postgraduate student, and if you \
+                     already have a confirmed place at the University either through your results \
+                     or an unconditional offer.",
+                    support_channel_id,
+                ),
+                false,
+            )
             .timestamp(Utc::now())
     }
 }

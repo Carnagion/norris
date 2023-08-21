@@ -17,7 +17,7 @@ pub async fn nuke(
     // Defer reply since nuking multiple users will take a significant amount of time
     context.defer().await?;
 
-    let roles = role
+    let nukable_roles = role
         .map(|role| vec![role.id])
         .unwrap_or(Vec::from(context.data().roles.nukable_roles()));
 
@@ -26,7 +26,7 @@ pub async fn nuke(
         .guild_id()
         .unwrap() // PANICS: This is a guild-only command and will always be executed in a guild
         .members_iter(context.http())
-        .try_filter(|member| future::ready(!member.user.bot && roles.iter().any(|role| member.roles.contains(role))))
+        .try_filter(|member| future::ready(can_nuke_member(member, &nukable_roles)))
         .map_err(BotError::from)
         .try_for_each_concurrent(10, |mut member| async move {
             super::restart::restart_registration(context, &mut member).await
@@ -39,4 +39,10 @@ pub async fn nuke(
         .await?;
 
     Ok(())
+}
+
+fn can_nuke_member(member: &Member, nukable_roles: &[RoleId]) -> bool {
+    // Nuke members who have no roles or have at least one of the nukable roles
+    !member.user.bot
+        && (member.roles.is_empty() || nukable_roles.iter().any(|role| member.roles.contains(role)))
 }

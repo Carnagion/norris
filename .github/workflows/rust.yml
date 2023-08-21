@@ -28,6 +28,8 @@ jobs:
             
             - name: Cache dependencies
               uses: Swatinem/rust-cache@v2
+              with:
+                shared-key: "norris"
             
             - name: Check if code compiles
               uses: actions-rs/cargo@v1
@@ -51,6 +53,8 @@ jobs:
             
             - name: Cache dependencies
               uses: Swatinem/rust-cache@v2
+              with:
+                shared-key: "norris"
             
             - name: Run tests
               uses: actions-rs/cargo@v1
@@ -99,6 +103,8 @@ jobs:
             
             - name: Cache dependencies
               uses: Swatinem/rust-cache@v2
+              with:
+                shared-key: "norris"
             
             - name: Run linter
               uses: actions-rs/cargo@v1

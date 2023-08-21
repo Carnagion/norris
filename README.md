@@ -42,7 +42,7 @@
 
 - Users that join the server have their Discord user ID stored to keep track of their registration state.
 
-- Pronouns and housing information are provided voluntarily by users, who have the option to skip providing them.
+- Pronouns and housing information are provided voluntarily by users, can be skipped, and are not stored in the database.
 
 Additionally, access to user data via the database is limited to server administrators only.
 

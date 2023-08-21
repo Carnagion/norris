@@ -48,11 +48,10 @@ impl RolesConfig {
     /// The IDs of all roles whose members can be nuked as part of [`nuke`] testing.
     ///
     /// [`nuke`]: crate::commands::registration::nuke
-    pub fn nukable_roles(&self) -> [RoleId; 3] {
+    pub fn nukable_roles(&self) -> [RoleId; 2] {
         [
             self.hierarchy.undergrad_role_id,
             self.hierarchy.postgrad_role_id,
-            self.hierarchy.mentor_role_id,
         ]
     }
 }

@@ -7,7 +7,7 @@ edition = "2021"
 anyhow = "1.0.71"
 chrono = "0.4.26"
 poise = "0.5.5"
-serde = { version = "1.0.164", features = ["derive"] }
+serde = { version = "1.0.185", features = ["derive"] }
 sqlx = { version = "0.7.0-alpha.3", features = ["mysql", "runtime-tokio", "tls-rustls"] }
 strum = { version = "0.25.0", features = ["derive"] }
 thiserror = "1.0.40"

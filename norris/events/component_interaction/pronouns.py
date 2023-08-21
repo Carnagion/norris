@@ -61,7 +61,7 @@ async def transition_to_housing(interaction: Interaction, norris: Norris) -> Non
             .where(Registration.user_id == interaction.user.id),
         )
 
-    # NOTE: circular imports ffs
+    # NOTE: circular imports
     from ...responses import embeds
     from ...responses.components import HousingView
 

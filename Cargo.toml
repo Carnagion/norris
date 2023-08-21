@@ -7,7 +7,7 @@ edition = "2021"
 anyhow = "1.0.71"
 chrono = "0.4.26"
 poise = "0.5.5"
-serde = { version = ">= 1.0.164, <= 1.0.171", features = ["derive"] } # NOTE: Version restricted due to https://github.com/serde-rs/serde/issues/2538
+serde = { version = "1.0.164", features = ["derive"] }
 sqlx = { version = "0.7.0-alpha.3", features = ["mysql", "runtime-tokio", "tls-rustls"] }
 strum = { version = "0.25.0", features = ["derive"] }
 thiserror = "1.0.40"
@@ -15,4 +15,4 @@ tokio = { version = "1.28.2", features = ["rt-multi-thread"] }
 toml = "0.7.5"
 tracing = "0.1.37"
 tracing-appender = "0.2.2"
-tracing-subscriber = { version = "0.3.17", features = ["tracing-log"]}
+tracing-subscriber = { version = "0.3.17", features = ["tracing-log"] }

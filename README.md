@@ -2,6 +2,38 @@
 
 **Norris** is the registration bot for the official [University of Nottingham Computer Science](https://www.nottingham.ac.uk/computerscience) starters Discord server.
 
+## Features
+
+- **User registration** - Users joining the server must go through a [multi-step registration process](docs/registration-process.png) before they are allowed access to most channels
+
+- **Automatic de-registration** - Users leaving the server are automatically de-registered
+
+- **Nickname requests** - Users can request nicknames, which must be approved by a mentor
+
+- **Simple configuration** - Data is deserialized from a [configuration file](CONTRIBUTING.md/#runtime-configuration) at startup rather than using hard-coded values
+
+- **Robust error handling** - Errors and failure cases are handled gracefully, without panics or crashes
+
+- **Log files** - Errors, warnings, and other notable events are logged to files that are created on a daily basis
+
+- **Fully documented** - Comprehensive documentation regarding [design](docs/) and [setup](CONTRIBUTING.md), intended for future maintainers
+
+## Commands
+
+**Norris** supports the following slash commands:
+
+- `/registration add [NAME] [KIND]` - Add a user to the registration whitelist (usable by **administrators only**)
+
+- `/registration restart [USER]` - Restart a user's registration (usable by **mentors and administrators only**)
+
+- `/registration nuke [ROLE]` - Restart the registrations of all users with a particular role, defaulting to all undergraduate and postgraduate students if `ROLE` is not provided (usable by **administrators only**)
+
+- `/nickname [NAME]` - Request a server nickname
+
+- `/count undergrads` - Report the number of registered and total undergraduate students
+
+- `/count postgrads` - Report the number of registered and total postgraduate students
+
 ## Contributors
 
 - [Indraneel Mahendrakumar](https://github.com/Carnagion)
@@ -12,3 +44,9 @@
 Thanks to:
 - [Joe Sieniawski](https://github.com/jozefws) and the University of Nottingham Computer Science Research Support Team, for providing a database and server to host **Norris** on
 - [Ben Flynn](https://github.com/Ben5656), for providing the previous year's codebase, which served as a foundation for the current bot
+
+## FAQ
+
+- #### Why is it called **Norris**?
+
+    Who knows? We certainly don't.

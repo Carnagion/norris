@@ -10,6 +10,6 @@ use_try_shorthand = true
 
 condense_wildcard_suffixes = true
 format_strings = true
-imports_layout = "horizontalvertical"
-imports_granularity = "crate"
+imports_layout = "HorizontalVertical"
+imports_granularity = "Crate"
 reorder_impl_items = true

@@ -1,6 +1,10 @@
 name: Run Python workflows
 
-on: [push]
+on:
+    push:
+        paths: ["**.py", "requirements.txt", "ruff.toml"]
+    pull_request:
+        paths: ["**.py", "requirements.txt", "ruff.toml"]
 
 jobs:
 

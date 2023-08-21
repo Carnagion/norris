@@ -8,9 +8,7 @@
         "name": "id",
         "type_info": {
           "type": "LongLong",
-          "flags": {
-            "bits": 547
-          },
+          "flags": "NOT_NULL | PRIMARY_KEY | UNSIGNED | AUTO_INCREMENT",
           "char_set": 63,
           "max_size": 20
         }
@@ -20,9 +18,7 @@
         "name": "name",
         "type_info": {
           "type": "VarString",
-          "flags": {
-            "bits": 4097
-          },
+          "flags": "NOT_NULL | NO_DEFAULT_VALUE",
           "char_set": 224,
           "max_size": 4096
         }
@@ -32,9 +28,7 @@
         "name": "kind",
         "type_info": {
           "type": "String",
-          "flags": {
-            "bits": 4353
-          },
+          "flags": "NOT_NULL | ENUM | NO_DEFAULT_VALUE",
           "char_set": 224,
           "max_size": 60
         }
@@ -44,9 +38,7 @@
         "name": "registered_user_id",
         "type_info": {
           "type": "LongLong",
-          "flags": {
-            "bits": 32
-          },
+          "flags": "UNSIGNED",
           "char_set": 63,
           "max_size": 20
         }

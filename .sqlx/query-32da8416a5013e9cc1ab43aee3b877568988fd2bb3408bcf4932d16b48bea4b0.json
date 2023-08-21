@@ -8,9 +8,7 @@
         "name": "name",
         "type_info": {
           "type": "VarString",
-          "flags": {
-            "bits": 4097
-          },
+          "flags": "NOT_NULL | NO_DEFAULT_VALUE",
           "char_set": 224,
           "max_size": 4096
         }

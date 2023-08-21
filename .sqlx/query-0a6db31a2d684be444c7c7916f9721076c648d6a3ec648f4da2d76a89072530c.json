@@ -8,9 +8,7 @@
         "name": "status",
         "type_info": {
           "type": "String",
-          "flags": {
-            "bits": 4353
-          },
+          "flags": "NOT_NULL | ENUM | NO_DEFAULT_VALUE",
           "char_set": 224,
           "max_size": 60
         }
@@ -20,9 +18,7 @@
         "name": "name",
         "type_info": {
           "type": "VarString",
-          "flags": {
-            "bits": 0
-          },
+          "flags": "",
           "char_set": 224,
           "max_size": 4096
         }
@@ -32,9 +28,7 @@
         "name": "kind",
         "type_info": {
           "type": "String",
-          "flags": {
-            "bits": 256
-          },
+          "flags": "ENUM",
           "char_set": 224,
           "max_size": 60
         }

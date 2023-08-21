@@ -8,9 +8,7 @@
         "name": "registered",
         "type_info": {
           "type": "LongLong",
-          "flags": {
-            "bits": 129
-          },
+          "flags": "NOT_NULL | BINARY",
           "char_set": 63,
           "max_size": 21
         }
@@ -20,9 +18,7 @@
         "name": "total",
         "type_info": {
           "type": "LongLong",
-          "flags": {
-            "bits": 129
-          },
+          "flags": "NOT_NULL | BINARY",
           "char_set": 63,
           "max_size": 21
         }

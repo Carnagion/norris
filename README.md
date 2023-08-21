@@ -34,6 +34,18 @@
 
 - `/count postgrads` - Report the number of registered and total postgraduate students
 
+## User data
+
+**Norris** only stores the minimum amount of user data required to perform registration, as seen in its [database schema](docs/database-schema.png).
+
+- Student names and kinds (undergraduate or postgraduate) are obtained from the University via the proper channels.
+
+- Users that join the server have their Discord user ID stored to keep track of their registration state.
+
+- Pronouns and housing information are provided voluntarily by users, who have the option to skip providing them.
+
+Additionally, access to user data via the database is limited to server administrators only.
+
 ## Contributors
 
 - [Indraneel Mahendrakumar](https://github.com/Carnagion)
@@ -45,7 +57,7 @@ Thanks to:
 - [Joe Sieniawski](https://github.com/jozefws) and the University of Nottingham Computer Science Research Support Team, for providing a database and server to host **Norris** on
 - [Ben Flynn](https://github.com/Ben5656), for providing the previous year's codebase, which served as a foundation for the current bot
 
-## FAQ
+## Frequently asked questions
 
 - #### Why is it called **Norris**?
 

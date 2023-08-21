@@ -2,9 +2,9 @@ name: Run Rust workflows
 
 on:
     push:
-        paths: ["**.rs", "Cargo.toml", "Cargo.lock", ".sqlx/**", "rustfmt.toml"]
+        paths: ["**.rs", "Cargo.toml", "Cargo.lock", ".sqlx/**", "rustfmt.toml", ".github/workflows/**"]
     pull_request:
-        paths: ["**.rs", "Cargo.toml", "Cargo.lock", ".sqlx/**", "rustfmt.toml"]
+        paths: ["**.rs", "Cargo.toml", "Cargo.lock", ".sqlx/**", "rustfmt.toml", ".github/workflows/**"]
 
 env:
     SQLX_OFFLINE: true

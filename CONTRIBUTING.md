@@ -4,7 +4,7 @@ Welcome to the contribution guide for **Norris**!
 
 The purpose of this guide is to serve as comprehensive documentation regarding the repository structure, developing and running the bot, and making contributions to the project.
 
-> **Note**
+> **Important**
 > As this is developed and used by students at the University of Nottingham, you are expected to follow the University's [Code of Discipline](https://www.nottingham.ac.uk/governance/documents/code-of-discipline-for-students-01082021.pdf) when making contributions or interacting with other contributors.
 
 Use the table of contents icon on the top-right corner of this document to jump to a specific section of this guide quickly.
@@ -102,12 +102,12 @@ You will therefore need to install one if you are planning to develop and test *
 
 2. Launch the MySQL client and create a new database.
 
-    > **Note**
+    > **Important**
     > Note down the database name, server host, login details for the root user and other users - you will require them later.
 
 3. Connect to the newly created database and run some queries to verify that it works.
 
-    > **Note**
+    > **Important**
     > Ensure that **Norris** has permissions to create, read from, update, insert into, and delete from tables.
 
 </details>
@@ -171,7 +171,7 @@ If you are developing for an already existing instance of **Norris**, or already
 
 2. In this application, navigate to `Settings > Bot` and create a new bot.
 
-    > **Note**
+    > **Important**
     > Copy the bot token and store it somewhere safe - you will require it later.
 
     > **Warning**
@@ -190,7 +190,7 @@ These must be set from the Discord developer portal as well as by the bot itself
 
 1. In the bot application, navigate to `Bot > Privileged Gateway Intents` and enable the server members intent.
 
-    > **Note**
+    > **Important**
     > Without this intent, the bot will not receive events when users join or leave the server.
 
 2. Then navigate to `OAuth2 > URL Generator` and select the following scopes:
@@ -354,7 +354,7 @@ Once your development environment and runtime configuration has been set up, you
 
 2. Execute the compiled binary by running `nohup ./target/release/norris &`.
 
-    > **Note**
+    > **Important**
     > Using `nohup` prevents **Norris**' process from being stopped when its shell is terminated or logged out of. Using `&` starts the process in the background.
 
 </details>
@@ -364,7 +364,7 @@ Once your development environment and runtime configuration has been set up, you
 
 1. Execute the main bot script by running `nohup python main.py &`.
 
-    > **Note**
+    > **Important**
     > Using `nohup` prevents **Norris**' process from being stopped when its shell is terminated or logged out of. Using `&` starts the process in the background.
 
 </details>

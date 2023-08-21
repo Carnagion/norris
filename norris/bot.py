@@ -25,7 +25,7 @@ class Norris(Bot):
         self.roles = config.roles
         self.database_engine = create_async_engine(config.database_url, echo=True)
 
-        # NOTE: imports done here because fuck Python and fuck its circular imports
+        # NOTE: imports done here because circular imports go brr
         from .commands import Commands
         from .events import Events
 

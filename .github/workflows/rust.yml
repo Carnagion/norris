@@ -1,6 +1,10 @@
 name: Run Rust workflows
 
-on: [push, pull_request]
+on:
+    push:
+        paths: ["**.rs", "Cargo.toml", "Cargo.lock", ".sqlx/**", "rustfmt.toml"]
+    pull_request:
+        paths: ["**.rs", "Cargo.toml", "Cargo.lock", ".sqlx/**", "rustfmt.toml"]
 
 env:
     SQLX_OFFLINE: true
@@ -22,6 +26,9 @@ jobs:
                 toolchain: stable
                 override: true
             
+            - name: Cache dependencies
+              uses: Swatinem/rust-cache@v2
+            
             - name: Check if code compiles
               uses: actions-rs/cargo@v1
               with:
@@ -41,6 +48,9 @@ jobs:
                 profile: minimal
                 toolchain: stable
                 override: true
+            
+            - name: Cache dependencies
+              uses: Swatinem/rust-cache@v2
             
             - name: Run tests
               uses: actions-rs/cargo@v1
@@ -86,6 +96,9 @@ jobs:
                 profile: minimal
                 toolchain: stable
                 override: true
+            
+            - name: Cache dependencies
+              uses: Swatinem/rust-cache@v2
             
             - name: Run linter
               uses: actions-rs/cargo@v1

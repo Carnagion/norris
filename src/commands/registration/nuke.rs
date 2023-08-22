@@ -28,7 +28,7 @@ pub async fn nuke(
         .members_iter(context.http())
         .try_filter(|member| future::ready(can_nuke_member(member, &nukable_roles)))
         .map_err(BotError::from)
-        .try_for_each_concurrent(10, |mut member| async move {
+        .try_for_each_concurrent(None, |mut member| async move {
             super::restart::restart_registration(context, &mut member).await
         })
         .await?;

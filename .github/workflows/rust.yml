@@ -55,7 +55,6 @@ jobs:
               uses: Swatinem/rust-cache@v2
               with:
                 shared-key: "norris"
-                workspaces: "tests"
             
             - name: Run tests
               uses: actions-rs/cargo@v1

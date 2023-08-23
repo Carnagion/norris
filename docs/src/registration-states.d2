@@ -1,0 +1,83 @@
+about: |md
+    # The Registration State Machine
+    
+    A brief overview of the various states of the registration process, and  
+    their transitions.
+
+    Users always start off as `Unregistered` upon joining. From there, they  
+    progress through `Started`, `NameEntered`, `KindFound`, `Verified`,  
+    `PronounsPicked`, and `Registered`, in that order.
+
+    A user is considered *verified* if they enter their name and confirm their  
+    kind, and an entry with a matching name and kind is found. Being verified  
+    only indicates that the Discord user has a matching database entry - they  
+    are not considered *registered* until they answer or skip the two optional  
+    questions after verification.
+
+    A user may also enter the `Failed` state if any part of the process fails,  
+    such as by entering a name that does not exist or is already registered,  
+    indicating that their detected kind is incorrect, or closing their direct  
+    messages. This state only handles expected and controllable failure cases,  
+    and does not cover *external* causes of failure, such as losing internet  
+    connectivity, unexpected Discord API errors, or crashing during operation.
+| {
+    near: bottom-right
+}
+
+# States
+
+unregistered: "Unregistered"
+
+started: "Started"
+
+name-entered: "Name entered" {
+  tooltip: "Contains the user's name"
+}
+
+kind-found: "Kind found" {
+  tooltip: "Contains the user's name and kind"
+}
+
+verified: "Verified"
+
+pronouns-picked: "Pronouns picked"
+
+registered: "Registered"
+
+failed: "Failed"
+
+# Decisions
+
+name-confirmed?: "Name confirmed?" {
+  shape: diamond
+}
+
+kind-confirmed?: "Kind confirmed?" {
+  shape: diamond
+}
+
+# Connections
+
+unregistered -> started: "User clicks continue"
+
+started -> name-entered: "User enters name"
+
+name-entered -> name-confirmed?: "Bot asks user to double-check name"
+
+name-confirmed? -> started: "User clicks no"
+
+name-confirmed? -> kind-found: "User clicks yes and bot finds unregistered user with matching name"
+
+name-confirmed? -> failed: "User clicks yes and bot does not find unregistered user with matching name"
+
+kind-found -> kind-confirmed?: "Bot asks user to confirm kind"
+
+kind-confirmed? -> verified: "User clicks yes"
+
+kind-confirmed? -> failed: "User clicks no"
+
+verified -> pronouns-picked: "User picks pronouns or skips question"
+
+pronouns-picked -> registered: "User picks housing or skips question"
+
+failed -> unregistered: "User restarts registration after getting support"

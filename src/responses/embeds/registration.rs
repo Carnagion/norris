@@ -70,7 +70,8 @@ pub fn name_request() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
             .title("Registration")
             .colour(BLURPLE)
             .description(
-                "Please enter your **name** exactly as when you applied to the University.",
+                "Please enter your **first and last name** exactly as when you applied to the \
+                 University, in the format `firstname lastname`.",
             )
             .timestamp(Utc::now())
     }

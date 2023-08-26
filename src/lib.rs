@@ -107,7 +107,7 @@ async fn setup_bot_data(
 async fn setup_database(database_url: &str) -> BotResult<MySqlPool> {
     // Connect to the database
     let database_pool = MySqlPoolOptions::new()
-        .max_connections(25) // TODO: Find an appropriate max number of connections through testing
+        .max_connections(150) // NOTE: Limit taken from https://docs.rs/sqlx/latest/sqlx/struct.Pool.html#2-connection-limits-mysql-mssql-postgres
         .connect(database_url)
         .await?;
 

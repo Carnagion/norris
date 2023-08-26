@@ -1,0 +1,56 @@
+about: |md
+    # The User Database
+    
+    A brief overview of the tables of the MySQL database used for keeping track  
+    of registered users and ongoing registrations.
+
+    A whitelist of all valid users, registered or not, is maintained in the  
+    `users` table. This stores each user's name, kind, and their associated  
+    Discord user ID if they have completed registration.
+
+    Every user gets an entry in the `registrations` table upon joining, which  
+    keeps track of their state in the registration process. Once a user's name  
+    and kind are confirmed, the `users` table is queried. If an unregistered  
+    entry with a matching name and kind is found, the user is verified.
+| {
+    near: bottom-center
+}
+
+users: {
+    shape: sql_table
+    id: "bigint unsigned" {
+        constraint: [
+            "primary key";
+            "not null";
+            "auto increment";
+        ]
+    }
+    name: "varchar (1024)" {
+        constraint: [
+            "not null";
+        ]
+    }
+    kind: "enum (\"UNDERGRAD\", \"POSTGRAD\", \"MENTOR\", \"SENIOR_MENTOR\", \"HONORARY_MENTOR\", \"FACULTY\")" {
+        constraint: [
+            "not null";
+        ]
+    }
+    registered_user_id: "bigint unsigned"
+}
+
+registrations: {
+    shape: sql_table
+    user_id: "bigint unsigned" {
+        constraint: [
+            "primary key";
+            "not null";
+        ]
+    }
+    status: "enum (\"UNREGISTERED\", \"STARTED\", \"NAME_ENTERED\", \"KIND_FOUND\", \"VERIFIED\", \"PRONOUNS_PICKED\", \"REGISTERED\", \"FAILED\")" {
+        constraint: [
+            "not null";
+        ]
+    }
+    name: "varchar (1024)"
+    kind: "enum (\"UNDERGRAD\", \"POSTGRAD\", \"MENTOR\", \"SENIOR_MENTOR\", \"HONORARY_MENTOR\", \"FACULTY\")"
+}

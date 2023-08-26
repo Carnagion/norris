@@ -1,0 +1,181 @@
+# Actions
+
+stage-pre: "Pre-verification" {
+  update-unregistered: "Bot updates registration state to unregistered"
+
+  dm-user: "Bot directly messages user about registration"
+
+  dm-sent?: "Direct message sent?" {
+    shape: diamond
+  }
+
+  dm-success: "Bot asks user to check direct messages"
+}
+
+stage-name: "Name entry and confirmation" {
+  update-started: "Bot updates registration state to started"
+
+  ask-name: "Bot asks user to enter name"
+
+  wait-message: "Bot waits for user message"
+
+  message-empty?: "Message content empty?" {
+    shape: diamond
+  }
+
+  update-name-entered: "Bot updates registration state to name entered along with name"
+
+  confirm-name: "Bot asks user to confirm name"
+
+  name-correct?: "Name is correct?" {
+    shape: diamond
+  }
+}
+
+stage-kind: "User kind lookup and confirmation" {
+  lookup-name: "Bot looks up list of expected users for entered name"
+
+  user-found?: "Matching user found?" {
+    shape: diamond
+  }
+
+  update-kind-found: "Bot udpates registration state to kind found along with name and kind"
+
+  confirm-kind: "Bot asks user to confirm kind"
+
+  kind-correct?: "User kind is correct?" {
+    shape: diamond
+  }
+
+  update-verified: "Bot updates registration state to verified"
+
+  inform-optional: "Bot informs user of remaining questions"
+}
+
+stage-post: "Post-verification" {
+  ask-pronouns: "Bot asks user their pronouns"
+
+  update-pronouns: "Bot updates registration state to pronouns picked"
+
+  ask-housing: "Bot asks user about accommodation"
+
+  update-registered: "Bot updates registration state to registered"
+
+  inform-complete: "Bot informs user of completing registration"
+}
+
+stage-failed: "Failure" {
+  update-failed: "Bot updates registration state to failed"
+
+  ask-assistance: "Bot asks user to seek assistance"
+
+  alert-failure: "Bot alerts mentors of failure"
+}
+
+# Connections
+
+stage-pre.update-unregistered -> stage-pre.dm-user
+
+stage-pre.dm-user -> stage-pre.dm-sent?
+
+stage-pre.dm-sent? -> stage-pre.dm-success: "Yes"
+
+stage-pre.dm-sent? -> stage-failed.update-failed: "No"
+
+stage-pre.dm-success -> stage-name.update-started: "User clicks continue" {
+  style: {
+    stroke-dash: 5
+  }
+}
+
+stage-name.update-started -> stage-name.ask-name
+
+stage-name.ask-name -> stage-name.wait-message
+
+stage-name.wait-message -> stage-name.message-empty?: "User directly messages bot" {
+  style: {
+    stroke-dash: 5
+  }
+}
+
+stage-name.message-empty? -> stage-name.wait-message: "Yes"
+
+stage-name.message-empty? -> stage-name.update-name-entered: "No"
+
+stage-name.update-name-entered -> stage-name.confirm-name
+
+stage-name.confirm-name -> stage-name.name-correct?: "User clicks yes or no" {
+  style: {
+    stroke-dash: 5
+  }
+}
+
+stage-name.name-correct? -> stage-name.update-started: "No"
+
+stage-name.name-correct? -> stage-kind.lookup-name: "Yes"
+
+stage-kind.lookup-name -> stage-kind.user-found?
+
+stage-kind.user-found? -> stage-failed.update-failed: "No"
+
+stage-kind.user-found? -> stage-kind.update-kind-found: "Yes"
+
+stage-kind.update-kind-found -> stage-kind.confirm-kind
+
+stage-kind.confirm-kind -> stage-kind.kind-correct?: "User clicks yes or no" {
+  style: {
+    stroke-dash: 5
+  }
+}
+
+stage-kind.kind-correct? -> stage-failed.update-failed: "No"
+
+stage-kind.kind-correct? -> stage-kind.update-verified: "Yes"
+
+stage-kind.update-verified -> stage-kind.inform-optional
+
+stage-kind.inform-optional -> stage-post.ask-pronouns: "User clicks continue" {
+  style: {
+    stroke-dash: 5
+  }
+}
+
+stage-post.ask-pronouns -> stage-post.update-pronouns: "User clicks any button" {
+  style: {
+    stroke-dash: 5
+  }
+}
+
+stage-post.update-pronouns -> stage-post.ask-housing
+
+stage-post.ask-housing -> stage-post.update-registered: "User clicks any button" {
+  style: {
+    stroke-dash: 5
+  }
+}
+
+stage-post.update-registered -> stage-post.inform-complete
+
+stage-failed.update-failed -> stage-failed.ask-assistance
+
+stage-failed.ask-assistance -> stage-failed.alert-failure
+
+stage-failed.alert-failure -> stage-pre.update-unregistered: "Mentors restart registration for user" {
+  style: {
+    stroke-dash: 5
+  }
+}
+
+# Endpoints
+
+start: "Start" {
+  shape: circle
+}
+
+finish: "Finish" {
+  shape: circle
+}
+
+start -> stage-pre.update-unregistered
+
+stage-post.inform-complete -> finish

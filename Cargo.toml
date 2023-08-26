@@ -2,6 +2,11 @@
 name = "norris"
 version = "0.1.0"
 edition = "2021"
+description = "A registration bot for the official University of Nottingham Computer Science starters Discord server."
+authors = ["Indraneel Mahendrakumar", "Callum Daniel"]
+readme = "README.md"
+repository = "https://github.com/Carnagion/norris"
+license = "MIT"
 
 [dependencies]
 anyhow = "1.0.71"

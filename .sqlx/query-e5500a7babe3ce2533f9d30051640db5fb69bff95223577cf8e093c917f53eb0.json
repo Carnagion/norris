@@ -1,0 +1,58 @@
+{
+  "db_name": "MySQL",
+  "query": "select * from users\n        where registered_user_id = ?\n        limit 1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": {
+          "type": "LongLong",
+          "flags": "NOT_NULL | PRIMARY_KEY | UNSIGNED | AUTO_INCREMENT",
+          "char_set": 63,
+          "max_size": 20
+        }
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": {
+          "type": "VarString",
+          "flags": "NOT_NULL | NO_DEFAULT_VALUE",
+          "char_set": 224,
+          "max_size": 4096
+        }
+      },
+      {
+        "ordinal": 2,
+        "name": "kind",
+        "type_info": {
+          "type": "String",
+          "flags": "NOT_NULL | ENUM | NO_DEFAULT_VALUE",
+          "char_set": 224,
+          "max_size": 60
+        }
+      },
+      {
+        "ordinal": 3,
+        "name": "registered_user_id",
+        "type_info": {
+          "type": "LongLong",
+          "flags": "UNSIGNED",
+          "char_set": 63,
+          "max_size": 20
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      true
+    ]
+  },
+  "hash": "e5500a7babe3ce2533f9d30051640db5fb69bff95223577cf8e093c917f53eb0"
+}

@@ -1,0 +1,12 @@
+{
+  "db_name": "MySQL",
+  "query": "create table if not exists registrations (\n            user_id bigint unsigned not null primary key,\n            status enum(\n                \"UNREGISTERED\",\n                \"STARTED\",\n                \"NAME_ENTERED\",\n                \"KIND_FOUND\",\n                \"VERIFIED\",\n                \"PRONOUNS_PICKED\",\n                \"REGISTERED\",\n                \"FAILED\"\n            ) not null default \"UNREGISTERED\",\n            name varchar(1024) null,\n            kind enum(\n                \"UNDERGRAD\",\n                \"POSTGRAD\",\n                \"MENTOR\",\n                \"SENIOR_MENTOR\",\n                \"HONORARY_MENTOR\",\n                \"FACULTY\"\n            ) null\n        )",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 0
+    },
+    "nullable": []
+  },
+  "hash": "a076bea45c5f854448801d19d66da57db5abc147e282cf144820691429fe5ab1"
+}

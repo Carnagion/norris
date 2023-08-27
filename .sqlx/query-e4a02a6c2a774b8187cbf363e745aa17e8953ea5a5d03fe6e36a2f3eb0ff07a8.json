@@ -1,0 +1,12 @@
+{
+  "db_name": "MySQL",
+  "query": "update users\n        set registered_user_id = null\n        where registered_user_id = ?",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": []
+  },
+  "hash": "e4a02a6c2a774b8187cbf363e745aa17e8953ea5a5d03fe6e36a2f3eb0ff07a8"
+}

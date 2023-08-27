@@ -1,0 +1,23 @@
+[package]
+name = "norris"
+version = "0.1.0"
+edition = "2021"
+description = "A registration bot for the official University of Nottingham Computer Science starters Discord server."
+authors = ["Indraneel Mahendrakumar", "Callum Daniel"]
+readme = "README.md"
+repository = "https://github.com/Carnagion/norris"
+license = "MIT"
+
+[dependencies]
+anyhow = "1.0.75"
+chrono = { version = "0.4.26", default-features = false, features = ["clock", "std"] } # NOTE: Default oldtime feature disabled due to potential segfault
+poise = "0.5.5"
+serde = { version = "1.0.188", features = ["derive"] }
+sqlx = { version = "0.7.1", features = ["mysql", "runtime-tokio", "tls-rustls"] }
+strum = { version = "0.25.0", features = ["derive"] }
+thiserror = "1.0.47"
+tokio = { version = "1.32.0", features = ["rt-multi-thread"] }
+toml = "0.7.6"
+tracing = "0.1.37"
+tracing-appender = "0.2.2"
+tracing-subscriber = { version = "0.3.17", features = ["tracing-log"] }

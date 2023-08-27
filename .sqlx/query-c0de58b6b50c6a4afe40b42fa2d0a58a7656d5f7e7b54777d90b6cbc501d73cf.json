@@ -1,0 +1,58 @@
+{
+  "db_name": "MySQL",
+  "query": "select * from users\n        where name = ? and registered_user_id is null\n        order by kind\n        limit 1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": {
+          "type": "LongLong",
+          "flags": "NOT_NULL | PRIMARY_KEY | UNSIGNED | AUTO_INCREMENT",
+          "char_set": 63,
+          "max_size": 20
+        }
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": {
+          "type": "VarString",
+          "flags": "NOT_NULL | NO_DEFAULT_VALUE",
+          "char_set": 224,
+          "max_size": 4096
+        }
+      },
+      {
+        "ordinal": 2,
+        "name": "kind",
+        "type_info": {
+          "type": "String",
+          "flags": "NOT_NULL | ENUM | NO_DEFAULT_VALUE",
+          "char_set": 224,
+          "max_size": 60
+        }
+      },
+      {
+        "ordinal": 3,
+        "name": "registered_user_id",
+        "type_info": {
+          "type": "LongLong",
+          "flags": "UNSIGNED",
+          "char_set": 63,
+          "max_size": 20
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      true
+    ]
+  },
+  "hash": "c0de58b6b50c6a4afe40b42fa2d0a58a7656d5f7e7b54777d90b6cbc501d73cf"
+}

@@ -1,0 +1,47 @@
+{
+  "db_name": "MySQL",
+  "query": "select status, name, kind from registrations\n        where user_id = ?",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "status",
+        "type_info": {
+          "type": "String",
+          "flags": "NOT_NULL | ENUM | NO_DEFAULT_VALUE",
+          "char_set": 224,
+          "max_size": 60
+        }
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": {
+          "type": "VarString",
+          "flags": "",
+          "char_set": 224,
+          "max_size": 4096
+        }
+      },
+      {
+        "ordinal": 2,
+        "name": "kind",
+        "type_info": {
+          "type": "String",
+          "flags": "ENUM",
+          "char_set": 224,
+          "max_size": 60
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      false,
+      true,
+      true
+    ]
+  },
+  "hash": "0a6db31a2d684be444c7c7916f9721076c648d6a3ec648f4da2d76a89072530c"
+}

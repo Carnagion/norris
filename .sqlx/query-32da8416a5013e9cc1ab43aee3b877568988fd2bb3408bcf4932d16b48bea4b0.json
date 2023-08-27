@@ -1,0 +1,25 @@
+{
+  "db_name": "MySQL",
+  "query": "select name from users\n        where registered_user_id = ?\n        limit 1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "name",
+        "type_info": {
+          "type": "VarString",
+          "flags": "NOT_NULL | NO_DEFAULT_VALUE",
+          "char_set": 224,
+          "max_size": 4096
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "32da8416a5013e9cc1ab43aee3b877568988fd2bb3408bcf4932d16b48bea4b0"
+}

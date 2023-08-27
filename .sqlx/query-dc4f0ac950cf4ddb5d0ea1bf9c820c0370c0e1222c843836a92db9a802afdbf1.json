@@ -1,0 +1,12 @@
+{
+  "db_name": "MySQL",
+  "query": "create table if not exists users (\n            id bigint unsigned not null auto_increment primary key,\n            name varchar(1024) not null,\n            kind enum(\n                \"UNDERGRAD\",\n                \"POSTGRAD\",\n                \"MENTOR\",\n                \"SENIOR_MENTOR\",\n                \"HONORARY_MENTOR\",\n                \"FACULTY\"\n            ) not null,\n            registered_user_id bigint unsigned null\n        )",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 0
+    },
+    "nullable": []
+  },
+  "hash": "dc4f0ac950cf4ddb5d0ea1bf9c820c0370c0e1222c843836a92db9a802afdbf1"
+}

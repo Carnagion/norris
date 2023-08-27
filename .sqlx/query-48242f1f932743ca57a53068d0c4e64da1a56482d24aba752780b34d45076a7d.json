@@ -1,0 +1,12 @@
+{
+  "db_name": "MySQL",
+  "query": "update registrations set status = ?, name = ? where user_id = ?",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 3
+    },
+    "nullable": []
+  },
+  "hash": "48242f1f932743ca57a53068d0c4e64da1a56482d24aba752780b34d45076a7d"
+}

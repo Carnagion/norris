@@ -1,0 +1,115 @@
+name: Run Rust workflows
+
+on:
+    push:
+        paths: ["**.rs", "Cargo.toml", "Cargo.lock", ".sqlx/**", "rustfmt.toml", ".github/workflows/**"]
+    pull_request:
+        paths: ["**.rs", "Cargo.toml", "Cargo.lock", ".sqlx/**", "rustfmt.toml", ".github/workflows/**"]
+
+env:
+    SQLX_OFFLINE: true
+
+jobs:
+
+    check:
+        name: Compile code
+        runs-on: ubuntu-latest
+        steps:
+
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Setup Rust toolchain
+              uses: actions-rs/toolchain@v1
+              with:
+                profile: minimal
+                toolchain: stable
+                override: true
+            
+            - name: Cache dependencies
+              uses: Swatinem/rust-cache@v2
+              with:
+                shared-key: "norris"
+            
+            - name: Check if code compiles
+              uses: actions-rs/cargo@v1
+              with:
+                command: check
+
+    test:
+        name: Test code
+        runs-on: ubuntu-latest
+        steps:
+
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Setup Rust toolchain
+              uses: actions-rs/toolchain@v1
+              with:
+                profile: minimal
+                toolchain: stable
+                override: true
+            
+            - name: Cache dependencies
+              uses: Swatinem/rust-cache@v2
+              with:
+                shared-key: "norris"
+            
+            - name: Run tests
+              uses: actions-rs/cargo@v1
+              with:
+                command: test
+
+    format:
+        name: Format code
+        runs-on: ubuntu-latest
+        steps:
+
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Setup Rust toolchain
+              uses: actions-rs/toolchain@v1
+              with:
+                profile: minimal
+                toolchain: nightly
+                override: true
+            
+            - name: Install rustfmt
+              run: |
+                rustup component add rustfmt
+            
+            - name: Run formatter
+              uses: actions-rs/cargo@v1
+              with:
+                command: fmt
+                args: --all -- --check
+
+    lint:
+        name: Lint code
+        runs-on: ubuntu-latest
+        steps:
+
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Setup Rust toolchain
+              uses: actions-rs/toolchain@v1
+              with:
+                profile: minimal
+                toolchain: stable
+                override: true
+            
+            - name: Cache dependencies
+              uses: Swatinem/rust-cache@v2
+              with:
+                shared-key: "norris"
+            
+            - name: Run linter
+              uses: actions-rs/cargo@v1
+              with:
+                command: clippy
+                args: -- -D warnings
+    
+    

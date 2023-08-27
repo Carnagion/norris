@@ -80,7 +80,7 @@ jobs:
               run: |
                 rustup component add rustfmt
             
-            - name: Run tests
+            - name: Run formatter
               uses: actions-rs/cargo@v1
               with:
                 command: fmt

@@ -13,7 +13,9 @@ use crate::prelude::*;
 #[tracing::instrument(skip(context), err(Debug))]
 pub async fn nickname(
     context: BotContext<'_>,
-    #[description = "Your new nickname."] nickname: String,
+    #[description = "Your new nickname."]
+    #[max_length = 32] // NOTE: Discord has a hard limit of 32 for nicknames
+    nickname: String,
 ) -> BotResult<()> {
     // Acknowledge nickname request
     context

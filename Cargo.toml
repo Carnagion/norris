@@ -10,10 +10,17 @@ license = "MIT"
 
 [dependencies]
 anyhow = "1.0.75"
-chrono = { version = "0.4.26", default-features = false, features = ["clock", "std"] } # NOTE: Default oldtime feature disabled due to potential segfault
+chrono = { version = "0.4.26", default-features = false, features = [
+    "clock",
+    "std",
+] } # NOTE: Default oldtime feature disabled due to potential segfault
 poise = "0.5.5"
 serde = { version = "1.0.188", features = ["derive"] }
-sqlx = { version = "0.7.1", features = ["mysql", "runtime-tokio", "tls-rustls"] }
+sqlx = { version = "0.7.1", features = [
+    "mysql",
+    "runtime-tokio",
+    "tls-rustls",
+] }
 strum = { version = "0.25.0", features = ["derive"] }
 thiserror = "1.0.47"
 tokio = { version = "1.32.0", features = ["rt-multi-thread"] }

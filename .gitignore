@@ -1,0 +1,12 @@
+# Secrets and configuration
+.env
+norris.toml
+
+# Logs
+norris.log.*
+
+# Cargo
+target/
+
+# JetBrains
+.idea/

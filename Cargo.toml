@@ -23,7 +23,7 @@ sqlx = { version = "0.7.1", features = [
 ] }
 strum = { version = "0.25.0", features = ["derive"] }
 thiserror = "1.0.47"
-tokio = { version = "1.32.0", features = ["rt-multi-thread"] }
+tokio = { version = "1.32.0", features = ["rt-multi-thread", "signal"] }
 toml = "0.7.6"
 tracing = "0.1.37"
 tracing-appender = "0.2.2"

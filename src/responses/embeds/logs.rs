@@ -199,7 +199,7 @@ pub fn shutting_down() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
         embed
             .title("Shutdown")
             .colour(DANGER)
-            .description("Shutting down.")
+            .description("Shutting down due to receiving a request to terminate.")
             .timestamp(Utc::now())
     }
 }

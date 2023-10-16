@@ -190,7 +190,6 @@ async fn shutdown_signal() -> io::Result<()> {
         }
     }
 
-    // Unix - SIGINT, SIGTERM
     #[cfg(unix)]
     {
         use signal::unix::{self, SignalKind};

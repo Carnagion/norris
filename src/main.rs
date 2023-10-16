@@ -2,8 +2,6 @@ use std::{fs, io};
 
 use anyhow::Result as AnyResult;
 
-use tokio::{select, signal};
-
 use tracing::level_filters::LevelFilter;
 
 use tracing_appender::rolling;
@@ -37,22 +35,8 @@ async fn main() -> AnyResult<()> {
 
     tracing::warn!("Starting up");
 
-    let norris = Norris::new(config).await?;
-    select! {
-        // Listen for interruption and shutdown gracefully
-        _ = signal::ctrl_c() => {
-            tracing::warn!("Shutting down due to interruption");
-            Ok(())
-        },
-        // Shutdown if there was an error during runtime
-        Err(err) = norris.start() => {
-            tracing::warn!("Shutting down due to error");
-            tracing::error!("{}", err);
-            Err(err)
-        },
-        // NOTE: This should never be reached since the bot runs forever but it is included here for completeness anyways
-        else => Ok(()),
-    }?;
+    // Create and start bot
+    Norris::new(config).await?.start().await?;
 
     Ok(())
 }

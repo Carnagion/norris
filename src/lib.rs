@@ -2,13 +2,15 @@
 
 #![warn(missing_docs)]
 
-use std::sync::Arc;
+use std::{io, sync::Arc};
 
 use poise::{builtins, serenity_prelude as serenity, FrameworkOptions};
 
 use serenity::*;
 
 use sqlx::{mysql::MySqlPoolOptions, MySqlPool};
+
+use tokio::signal;
 
 pub mod prelude;
 use prelude::*;
@@ -68,8 +70,19 @@ impl Norris {
     /// Starts the bot and keeps it running in an asynchronous loop.
     #[tracing::instrument(skip_all, err(Debug))]
     pub async fn start(self) -> BotResult<()> {
+        self.handle_shutdown();
         self.0.start().await?;
         Ok(())
+    }
+
+    fn handle_shutdown(&self) {
+        let shard_manager = Arc::clone(self.0.shard_manager());
+        tokio::spawn(async move {
+            shutdown_signal()
+                .await
+                .expect("could not setup shutdown signal handlers"); // PANICS: This can't really be propagated up but won't error very often so is OK
+            shard_manager.lock().await.shutdown_all().await;
+        });
     }
 }
 
@@ -159,4 +172,39 @@ async fn setup_database(database_url: &str) -> BotResult<MySqlPool> {
     .await?;
 
     Ok(database_pool)
+}
+
+async fn shutdown_signal() -> io::Result<()> {
+    #[cfg(windows)]
+    {
+        use signal::windows;
+
+        // Handle Ctrl-C, Ctrl-Break, and Ctrl-Close on Windows systems
+        let mut ctrl_c = windows::ctrl_c()?;
+        let mut ctrl_break = windows::ctrl_break()?;
+        let mut ctrl_close = windows::ctrl_close()?;
+        tokio::select! {
+            _ = ctrl_c.recv() => {},
+            _ = ctrl_break.recv() => {},
+            _ = ctrl_close.recv() => {},
+        }
+    }
+
+    // Unix - SIGINT, SIGTERM
+    #[cfg(unix)]
+    {
+        use signal::unix::{self, SignalKind};
+
+        // Handle SIGINT, SIGTERM, and SIGQUIT on Unix systems
+        let mut sigint = unix::signal(SignalKind::interrupt())?;
+        let mut sigterm = unix::signal(SignalKind::terminate())?;
+        let mut sigquit = unix::signal(SignalKind::quit())?;
+        tokio::select! {
+            _ = sigint.recv() => {},
+            _ = sigterm.recv() => {},
+            _ = sigquit.recv() => {},
+        }
+    }
+
+    Ok(())
 }

@@ -38,5 +38,7 @@ async fn main() -> AnyResult<()> {
     // Create and start bot
     Norris::new(config).await?.start().await?;
 
+    tracing::warn!("Shutting down");
+
     Ok(())
 }

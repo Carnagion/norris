@@ -77,10 +77,32 @@ impl Norris {
 
     fn handle_shutdown(&self) {
         let shard_manager = Arc::clone(self.0.shard_manager());
+        let http = Arc::clone(&self.0.client().cache_and_http.http);
+        let framework = Arc::clone(&self.0);
+
         tokio::spawn(async move {
-            shutdown_signal()
-                .await
-                .expect("could not setup shutdown signal handlers"); // PANICS: This can't really be propagated up but won't error very often so is OK
+            // Wait for a shutdown signal
+            let shutdown = shutdown_signal().await;
+            if let Err(err) = shutdown {
+                tracing::error!("Could not setup shutdown signal: {}", err);
+            }
+
+            // Send message before shutting down
+            let config = framework.user_data().await;
+            let sent = config
+                .channels
+                .log_channel_id
+                .send_message(http, |message| {
+                    message
+                        .content(format!("<&{}>", config.roles.hierarchy.admin_role_id))
+                        .embed(responses::embeds::logs::shutting_down())
+                })
+                .await;
+            if let Err(err) = sent {
+                tracing::error!("Could not send shutdown alert: {}", err);
+            }
+
+            // Tell the shard to shut down
             shard_manager.lock().await.shutdown_all().await;
         });
     }

@@ -192,3 +192,14 @@ pub fn registration_restarted(
             .timestamp(Utc::now())
     }
 }
+
+/// Embed builder for logging when the bot is shutting down due to a signal.
+pub fn shutting_down() -> impl FnOnce(&mut CreateEmbed) -> &mut CreateEmbed {
+    |embed| {
+        embed
+            .title("Shutdown")
+            .colour(DANGER)
+            .description("Shutting down.")
+            .timestamp(Utc::now())
+    }
+}

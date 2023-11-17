@@ -94,7 +94,7 @@ impl Norris {
                 .log_channel_id
                 .send_message(http, |message| {
                     message
-                        .content(format!("<&{}>", config.roles.hierarchy.admin_role_id))
+                        .content(format!("<@&{}>", config.roles.hierarchy.admin_role_id))
                         .embed(responses::embeds::logs::shutting_down())
                 })
                 .await;

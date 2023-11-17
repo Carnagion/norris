@@ -33,8 +33,12 @@ async fn main() -> AnyResult<()> {
         )
         .try_init()?;
 
+    tracing::warn!("Starting up");
+
     // Create and start bot
     Norris::new(config).await?.start().await?;
+
+    tracing::warn!("Shutting down");
 
     Ok(())
 }

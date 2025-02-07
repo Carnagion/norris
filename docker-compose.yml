@@ -1,5 +1,5 @@
 volumes:
-  my-db:
+  norrisdb_data:
 
 services:
   norris:
@@ -9,18 +9,21 @@ services:
     networks:
       - default
     volumes:
-      - /path/to/config/file:/app/norris.toml
+      - /path/to/norris.toml:/app/norris.toml
+    depends_on:
+      - norrisdb
   norrisdb:
     image: mysql:5.7
+    container_name: norrisdb
     restart: always
     environment:
       MYSQL_DATABASE: 'norrisdb'
       MYSQL_USER: 'norris'
       MYSQL_PASSWORD: 'password'
       MYSQL_ROOT_PASSWORD: 'password'
+    command: --ssl=0
     networks:
       - default
     volumes:
       - norrisdb_data:/var/lib/mysql
       - /path/to/init.sql:/docker-entrypoint-initdb.d/init.sql
-

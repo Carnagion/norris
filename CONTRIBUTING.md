@@ -384,7 +384,7 @@ Once your development environment and runtime configuration has been set up, you
 $ docker run -d --name norris --network default --restart unless-stopped -v /path/to/norris.toml:/app/norris.toml Carnagion/norris:latest
 ```
 
-> **Important:** The docker image will require a mysql database in order to function. This can be done by hosting a baremetal instance of MySQL or containerising it as shown in `docker-compose.yml`
+> **Important:** The docker image will require a mysql database in order to function. This can be done by hosting a baremetal instance of MySQL or containerising it as shown in `docker-compose.yml`. **Please note** that docker doesn't like when SSL connections are used, this can be disabled specifically for Norris by attaching `?ssl-mode=DISABLED` to the end of the database URL in `norris.toml`.
 
 > **Important:** The docker image will require a mount bind to a `norris.toml` configuration file in order to work. A path to such file can be specified using the `-v` flag. 
 

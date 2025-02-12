@@ -369,6 +369,27 @@ Once your development environment and runtime configuration has been set up, you
 
 </details>
 
+<details>
+<summary>Running the bot using docker</summary>
+
+1. Git clone the repository 
+
+2. `cd` into the working directory 
+
+3. Build the docker image using the following `docker build -t Carnagion/norris .` 
+
+4. Deploy either using the example `docker-compose.yml` via `docker compose up` or using the following command. 
+
+```bash
+$ docker run -d --name norris --network default --restart unless-stopped -v /path/to/norris.toml:/app/norris.toml Carnagion/norris:latest
+```
+
+> **Important:** The docker image will require a mysql database in order to function. This can be done by hosting a baremetal instance of MySQL or containerising it as shown in `docker-compose.yml`
+
+> **Important:** The docker image will require a mount bind to a `norris.toml` configuration file in order to work. A path to such file can be specified using the `-v` flag. 
+
+</details>
+
 ## Following conventions
 
 ### Git conventions

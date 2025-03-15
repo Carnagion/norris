@@ -49,7 +49,8 @@ Additionally, access to user data via the database is limited to server administ
 ## Contributors
 
 - [Indraneel Mahendrakumar](https://github.com/Carnagion)
-- [Callum Daniel](https://github.com/Warrior2852)
+- [Caitlin Daniel](https://github.com/Warrior2852)
+- [Qiang Cai](https://github.com/sanamorii)
 
 ## Credits
 
@@ -61,4 +62,4 @@ Thanks to:
 
 - #### Why is it called **Norris**?
 
-    Who knows? We certainly don't.
+    Norris is named after the dog at **The Boat Inn**, a local pub in Nottingham.

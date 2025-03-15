@@ -4,7 +4,7 @@ Welcome to the contribution guide for **Norris**!
 
 The purpose of this guide is to serve as comprehensive documentation regarding the repository structure, developing and running the bot, and making contributions to the project.
 
-> **Important**
+> [!IMPORTANT]
 > As this is developed and used by students at the University of Nottingham, you are expected to follow the University's [Code of Discipline](https://www.nottingham.ac.uk/governance/documents/code-of-discipline-for-students-01082021.pdf) when making contributions or interacting with other contributors.
 
 Use the table of contents icon on the top-right corner of this document to jump to a specific section of this guide quickly.
@@ -20,12 +20,12 @@ Use the table of contents icon on the top-right corner of this document to jump 
 
 - `main` is the main (default) branch, meant for stable release versions of **Norris**.
 
-    > **Warning**
+    > [!TIP]
     > Avoid committing directly to `main`. You should instead commit to another relevant branch and merge into it once finished.
 
 - `dev` is the core development branch, where most development occurs, and is intended to be merged into `main` after thorough reviews and testing.
 
-    > **Note**
+    > [!NOTE]
     > There is also another development branch, `riir`, used for developing the Rust version of **Norris**. Like `dev`, this is intended to be merged into `main` after all changes are approved.
 
 - `docs` is the branch for external documentation (i.e. *not* inline comment-based documentation) such as [design documents and diagrams](docs/), and is also intended to be merged into `main` after reviews.
@@ -44,7 +44,7 @@ The dual codebase structure is a consequence of initial prototyping, but was lat
 
 Both versions function in almost the same manner, and follow a similar folder and code organisation structure.
 
-> **Note**
+> [!NOTE]
 > The current (running) version of **Norris** uses Rust, due to unresolved bugs in the Python version.
 
 While it is not necessary to port all changes to both versions, you are expected to maintain similar functionality and code structure if you update both codebases.
@@ -60,12 +60,12 @@ You will need to install toolchains and software for the relevant language to de
 
 1. Install the latest version of [Rust](https://www.rust-lang.org/tools/install), preferably using `rustup`.
 
-    > **Note**
+    > [!TIP]
     > You should preferably install the `default` profile (as the name suggests, this is picked by default), which includes all the necessary components for general Rust development.
 
 2. Install the Rust `nightly` toolchain by running `rustup toolchain install nightly`.
 
-    > **Note**
+    > [!NOTE]
     > The `nightly` toolchain is required since the formatter configuration uses some `nightly`-only options. Compiling should be done using the `stable` toolchain.
 
 3. Install [`rustfmt`](https://github.com/rust-lang/rustfmt) on the `nightly` toolchain by running `rustup component add rustfmt --toolchain nightly`.
@@ -77,7 +77,7 @@ You will need to install toolchains and software for the relevant language to de
 
 1. Install version `3.11.4` of [Python](https://www.python.org/downloads).
 
-    > **Note**
+    > [!NOTE]
     > Other versions are also acceptable, as long as they do not produce any errors or warnings. Avoid using versions older than `3.11.4`.
 
 2. Install [`ruff`](https://github.com/astral-sh/ruff) by running `pip install ruff --upgrade`.
@@ -92,7 +92,7 @@ You will need to install toolchains and software for the relevant language to de
 
 You will therefore need to install one if you are planning to develop and test **Norris** on your local machine (i.e. not on a University-provided virtual machine).
 
-> **Warning**
+> [!CAUTION]
 > Use your local database only for testing. Do not store student data on your machine.
 
 <details>
@@ -102,12 +102,12 @@ You will therefore need to install one if you are planning to develop and test *
 
 2. Launch the MySQL client and create a new database.
 
-    > **Important**
+    > [!IMPORTANT]
     > Note down the database name, server host, login details for the root user and other users - you will require them later.
 
 3. Connect to the newly created database and run some queries to verify that it works.
 
-    > **Important**
+    > [!IMPORTANT]
     > Ensure that **Norris** has permissions to create, read from, update, insert into, and delete from tables.
 
 </details>
@@ -139,7 +139,7 @@ You can also generate a documentation website with a complete API reference for 
 
 1. From the project root, run `cargo doc --open`.
 
-    > **Note**
+    > [!TIP]
     > You can omit the `--open` flag if you just want to re-generate the documentation without opening a new browser tab. You will need to refresh already open documentation tabs in this case.
 </details>
 
@@ -148,7 +148,7 @@ You can also generate a documentation website with a complete API reference for 
 
 1. Install [`pdoc3`](https://pdoc3.github.io/pdoc) by running `pip install pdoc3`.
 
-    > **Note**
+    > [!NOTE]
     > Ensure you install `pdoc3`, not `pdoc`, which is an unmaintained version of the same.
 
 2. From the project root, run `pdoc3 norris --html --force`.
@@ -171,10 +171,10 @@ If you are developing for an already existing instance of **Norris**, or already
 
 2. In this application, navigate to `Settings > Bot` and create a new bot.
 
-    > **Important**
+    > [!IMPORTANT]
     > Copy the bot token and store it somewhere safe - you will require it later.
 
-    > **Warning**
+    > [!CAUTION]
     > Do not share the bot token publicly or commit it to Git, as this allows others to log in as the bot.
 
 3. Set the bot application's logo, which can be downloaded from the University's [branding guidelines](https://www.nottingham.ac.uk/brand/visual/logos.aspx).
@@ -190,7 +190,7 @@ These must be set from the Discord developer portal as well as by the bot itself
 
 1. In the bot application, navigate to `Bot > Privileged Gateway Intents` and enable the server members intent.
 
-    > **Important**
+    > [!IMPORTANT]
     > Without this intent, the bot will not receive events when users join or leave the server.
 
 2. Then navigate to `OAuth2 > URL Generator` and select the following scopes:
@@ -349,12 +349,12 @@ Once your development environment and runtime configuration has been set up, you
 
 1. Compile the bot in release mode by running `cargo build --release`.
 
-    > **Note**
+    > [!TIP]
     > While not strictly necessary, it is recommended to use release mode instead of debug mode (the default) so the compiler can perform optimisations.
 
 2. Execute the compiled binary by running `nohup ./target/release/norris &`.
 
-    > **Important**
+    > [!TIP]
     > Using `nohup` prevents **Norris**' process from being stopped when its shell is terminated or logged out of. Using `&` starts the process in the background.
 
 </details>
@@ -364,7 +364,7 @@ Once your development environment and runtime configuration has been set up, you
 
 1. Execute the main bot script by running `nohup python main.py &`.
 
-    > **Important**
+    > [!TIP]
     > Using `nohup` prevents **Norris**' process from being stopped when its shell is terminated or logged out of. Using `&` starts the process in the background.
 
 </details>
@@ -414,15 +414,15 @@ You should follow the code conventions set out for the relevant language when wo
 
 - Regularly format code by running `cargo fmt`.
 
-    > **Note**
+    > [!TIP]
     > Many editors have an option to run a formatter upon saving a file - it is recommended to use such an option, if available.
 
 - Regularly check whether code follows standard Rust conventions and idioms by running `cargo check` and `cargo clippy`.
 
-    > **Note**
+    > [!TIP]
     > Some (not all) code convention violations can be automatically fixed by running `cargo fix` and `cargo clippy --fix`.
     
-    > **Warning**
+    > [!CAUTION]
     > Make sure to commit code to Git before applying automated fixes.
 
 </details>
@@ -432,10 +432,10 @@ You should follow the code conventions set out for the relevant language when wo
 
 - Regularly format code and check whether it follows conventions as defined by [PEP 8](https://peps.python.org/pep-0008) by running `ruff check . --fix`.
 
-    > **Note**
+    > [!TIP]
     > Some code convention violations cannot be automatically fixed by `ruff` and must be fixed manually.
     
-    > **Warning**
+    > [!CAUTION]
     > Make sure to commit code to Git before applying automated fixes.
 
 </details>

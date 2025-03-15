@@ -62,4 +62,4 @@ Thanks to:
 
 - #### Why is it called **Norris**?
 
-    Who knows? We certainly don't.
+    Norris is named after the dog at **The Boat Inn**, a local pub in Nottingham.

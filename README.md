@@ -49,7 +49,8 @@ Additionally, access to user data via the database is limited to server administ
 ## Contributors
 
 - [Indraneel Mahendrakumar](https://github.com/Carnagion)
-- [Callum Daniel](https://github.com/Warrior2852)
+- [Caitlin Daniel](https://github.com/Warrior2852)
+- [Qiang Cai](https://github.com/sanamorii)
 
 ## Credits
 
